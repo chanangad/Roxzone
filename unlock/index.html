@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unlock Roxzone</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <main class="shell">
+    <div class="brand">Roxzone Unlock</div>
+    <section class="card">
+      <h1>Unlock Roxzone for $8.</h1>
+      <p class="lede">Complete checkout on your phone and then return to the watch app to refresh your license.</p>
+      <div class="price">
+        <span>$8</span>
+        <span class="meta">one-time unlock</span>
+      </div>
+      <p class="meta">Claim code: <strong id="claim-code">Loading…</strong></p>
+      <form id="unlock-form">
+        <label for="email">Email for restore and support</label>
+        <input id="email" name="email" type="email" required placeholder="you@example.com">
+        <button type="submit">Continue to PayPal</button>
+      </form>
+      <div id="status" class="status">Your watch app should have opened this page with a claim code.</div>
+      <p class="tiny">After payment, come back to the watch and choose <strong>Refresh License</strong>.</p>
+    </section>
+  </main>
+  <script src="../app.js"></script>
+  <script>
+    const claimCode = query("code");
+    setText("claim-code", claimCode || "Missing");
+
+    document.getElementById("unlock-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      if (!claimCode) {
+        setStatus("Missing claim code. Open this page from the watch app again.", "warn");
+        return;
+      }
+
+      setStatus("Creating PayPal checkout…");
+      try {
+        const data = await postJson("/api/paypal/create-order", {
+          claimCode,
+          email,
+          appName: "Roxzone",
+          amountUsd: "8.00"
+        });
+        if (data && data.approveUrl) {
+          window.location.href = data.approveUrl;
+          return;
+        }
+        setStatus("Checkout link was not returned by the server.", "warn");
+      } catch (error) {
+        setStatus(error.message, "warn");
+      }
+    });
+  </script>
+</body>
+</html>
