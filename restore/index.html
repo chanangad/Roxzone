@@ -11,12 +11,17 @@
     <div class="brand">Roxzone Restore</div>
     <section class="card">
       <h1>Restore a paid unlock.</h1>
-      <p class="lede">Use the same email you used at checkout. If this page was opened from the watch app, we will rebind your paid license to the current claim code.</p>
+      <p class="lede">Use the same email you used at checkout. We will email you a one-time code, then move your paid license to this claim code and deactivate the previous one.</p>
       <p class="meta">Current claim code: <strong id="claim-code">Loading…</strong></p>
-      <form id="restore-form">
+      <form id="request-form">
         <label for="email">Checkout email</label>
         <input id="email" name="email" type="email" required placeholder="you@example.com">
-        <button type="submit">Restore Purchase</button>
+        <button type="submit">Email Restore Code</button>
+      </form>
+      <form id="verify-form" hidden>
+        <label for="restore-code">Verification code</label>
+        <input id="restore-code" name="restore-code" inputmode="numeric" autocomplete="one-time-code" required placeholder="123456">
+        <button type="submit">Verify & Restore</button>
       </form>
       <div id="status" class="status">After a successful restore, go back to the watch app and choose <strong>Refresh License</strong>.</div>
     </section>
@@ -25,20 +30,48 @@
   <script>
     const claimCode = query("code");
     setText("claim-code", claimCode || "Missing");
+    const requestForm = document.getElementById("request-form");
+    const verifyForm = document.getElementById("verify-form");
+    const emailInput = document.getElementById("email");
+    const restoreCodeInput = document.getElementById("restore-code");
 
-    document.getElementById("restore-form").addEventListener("submit", async (event) => {
+    requestForm.addEventListener("submit", async (event) => {
       event.preventDefault();
-      const email = document.getElementById("email").value.trim();
+      const email = emailInput.value.trim();
       if (!claimCode) {
         setStatus("Missing claim code. Open Restore from the watch app.", "warn");
         return;
       }
 
-      setStatus("Checking your purchase…");
+      setStatus("Sending your verification code…");
+      try {
+        const data = await postJson("/api/restore/request", {
+          claimCode,
+          email
+        });
+        verifyForm.hidden = false;
+        restoreCodeInput.focus();
+        setStatus(data.message || "Verification code sent. Check your email.", "ok");
+      } catch (error) {
+        setStatus(error.message, "warn");
+      }
+    });
+
+    verifyForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = emailInput.value.trim();
+      const restoreCode = restoreCodeInput.value.trim();
+      if (!claimCode) {
+        setStatus("Missing claim code. Open Restore from the watch app.", "warn");
+        return;
+      }
+
+      setStatus("Verifying your code…");
       try {
         const data = await postJson("/api/restore/complete", {
           claimCode,
-          email
+          email,
+          restoreCode
         });
         setStatus(data.message || "Purchase restored. Refresh the watch app now.", "ok");
       } catch (error) {
