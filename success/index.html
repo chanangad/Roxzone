@@ -4,17 +4,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Roxzone Purchase Complete</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-  <main class="shell">
-    <div class="brand">Roxzone Success</div>
-    <section class="card">
-      <h1>Payment complete.</h1>
-      <p class="lede">Your purchase is being confirmed by the backend. Return to the watch app and select <strong>Refresh License</strong>. If the payment has just gone through, wait a few seconds and try again once.</p>
-      <div class="actions">
-        <a class="button-link" href="../?tab=unlock">Back to Unlock</a>
-        <a class="button-link secondary" href="../?tab=restore">Restore instead</a>
+  <header class="topbar">
+    <a class="topbar__brand" href="../">ROXZONE</a>
+    <nav class="topbar__nav">
+      <span class="topbar__tab topbar__tab--active">Store</span>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <section class="panel panel--narrow">
+      <h1 class="panel__title">Payment Complete</h1>
+      <p class="page-copy">
+        Your purchase is being confirmed by the backend. Return to the watch app and select
+        <strong>Refresh License</strong>. If the payment has just gone through, wait a few
+        seconds and try again once.
+      </p>
+      <div class="action-row">
+        <a class="action-link action-link--primary" href="../">Back to Home</a>
       </div>
     </section>
   </main>

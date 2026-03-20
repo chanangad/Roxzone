@@ -5,13 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Redirecting to Roxzone Restore</title>
   <meta http-equiv="refresh" content="0; url=../?tab=restore">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
+  <header class="topbar">
+    <a class="topbar__brand" href="../">ROXZONE</a>
+    <nav class="topbar__nav">
+      <span class="topbar__tab topbar__tab--active">Store</span>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <section class="panel panel--narrow">
+      <h1 class="panel__title">Opening Restore</h1>
+      <p class="page-copy">Redirecting to the Roxzone restore page...</p>
+    </section>
+  </main>
+
   <script>
     const params = new URLSearchParams(window.location.search);
     params.set("tab", "restore");
     window.location.replace(`../?${params.toString()}`);
   </script>
-  <p>Redirecting to the Roxzone restore page…</p>
 </body>
 </html>
