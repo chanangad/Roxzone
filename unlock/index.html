@@ -10,56 +10,75 @@
   <main class="shell">
     <div class="brand">Roxzone Unlock</div>
     <section class="card">
-      <h1>Unlock Roxzone for $7.</h1>
-      <p class="lede">Complete checkout on your phone and then return to the watch app to refresh your license.</p>
+      <h1>Unlock Roxzone.</h1>
+      <p class="lede">Complete checkout on your phone and then return to the watch app to refresh your license. Use Razorpay for India payments and PayPal for international checkout.</p>
       <div class="price">
         <span>$7</span>
         <span class="meta">one-time unlock</span>
       </div>
       <p class="meta">Claim code: <strong id="claim-code">Loading…</strong></p>
       <form id="unlock-form">
-        <label for="claimCode">Claim code</label>
-        <input id="claimCode" name="claimCode" type="text" required placeholder="RZ-123456">
         <label for="email">Email for restore and support</label>
         <input id="email" name="email" type="email" required placeholder="you@example.com">
-        <button type="submit">Continue to PayPal</button>
+        <button type="button" data-provider="razorpay" id="razorpay-button">Pay with UPI / Card (India)</button>
+        <button type="submit" data-provider="paypal" class="secondary">Pay with PayPal (International)</button>
       </form>
-      <div id="status" class="status">If the watch app did not open this page with a claim code, enter it manually before checkout.</div>
+      <div id="status" class="status">Your watch app should have opened this page with a claim code.</div>
       <p class="tiny">After payment, come back to the watch and choose <strong>Refresh License</strong>.</p>
     </section>
   </main>
   <script src="../app.js"></script>
   <script>
-    const claimCodeFromUrl = query("code");
-    const claimCodeInput = document.getElementById("claimCode");
-    claimCodeInput.value = claimCodeFromUrl || "";
-    setText("claim-code", claimCodeFromUrl || "Enter manually");
+    const claimCode = query("code");
+    setText("claim-code", claimCode || "Missing");
 
-    document.getElementById("unlock-form").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const claimCode = claimCodeInput.value.trim();
+    async function beginCheckout(provider) {
       const email = document.getElementById("email").value.trim();
       if (!claimCode) {
-        setStatus("Enter the claim code shown on the watch app.", "warn");
+        setStatus("Missing claim code. Open this page from the watch app again.", "warn");
         return;
       }
 
-      setStatus("Creating PayPal checkout…");
+      if (!email) {
+        setStatus("Enter your email first.", "warn");
+        return;
+      }
+
       try {
-        const data = await postJson("/api/paypal/create-order", {
-          claimCode,
-          email,
-          appName: "Roxzone",
-          amountUsd: "7.00"
-        });
-        if (data && data.approveUrl) {
-          window.location.href = data.approveUrl;
-          return;
+        if (provider === "paypal") {
+          setStatus("Creating PayPal checkout…");
+          const data = await postJson("/api/paypal/create-order", {
+            claimCode,
+            email
+          });
+          if (data && data.approveUrl) {
+            window.location.href = data.approveUrl;
+            return;
+          }
+        } else {
+          setStatus("Creating India checkout…");
+          const data = await postJson("/api/razorpay/create-link", {
+            claimCode,
+            email
+          });
+          if (data && data.shortUrl) {
+            window.location.href = data.shortUrl;
+            return;
+          }
         }
         setStatus("Checkout link was not returned by the server.", "warn");
       } catch (error) {
         setStatus(error.message, "warn");
       }
+    }
+
+    document.getElementById("unlock-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      await beginCheckout("paypal");
+    });
+
+    document.getElementById("razorpay-button").addEventListener("click", async () => {
+      await beginCheckout("razorpay");
     });
   </script>
 </body>
