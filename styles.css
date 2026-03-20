@@ -120,6 +120,11 @@ button,
     text-decoration: none;
 }
 
+.paypal {
+    background: linear-gradient(180deg, #0070ba 0%, #005ea6 100%);
+    color: white;
+}
+
 .button-link.secondary,
 button.secondary {
     background: white;
