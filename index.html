@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Unlock or Restore Roxzone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -11,23 +14,19 @@
     <div class="brand">Roxzone</div>
     <section class="card">
       <h1>Unlock or Restore your Roxzone app.</h1>
-      <p class="lede">Use this page to buy a one-time unlock or restore a paid purchase to your current watch claim code.</p>
 
       <a class="app-card" href="https://apps.garmin.com/apps/95ff2e3b-7417-4bcf-8ced-7e4b70113616" target="_blank" rel="noreferrer">
         <div class="app-card-media">
-          <img src="./assets/500x500.jpg" alt="Roxzone Garmin watch preview">
+          <img src="./assets/500x500.jpg" alt="Roxzone app icon">
         </div>
         <div class="app-card-body">
-          <p class="app-card-eyebrow">Garmin Connect IQ App</p>
-          <h2>Roxzone - Hyrox Performance Tracker</h2>
-          <p class="app-card-copy">Official HYROX mode, custom simulations, Roxzone timing, and clean lap-wise splits in one activity.</p>
-        </div>
-        <div class="app-card-cta">
-          <div class="app-card-price">
-            <span class="amount">$7</span>
-            <span class="label">one-time unlock</span>
+          <div class="app-card-header">
+            <h2>Roxzone - Hyrox Performance Tracker</h2>
+            <div class="app-card-price">
+              <span class="amount">$7</span>
+              <span class="label">one-time unlock</span>
+            </div>
           </div>
-          <span class="app-card-button">View on Garmin Connect IQ</span>
         </div>
       </a>
 
@@ -45,13 +44,13 @@
           <div class="divider">
             <span>Choose payment method</span>
           </div>
-          <p class="payment-note">For Indian users, use Razorpay for UPI, cards, and domestic payments.</p>
-          <button type="button" id="razorpay-button" class="razorpay">Pay with UPI / Card (India)</button>
-          <p class="payment-note">For international (non-Indian) users, use PayPal.</p>
-          <button type="submit" class="paypal">Pay with PayPal (International)</button>
+          <p class="payment-note">For Indian users:</p>
+          <button type="button" id="razorpay-button" class="razorpay">Pay with Razorpay (UPI/Card)</button>
+          <p class="payment-note">For international (non-Indian) users:</p>
+          <button type="submit" class="paypal">Pay with PayPal</button>
         </form>
 
-        <div id="unlock-status" class="status">Open this page from the watch app, or enter the claim code shown in Manual Unlock.</div>
+        <div id="unlock-status" class="status helper-note">Open this page from the watch app, or enter the claim code shown in Manual Unlock.</div>
         <p class="tiny">After payment, come back to the watch and choose <strong>Refresh License</strong>.</p>
       </section>
 

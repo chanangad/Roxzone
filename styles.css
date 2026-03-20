@@ -1,12 +1,12 @@
 :root {
     color-scheme: light;
-    --bg: #f4efe5;
-    --panel: #fffaf2;
-    --ink: #1f1b16;
-    --muted: #6e6255;
+    --bg: #eef3f8;
+    --panel: #f8fbff;
+    --ink: #1d2733;
+    --muted: #667689;
     --accent: #cc5a00;
     --accent-dark: #8d3b00;
-    --line: #e2d5c2;
+    --line: #d7e0ea;
     --ok: #1f7a47;
     --warn: #9a5a00;
 }
@@ -17,10 +17,10 @@
 
 body {
     margin: 0;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     background:
-        radial-gradient(circle at top left, #fffdf8, transparent 36%),
-        linear-gradient(180deg, #f8f2e9 0%, var(--bg) 100%);
+        radial-gradient(circle at top left, #ffffff, transparent 36%),
+        linear-gradient(180deg, #f7faff 0%, var(--bg) 100%);
     color: var(--ink);
     min-height: 100vh;
 }
@@ -35,7 +35,7 @@ body {
     font-size: 0.95rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--accent-dark);
+    color: #47617c;
     margin-bottom: 18px;
 }
 
@@ -49,8 +49,9 @@ body {
 
 h1 {
     margin: 0 0 12px;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    line-height: 0.95;
+    font-size: clamp(1.55rem, 3vw, 2.2rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
 }
 
 h2 {
@@ -73,28 +74,28 @@ button {
 }
 
 .tab-row {
-    display: inline-flex;
-    gap: 8px;
-    padding: 6px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: white;
+    display: flex;
+    gap: 28px;
+    width: 100%;
     margin: 18px 0 22px;
+    border-bottom: 1px solid var(--line);
 }
 
 .tab-button {
-    padding: 10px 18px;
+    padding: 0 0 14px;
     border: 0;
-    border-radius: 999px;
     background: transparent;
     color: var(--muted);
-    font-weight: bold;
+    font-weight: 700;
     cursor: pointer;
+    border-bottom: 3px solid transparent;
 }
 
 .tab-button.active {
-    background: linear-gradient(180deg, #e66d13 0%, var(--accent) 100%);
-    color: white;
+    background: transparent;
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+    border-radius: 0;
 }
 
 .tab-panel {
@@ -107,94 +108,89 @@ button {
 
 .app-card {
     margin: 18px 0 24px;
-    padding: 18px;
+    padding: 14px 18px;
     border-radius: 22px;
-    background: #3f3c3d;
-    color: white;
-    display: grid;
-    grid-template-columns: 140px minmax(0, 1fr) minmax(170px, 210px);
-    gap: 18px;
+    background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.92), transparent 35%),
+        linear-gradient(135deg, #f9fbfe 0%, #eef4fb 100%);
+    color: var(--ink);
+    display: flex;
+    gap: 14px;
     align-items: center;
     text-decoration: none;
-    box-shadow: 0 16px 34px rgba(37, 27, 15, 0.14);
+    box-shadow: 0 16px 34px rgba(37, 27, 15, 0.08);
+    min-height: 122px;
+    border: 1px solid color-mix(in srgb, #8fa4ba 18%, var(--line) 82%);
 }
 
 .app-card,
 .app-card:visited,
 .app-card:hover,
 .app-card:active {
-    color: white;
+    color: var(--ink);
     text-decoration: none;
+}
+
+.app-card * {
+    text-decoration: none;
+}
+
+.app-card-media {
+    flex: 0 0 104px;
 }
 
 .app-card-media img {
     display: block;
     width: 100%;
-    border-radius: 14px;
+    height: 104px;
+    border-radius: 18px;
     object-fit: cover;
-    aspect-ratio: 1 / 1;
+    background: white;
+    padding: 0;
+    box-shadow: 0 10px 24px rgba(37, 27, 15, 0.1);
+}
+
+.app-card-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex: 1 1 auto;
+}
+
+.app-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
 }
 
 .app-card-body h2 {
-    margin: 0 0 10px;
-    font-size: clamp(1.4rem, 2.2vw, 2rem);
-    color: white;
-}
-
-.app-card-eyebrow,
-.app-card-copy {
     margin: 0;
-}
-
-.app-card-eyebrow {
-    color: #d7cab7;
-    font-size: 0.88rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-}
-
-.app-card-copy {
-    color: #f4eee5;
-    max-width: 38ch;
-}
-
-.app-card-cta {
-    display: grid;
-    gap: 16px;
-    align-content: center;
-    padding-left: 18px;
-    border-left: 1px solid rgba(255, 255, 255, 0.14);
+    font-size: clamp(1.15rem, 2vw, 1.6rem);
+    color: var(--ink);
+    letter-spacing: -0.03em;
 }
 
 .app-card-price {
     display: grid;
-    gap: 4px;
+    gap: 2px;
+    flex: 0 0 auto;
+    text-align: right;
 }
 
 .app-card-price .amount {
-    font-size: 2.4rem;
+    font-size: 1.7rem;
     font-weight: bold;
     line-height: 1;
-    color: white;
+    color: var(--accent-dark);
 }
 
 .app-card-price .label {
-    color: #d7cab7;
+    color: var(--muted);
     font-weight: bold;
-}
-
-.app-card-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 52px;
-    padding: 12px 18px;
-    border-radius: 14px;
-    background: linear-gradient(180deg, #109ad7 0%, #0c7bb0 100%);
-    color: white;
-    font-weight: bold;
-    text-align: center;
+    font-size: 0.9rem;
 }
 
 .meta {
@@ -228,8 +224,9 @@ form {
 .payment-note {
     margin: 0;
     color: var(--muted);
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     line-height: 1.4;
+    font-weight: 700;
 }
 
 input {
@@ -284,6 +281,14 @@ button.razorpay,
     background: #fff;
 }
 
+.status.helper-note {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    margin-top: 16px;
+}
+
 .status.ok {
     border-color: color-mix(in srgb, var(--ok) 35%, white 65%);
     color: var(--ok);
@@ -321,31 +326,32 @@ ul {
     }
 
     .app-card {
-        grid-template-columns: 1fr;
+        flex-direction: row;
+        align-items: center;
+        min-height: 108px;
+    }
+
+    .app-card-media {
+        flex-basis: 90px;
     }
 
     .app-card-media img {
-        max-width: 180px;
-        margin: 0 auto;
+        height: 90px;
     }
 
-    .app-card-body {
-        text-align: center;
+    .app-card-header {
+        align-items: center;
     }
 
-    .app-card-cta {
-        padding-left: 0;
-        border-left: 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.14);
-        padding-top: 16px;
+    .app-card-price {
+        text-align: right;
     }
 
     .tab-row {
-        width: 100%;
-        justify-content: stretch;
+        gap: 20px;
     }
 
     .tab-button {
-        flex: 1;
+        padding-bottom: 12px;
     }
 }
