@@ -95,6 +95,30 @@ form {
     margin-top: 22px;
 }
 
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 8px 0 2px;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    height: 1px;
+    background: var(--line);
+    flex: 1;
+}
+
+.payment-note {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
 input {
     width: 100%;
     padding: 14px 16px;
@@ -120,16 +144,23 @@ button,
     text-decoration: none;
 }
 
-.paypal {
-    background: linear-gradient(180deg, #0070ba 0%, #005ea6 100%);
-    color: white;
-}
-
 .button-link.secondary,
 button.secondary {
     background: white;
     color: var(--ink);
     border: 1px solid var(--line);
+}
+
+button.paypal,
+.button-link.paypal {
+    background: linear-gradient(180deg, #0070ba 0%, #005ea6 100%);
+    color: white;
+}
+
+button.razorpay,
+.button-link.razorpay {
+    background: linear-gradient(180deg, #4b7bff 0%, #2455e6 100%);
+    color: white;
 }
 
 .status {

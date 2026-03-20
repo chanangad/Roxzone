@@ -21,7 +21,12 @@
         <input id="claim-code-input" name="claim-code" type="text" required placeholder="RZ-123456789">
         <label for="email">Email for restore and support</label>
         <input id="email" name="email" type="email" required placeholder="you@example.com">
-        <button type="button" data-provider="razorpay" id="razorpay-button" class="secondary">Pay with UPI / Card (India)</button>
+        <div class="divider">
+          <span>Choose payment method</span>
+        </div>
+        <p class="payment-note">For Indian users, use Razorpay for UPI, cards, and domestic payments.</p>
+        <button type="button" data-provider="razorpay" id="razorpay-button" class="razorpay">Pay with UPI / Card (India)</button>
+        <p class="payment-note">For international (non-Indian) users, use PayPal.</p>
         <button type="submit" data-provider="paypal" class="paypal">Pay with PayPal (International)</button>
       </form>
       <div id="status" class="status">Open this page from the watch app, or enter the claim code shown in Manual Unlock.</div>
