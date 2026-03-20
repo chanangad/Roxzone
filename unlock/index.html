@@ -16,26 +16,28 @@
         <span>$7</span>
         <span class="meta">one-time unlock</span>
       </div>
-      <p class="meta">Claim code: <strong id="claim-code">Loading…</strong></p>
       <form id="unlock-form">
+        <label for="claim-code-input">Claim code from your watch</label>
+        <input id="claim-code-input" name="claim-code" type="text" required placeholder="RZ-123456789">
         <label for="email">Email for restore and support</label>
         <input id="email" name="email" type="email" required placeholder="you@example.com">
         <button type="button" data-provider="razorpay" id="razorpay-button">Pay with UPI / Card (India)</button>
         <button type="submit" data-provider="paypal" class="secondary">Pay with PayPal (International)</button>
       </form>
-      <div id="status" class="status">Your watch app should have opened this page with a claim code.</div>
+      <div id="status" class="status">Open this page from the watch app, or enter the claim code shown in Manual Unlock.</div>
       <p class="tiny">After payment, come back to the watch and choose <strong>Refresh License</strong>.</p>
     </section>
   </main>
   <script src="../app.js"></script>
   <script>
-    const claimCode = query("code");
-    setText("claim-code", claimCode || "Missing");
+    const claimCodeInput = document.getElementById("claim-code-input");
+    claimCodeInput.value = query("code");
 
     async function beginCheckout(provider) {
+      const claimCode = claimCodeInput.value.trim().toUpperCase();
       const email = document.getElementById("email").value.trim();
       if (!claimCode) {
-        setStatus("Missing claim code. Open this page from the watch app again.", "warn");
+        setStatus("Enter the claim code shown on your watch.", "warn");
         return;
       }
 
