@@ -3,56 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Restore Roxzone Purchase</title>
-  <link rel="stylesheet" href="../styles.css">
+  <title>Redirecting to Roxzone Restore</title>
+  <meta http-equiv="refresh" content="0; url=../?tab=restore">
 </head>
 <body>
-  <main class="shell">
-    <div class="brand">Roxzone Restore</div>
-    <section class="card">
-      <h1>Restore a paid unlock.</h1>
-      <p class="lede">Use the same email you used at checkout. If this page was opened from the watch app, we will move your paid license to the current claim code and deactivate the previous one.</p>
-      <p class="meta">Current claim code: <strong id="claim-code">Loading…</strong></p>
-      <form id="restore-form">
-        <label for="email">Checkout email</label>
-        <input id="email" name="email" type="email" required placeholder="you@example.com">
-        <button type="submit">Restore Purchase</button>
-      </form>
-      <div id="status" class="status">After a successful restore, go back to the watch app and choose <strong>Refresh License</strong>.</div>
-    </section>
-  </main>
-  <script src="../app.js"></script>
   <script>
-    const claimCode = query("code");
-    setText("claim-code", claimCode || "Missing");
-
-    document.getElementById("restore-form").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const email = document.getElementById("email").value.trim();
-      if (!claimCode) {
-        setStatus("Missing claim code. Open Restore from the watch app.", "warn");
-        return;
-      }
-
-      setStatus("Checking your purchase…");
-      try {
-        const requestData = await postJson("/api/restore/request", {
-          claimCode,
-          email
-        });
-        if (!requestData.canRestore) {
-          setStatus("No paid purchase found for that email.", "warn");
-          return;
-        }
-        const data = await postJson("/api/restore/complete", {
-          claimCode,
-          email
-        });
-        setStatus(data.message || "Purchase restored. Refresh the watch app now.", "ok");
-      } catch (error) {
-        setStatus(error.message, "warn");
-      }
-    });
+    const params = new URLSearchParams(window.location.search);
+    params.set("tab", "restore");
+    window.location.replace(`../?${params.toString()}`);
   </script>
+  <p>Redirecting to the Roxzone restore page…</p>
 </body>
 </html>

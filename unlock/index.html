@@ -3,101 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Unlock Roxzone</title>
-  <link rel="stylesheet" href="../styles.css">
+  <title>Redirecting to Roxzone Unlock</title>
+  <meta http-equiv="refresh" content="0; url=../?tab=unlock">
 </head>
 <body>
-  <main class="shell">
-    <div class="brand">Roxzone Unlock</div>
-    <section class="card">
-      <h1>Unlock Roxzone.</h1>
-      <p class="lede">Complete checkout on your phone and then return to the watch app to refresh your license. Use Razorpay for India payments and PayPal for international checkout.</p>
-      <div class="price">
-        <span>$7</span>
-        <span class="meta">one-time unlock</span>
-      </div>
-      <section class="preview">
-        <div class="preview-device">
-          <div class="preview-frame">
-            <img src="../assets/launcher_icon.png" alt="Roxzone Garmin app preview">
-          </div>
-        </div>
-        <div class="preview-copy">
-          <p class="preview-title">What you are unlocking</p>
-          <p>Roxzone is a dedicated HYROX race and simulation tracker for Garmin, with live pacing, Roxzone timing, and clean lap-wise splits in one activity.</p>
-        </div>
-      </section>
-      <form id="unlock-form">
-        <label for="claim-code-input">Claim code from your watch</label>
-        <input id="claim-code-input" name="claim-code" type="text" required placeholder="RZ-123456789">
-        <label for="email">Email for restore and support</label>
-        <input id="email" name="email" type="email" required placeholder="you@example.com">
-        <div class="divider">
-          <span>Choose payment method</span>
-        </div>
-        <p class="payment-note">For Indian users, use Razorpay for UPI, cards, and domestic payments.</p>
-        <button type="button" data-provider="razorpay" id="razorpay-button" class="razorpay">Pay with UPI / Card (India)</button>
-        <p class="payment-note">For international (non-Indian) users, use PayPal.</p>
-        <button type="submit" data-provider="paypal" class="paypal">Pay with PayPal (International)</button>
-      </form>
-      <div id="status" class="status">Open this page from the watch app, or enter the claim code shown in Manual Unlock.</div>
-      <p class="tiny">After payment, come back to the watch and choose <strong>Refresh License</strong>.</p>
-    </section>
-  </main>
-  <script src="../app.js"></script>
   <script>
-    const claimCodeInput = document.getElementById("claim-code-input");
-    claimCodeInput.value = query("code");
-
-    async function beginCheckout(provider) {
-      const claimCode = claimCodeInput.value.trim().toUpperCase();
-      const email = document.getElementById("email").value.trim();
-      if (!claimCode) {
-        setStatus("Enter the claim code shown on your watch.", "warn");
-        return;
-      }
-
-      if (!email) {
-        setStatus("Enter your email first.", "warn");
-        return;
-      }
-
-      try {
-        if (provider === "paypal") {
-          setStatus("Creating PayPal checkout…");
-          const data = await postJson("/api/paypal/create-order", {
-            claimCode,
-            email
-          });
-          if (data && data.approveUrl) {
-            window.location.href = data.approveUrl;
-            return;
-          }
-        } else {
-          setStatus("Creating India checkout…");
-          const data = await postJson("/api/razorpay/create-link", {
-            claimCode,
-            email
-          });
-          if (data && data.shortUrl) {
-            window.location.href = data.shortUrl;
-            return;
-          }
-        }
-        setStatus("Checkout link was not returned by the server.", "warn");
-      } catch (error) {
-        setStatus(error.message, "warn");
-      }
-    }
-
-    document.getElementById("unlock-form").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      await beginCheckout("paypal");
-    });
-
-    document.getElementById("razorpay-button").addEventListener("click", async () => {
-      await beginCheckout("razorpay");
-    });
+    const params = new URLSearchParams(window.location.search);
+    params.set("tab", "unlock");
+    window.location.replace(`../?${params.toString()}`);
   </script>
+  <p>Redirecting to the Roxzone unlock page…</p>
 </body>
 </html>

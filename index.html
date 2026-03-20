@@ -3,32 +3,229 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Roxzone Unlock</title>
+  <title>Unlock or Restore Roxzone</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <main class="shell">
     <div class="brand">Roxzone</div>
     <section class="card">
-      <h1>Phone unlock for your watch app.</h1>
-      <p class="lede">Roxzone is purchased outside Connect IQ. Use the links below to unlock the app, restore a paid purchase, or read support notes before launch.</p>
-      <section class="preview">
-        <div class="preview-device">
-          <div class="preview-frame">
-            <img src="./assets/launcher_icon.png" alt="Roxzone Garmin app preview">
-          </div>
-        </div>
-        <div class="preview-copy">
-          <p class="preview-title">What Roxzone does</p>
-          <p>Dedicated HYROX tracking for Garmin, with live pacing, Roxzone timing, and clean lap-wise splits in a single activity.</p>
-        </div>
-      </section>
-      <div class="actions">
-        <a class="button-link" href="./unlock/">Unlock App</a>
-        <a class="button-link secondary" href="./restore/">Restore Purchase</a>
-        <a class="button-link secondary" href="./support/">Support</a>
+      <h1>Unlock or Restore your Roxzone app.</h1>
+      <p class="lede">Use this page to buy a one-time unlock or restore a paid purchase to your current watch claim code.</p>
+
+      <div class="tab-row" role="tablist" aria-label="Roxzone purchase actions">
+        <button type="button" id="tab-unlock" class="tab-button active" data-tab="unlock" role="tab" aria-controls="panel-unlock" aria-selected="true">Unlock</button>
+        <button type="button" id="tab-restore" class="tab-button" data-tab="restore" role="tab" aria-controls="panel-restore" aria-selected="false">Restore</button>
       </div>
+
+      <section id="panel-unlock" class="tab-panel active" role="tabpanel" aria-labelledby="tab-unlock">
+        <div class="price">
+          <span>$7</span>
+          <span class="meta">one-time unlock</span>
+        </div>
+        <section class="preview">
+          <div class="preview-device">
+            <div class="preview-frame">
+              <img src="./assets/launcher_icon.png" alt="Roxzone Garmin app preview">
+            </div>
+          </div>
+          <div class="preview-copy">
+            <p class="preview-title">What you are unlocking</p>
+            <p>Roxzone is a dedicated HYROX race and simulation tracker for Garmin, with live pacing, Roxzone timing, and clean lap-wise splits in one activity.</p>
+            <p class="preview-link"><a href="./support/">See app details and support notes</a></p>
+          </div>
+        </section>
+
+        <form id="unlock-form">
+          <label for="claim-code-input">Claim code from your watch</label>
+          <input id="claim-code-input" name="claim-code" type="text" required placeholder="RZ-123456789">
+          <label for="unlock-email">Email for restore and support</label>
+          <input id="unlock-email" name="email" type="email" required placeholder="you@example.com">
+          <div class="divider">
+            <span>Choose payment method</span>
+          </div>
+          <p class="payment-note">For Indian users, use Razorpay for UPI, cards, and domestic payments.</p>
+          <button type="button" id="razorpay-button" class="razorpay">Pay with UPI / Card (India)</button>
+          <p class="payment-note">For international (non-Indian) users, use PayPal.</p>
+          <button type="submit" class="paypal">Pay with PayPal (International)</button>
+        </form>
+
+        <div id="unlock-status" class="status">Open this page from the watch app, or enter the claim code shown in Manual Unlock.</div>
+        <p class="tiny">After payment, come back to the watch and choose <strong>Refresh License</strong>.</p>
+      </section>
+
+      <section id="panel-restore" class="tab-panel" role="tabpanel" aria-labelledby="tab-restore" hidden>
+        <section class="preview">
+          <div class="preview-device">
+            <div class="preview-frame">
+              <img src="./assets/launcher_icon.png" alt="Roxzone Garmin app preview">
+            </div>
+          </div>
+          <div class="preview-copy">
+            <p class="preview-title">Restore a paid unlock</p>
+            <p>Use the same checkout email to move your paid Roxzone license to the claim code shown on your current watch.</p>
+            <p class="preview-link"><a href="./support/">See app details and restore notes</a></p>
+          </div>
+        </section>
+
+        <p class="meta">Current claim code: <strong id="restore-claim-code">Loading…</strong></p>
+        <form id="restore-form">
+          <label for="restore-email">Checkout email</label>
+          <input id="restore-email" name="email" type="email" required placeholder="you@example.com">
+          <button type="submit">Restore Purchase</button>
+        </form>
+
+        <div id="restore-status" class="status">After a successful restore, go back to the watch app and choose <strong>Refresh License</strong>.</div>
+      </section>
     </section>
   </main>
+
+  <script src="./app.js"></script>
+  <script>
+    const tabButtons = Array.from(document.querySelectorAll(".tab-button"));
+    const tabPanels = {
+      unlock: document.getElementById("panel-unlock"),
+      restore: document.getElementById("panel-restore")
+    };
+    const unlockStatus = document.getElementById("unlock-status");
+    const restoreStatus = document.getElementById("restore-status");
+    const claimCodeInput = document.getElementById("claim-code-input");
+    const restoreClaimCode = document.getElementById("restore-claim-code");
+    const initialClaimCode = query("code").trim().toUpperCase();
+    const initialTab = query("tab") === "restore" ? "restore" : "unlock";
+
+    claimCodeInput.value = initialClaimCode;
+    setText("restore-claim-code", initialClaimCode || "Missing");
+    activateTab(initialTab, false);
+
+    function setPanelStatus(node, message, kind) {
+      node.textContent = message;
+      node.className = kind ? `status ${kind}` : "status";
+    }
+
+    function activateTab(name, pushState = true) {
+      tabButtons.forEach((button) => {
+        const active = button.dataset.tab === name;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-selected", active ? "true" : "false");
+      });
+
+      Object.entries(tabPanels).forEach(([panelName, panel]) => {
+        const active = panelName === name;
+        panel.classList.toggle("active", active);
+        panel.hidden = !active;
+      });
+
+      if (pushState) {
+        const params = new URLSearchParams(window.location.search);
+        params.set("tab", name);
+        if (claimCodeInput.value.trim()) {
+          params.set("code", claimCodeInput.value.trim().toUpperCase());
+        } else {
+          params.delete("code");
+        }
+        const next = `${window.location.pathname}?${params.toString()}`;
+        window.history.replaceState({}, "", next);
+      }
+    }
+
+    tabButtons.forEach((button) => {
+      button.addEventListener("click", () => activateTab(button.dataset.tab));
+    });
+
+    claimCodeInput.addEventListener("input", () => {
+      const value = claimCodeInput.value.trim().toUpperCase();
+      setText("restore-claim-code", value || "Missing");
+      const params = new URLSearchParams(window.location.search);
+      if (value) {
+        params.set("code", value);
+      } else {
+        params.delete("code");
+      }
+      if (!params.get("tab")) {
+        params.set("tab", initialTab);
+      }
+      window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
+    });
+
+    async function beginCheckout(provider) {
+      const claimCode = claimCodeInput.value.trim().toUpperCase();
+      const email = document.getElementById("unlock-email").value.trim();
+      if (!claimCode) {
+        setPanelStatus(unlockStatus, "Enter the claim code shown on your watch.", "warn");
+        return;
+      }
+
+      if (!email) {
+        setPanelStatus(unlockStatus, "Enter your email first.", "warn");
+        return;
+      }
+
+      try {
+        if (provider === "paypal") {
+          setPanelStatus(unlockStatus, "Creating PayPal checkout…");
+          const data = await postJson("/api/paypal/create-order", {
+            claimCode,
+            email
+          });
+          if (data && data.approveUrl) {
+            window.location.href = data.approveUrl;
+            return;
+          }
+        } else {
+          setPanelStatus(unlockStatus, "Creating India checkout…");
+          const data = await postJson("/api/razorpay/create-link", {
+            claimCode,
+            email
+          });
+          if (data && data.shortUrl) {
+            window.location.href = data.shortUrl;
+            return;
+          }
+        }
+        setPanelStatus(unlockStatus, "Checkout link was not returned by the server.", "warn");
+      } catch (error) {
+        setPanelStatus(unlockStatus, error.message, "warn");
+      }
+    }
+
+    document.getElementById("unlock-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      await beginCheckout("paypal");
+    });
+
+    document.getElementById("razorpay-button").addEventListener("click", async () => {
+      await beginCheckout("razorpay");
+    });
+
+    document.getElementById("restore-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = document.getElementById("restore-email").value.trim();
+      const claimCode = claimCodeInput.value.trim().toUpperCase();
+      if (!claimCode) {
+        setPanelStatus(restoreStatus, "Missing claim code. Open Restore from the watch app or type the code from Manual Unlock.", "warn");
+        return;
+      }
+
+      setPanelStatus(restoreStatus, "Checking your purchase…");
+      try {
+        const requestData = await postJson("/api/restore/request", {
+          claimCode,
+          email
+        });
+        if (!requestData.canRestore) {
+          setPanelStatus(restoreStatus, "No paid purchase found for that email.", "warn");
+          return;
+        }
+        const data = await postJson("/api/restore/complete", {
+          claimCode,
+          email
+        });
+        setPanelStatus(restoreStatus, data.message || "Purchase restored. Refresh the watch app now.", "ok");
+      } catch (error) {
+        setPanelStatus(restoreStatus, error.message, "warn");
+      }
+    });
+  </script>
 </body>
 </html>
