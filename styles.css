@@ -159,7 +159,7 @@ button.paypal,
 
 button.razorpay,
 .button-link.razorpay {
-    background: linear-gradient(180deg, #4b7bff 0%, #2455e6 100%);
+    background: linear-gradient(180deg, #e66d13 0%, var(--accent) 100%);
     color: white;
 }
 
