@@ -112,11 +112,19 @@ button {
     background: #3f3c3d;
     color: white;
     display: grid;
-    grid-template-columns: minmax(180px, 240px) minmax(0, 1fr) minmax(180px, 230px);
+    grid-template-columns: 140px minmax(0, 1fr) minmax(170px, 210px);
     gap: 18px;
     align-items: center;
     text-decoration: none;
     box-shadow: 0 16px 34px rgba(37, 27, 15, 0.14);
+}
+
+.app-card,
+.app-card:visited,
+.app-card:hover,
+.app-card:active {
+    color: white;
+    text-decoration: none;
 }
 
 .app-card-media img {
@@ -129,13 +137,11 @@ button {
 
 .app-card-body h2 {
     margin: 0 0 10px;
-    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
     color: white;
 }
 
 .app-card-eyebrow,
-.app-card-subtitle,
-.app-card-meta,
 .app-card-copy {
     margin: 0;
 }
@@ -148,19 +154,9 @@ button {
     margin-bottom: 8px;
 }
 
-.app-card-subtitle {
-    color: #f7efe2;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.app-card-meta {
-    color: #e2d6c3;
-    margin-bottom: 10px;
-}
-
 .app-card-copy {
     color: #f4eee5;
+    max-width: 38ch;
 }
 
 .app-card-cta {
@@ -329,7 +325,7 @@ ul {
     }
 
     .app-card-media img {
-        max-width: 260px;
+        max-width: 180px;
         margin: 0 auto;
     }
 
