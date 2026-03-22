@@ -20,15 +20,44 @@
   <main class="page-shell">
     <section class="panel panel--narrow">
       <h1 class="panel__title">Payment Complete</h1>
-      <p class="page-copy">
-        Your purchase is being confirmed by the backend. Return to the watch app and select
-        <strong>Refresh License</strong>. If the payment has just gone through, wait a few
-        seconds and try again once.
+      <p id="success-copy" class="page-copy">
+        Confirming your PayPal payment with the backend. Please keep this page open for a moment.
+      </p>
+      <p id="success-status" class="helper-note helper-note--ok">
+        Finalizing checkout...
       </p>
       <div class="action-row">
         <a class="action-link action-link--primary" href="../">Back to Home</a>
       </div>
     </section>
   </main>
+  <script src="../app.js"></script>
+  <script>
+    const successCopy = document.getElementById("success-copy");
+    const successStatus = document.getElementById("success-status");
+    const paypalToken = query("token").trim();
+
+    async function finalizePayPalCheckout() {
+      if (!paypalToken) {
+        successCopy.textContent = "This page works best when opened after a PayPal checkout redirect.";
+        successStatus.textContent = "No PayPal order token was found in the URL.";
+        successStatus.className = "helper-note helper-note--warn";
+        return;
+      }
+
+      try {
+        await postJson("/api/paypal/capture-order", {orderId: paypalToken});
+        successCopy.innerHTML = "Your payment is confirmed. Return to the watch app and choose <strong>Refresh License</strong>.";
+        successStatus.textContent = "PayPal payment captured successfully.";
+        successStatus.className = "helper-note helper-note--ok";
+      } catch (error) {
+        successCopy.innerHTML = "We could not finalize the PayPal payment automatically yet. Return to the watch app and try <strong>Refresh License</strong> once more in a few seconds.";
+        successStatus.textContent = error.message;
+        successStatus.className = "helper-note helper-note--warn";
+      }
+    }
+
+    finalizePayPalCheckout();
+  </script>
 </body>
 </html>
