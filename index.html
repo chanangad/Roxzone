@@ -1,14 +1,17 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Roxzone - Hyrox Performance Tracker</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 </head>
+
 <body>
   <header class="topbar">
     <span class="topbar__brand">ROXZONE</span>
@@ -36,10 +39,11 @@
           Roxzone splits, and clean lap-wise data on Garmin.
         </p>
 
-        <a class="price-card" href="https://apps.garmin.com/apps/95ff2e3b-7417-4bcf-8ced-7e4b70113616" target="_blank" rel="noreferrer">
+        <a class="price-card" href="https://apps.garmin.com/apps/95ff2e3b-7417-4bcf-8ced-7e4b70113616" target="_blank"
+          rel="noreferrer">
           <div>
             <span class="price-card__eyebrow">Lifetime Access</span>
-            <div class="price-card__amount">$7.00</div>
+            <div class="price-card__amount">$7.99</div>
             <p class="price-card__copy">One time purchase.</p>
           </div>
           <span class="price-card__cta">View on Garmin Connect IQ</span>
@@ -51,11 +55,14 @@
       <h2 class="panel__title">License Management</h2>
 
       <div class="panel__tabs" role="tablist" aria-label="License management tabs">
-        <button type="button" id="tab-unlock" class="panel__tab panel__tab--active" data-tab="unlock" role="tab" aria-controls="panel-unlock" aria-selected="true">Purchase/Unlock</button>
-        <button type="button" id="tab-restore" class="panel__tab" data-tab="restore" role="tab" aria-controls="panel-restore" aria-selected="false">Restore</button>
+        <button type="button" id="tab-unlock" class="panel__tab panel__tab--active" data-tab="unlock" role="tab"
+          aria-controls="panel-unlock" aria-selected="true">Purchase/Unlock</button>
+        <button type="button" id="tab-restore" class="panel__tab" data-tab="restore" role="tab"
+          aria-controls="panel-restore" aria-selected="false">Restore</button>
       </div>
 
-      <section id="panel-unlock" class="panel__content panel__content--active" role="tabpanel" aria-labelledby="tab-unlock">
+      <section id="panel-unlock" class="panel__content panel__content--active" role="tabpanel"
+        aria-labelledby="tab-unlock">
         <div class="panel__grid">
           <form id="unlock-form" class="form-grid">
             <div class="field">
@@ -71,7 +78,8 @@
           <div class="payment-stack">
             <div class="payment-option">
               <p class="hint-copy">For Indian users:</p>
-              <button type="button" id="razorpay-button" class="pay-button pay-button--razorpay">Pay with Razorpay (UPI/Card)</button>
+              <button type="button" id="razorpay-button" class="pay-button pay-button--razorpay">Pay with Razorpay
+                (UPI/Card)</button>
             </div>
 
             <div class="payment-option">
@@ -80,7 +88,8 @@
             </div>
           </div>
 
-          <p id="unlock-status" class="helper-note panel__note">Open this page from the watch app, or enter the claim code shown in Manual Unlock.</p>
+          <p id="unlock-status" class="helper-note panel__note">Open this page from the watch app, or enter the claim
+            code shown in Manual Unlock.</p>
         </div>
       </section>
 
@@ -89,7 +98,8 @@
           <form id="restore-form" class="form-grid">
             <div class="field">
               <label for="restore-claim-code">Watch claim code</label>
-              <input id="restore-claim-code-input" name="restore-claim-code" type="text" required placeholder="RZ-123456789">
+              <input id="restore-claim-code-input" name="restore-claim-code" type="text" required
+                placeholder="RZ-123456789">
             </div>
             <div class="field">
               <label for="restore-email">Email address</label>
@@ -100,12 +110,14 @@
           <div class="payment-stack payment-stack--restore">
             <div class="payment-option payment-option--restore">
               <p class="hint-copy">Use the same email you used for your original purchase.</p>
-              <button type="submit" form="restore-form" class="pay-button pay-button--restore">Restore Previous License</button>
+              <button type="submit" form="restore-form" class="pay-button pay-button--restore">Restore Previous
+                License</button>
             </div>
             <div class="payment-option payment-option--ghost" aria-hidden="true"></div>
           </div>
 
-          <p id="restore-status" class="helper-note panel__note">After restore, return to the watch app and choose Refresh License.</p>
+          <p id="restore-status" class="helper-note panel__note">After restore, return to the watch app and choose
+            Refresh License.</p>
         </div>
       </section>
     </section>
@@ -264,4 +276,5 @@
     });
   </script>
 </body>
+
 </html>
