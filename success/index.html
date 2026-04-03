@@ -10,37 +10,6 @@
   <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-<<<<<<< Updated upstream
-  <main class="shell">
-    <div class="brand">Roxzone Success</div>
-    <section class="card">
-      <h1 id="heading">Confirming payment…</h1>
-      <p id="message" class="lede">Please wait while we finalize your purchase.</p>
-      <div id="actions" class="actions" hidden>
-        <a class="button-link" href="../?tab=unlock">Back to Unlock</a>
-        <a class="button-link secondary" href="../?tab=restore">Restore instead</a>
-      </div>
-    </section>
-  </main>
-
-  <script src="../app.js"></script>
-  <script>
-    (async function () {
-      const params = new URLSearchParams(window.location.search);
-      const orderId = params.get("token");
-      const heading = document.getElementById("heading");
-      const message = document.getElementById("message");
-      const actions = document.getElementById("actions");
-
-      function showResult(title, text) {
-        heading.textContent = title;
-        message.textContent = text;
-        actions.hidden = false;
-      }
-
-      if (!orderId) {
-        showResult("Payment complete.", "Return to the watch app and select Refresh License.");
-=======
   <header class="topbar">
     <a class="topbar__brand" href="../">ROXZONE</a>
     <nav class="topbar__nav">
@@ -73,23 +42,10 @@
         successCopy.textContent = "This page works best when opened after a PayPal checkout redirect.";
         successStatus.textContent = "No PayPal order token was found in the URL.";
         successStatus.className = "helper-note helper-note--warn";
->>>>>>> Stashed changes
         return;
       }
 
       try {
-<<<<<<< Updated upstream
-        const data = await postJson("/api/paypal/capture-order", {orderId});
-        if (data.status === "captured" || data.status === "already_captured") {
-          showResult("Payment complete!", "Your purchase has been confirmed. Return to the watch app and select Refresh License.");
-        } else {
-          showResult("Payment received.", "Return to the watch app and select Refresh License.");
-        }
-      } catch (error) {
-        showResult("Something went wrong.", error.message + " — If you were charged, your license will activate shortly via our backup system. Try Refresh License on the watch in a minute.");
-      }
-    })();
-=======
         await postJson("/api/paypal/capture-order", {orderId: paypalToken});
         successCopy.innerHTML = "Your payment is confirmed. Return to the watch app and choose <strong>Refresh License</strong>.";
         successStatus.textContent = "PayPal payment captured successfully.";
@@ -102,7 +58,6 @@
     }
 
     finalizePayPalCheckout();
->>>>>>> Stashed changes
   </script>
 </body>
 </html>
