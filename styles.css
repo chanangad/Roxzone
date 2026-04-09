@@ -188,26 +188,40 @@ img {
     letter-spacing: -0.06em;
 }
 
-.price-sep {
-    font-weight: 400;
-    letter-spacing: 0;
-}
-
-.price-inr {
-    font-size: 0.62em;
-    display: inline-flex;
-    flex-direction: column;
-    vertical-align: middle;
-    line-height: 1.1;
-}
-
-.price-inr-label {
-    font-size: 0.5em;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+.price-card__region {
+    margin-top: 0.1rem;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    opacity: 0.75;
-    margin-top: 0.15em;
+    opacity: 0.6;
+}
+
+.price-amounts {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+}
+
+.price-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.price-divider {
+    width: 1px;
+    height: 2.8rem;
+    background: rgba(255, 255, 255, 0.22);
+    flex-shrink: 0;
+}
+
+.price-card__amount--inr {
+    color: var(--secondary);
+    font-size: 2.6rem;
+}
+
+.price-card__region--inr {
+    color: var(--secondary);
 }
 
 .price-card__copy {
