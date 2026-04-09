@@ -188,6 +188,15 @@ img {
     letter-spacing: -0.06em;
 }
 
+.price-sep {
+    font-weight: 400;
+    letter-spacing: 0;
+}
+
+.price-inr {
+    font-size: 0.62em;
+}
+
 .price-card__copy {
     margin: 0.45rem 0 0;
     font-size: 0.78rem;
