@@ -68,6 +68,11 @@ img {
     color: var(--primary);
 }
 
+.topbar__nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
 .topbar__tab {
     display: inline-flex;
     align-items: center;
@@ -76,6 +81,112 @@ img {
     color: var(--primary);
     font-weight: 700;
     font-size: 1.05rem;
+    transition: color 160ms ease, opacity 160ms ease;
+}
+
+.topbar__tab--dim {
+    border-bottom-color: transparent;
+    color: var(--muted);
+    opacity: 0.65;
+}
+
+.topbar__tab--dim:hover {
+    color: var(--ink);
+    opacity: 1;
+}
+
+/* ── FAQ ──────────────────────────────────────────── */
+
+.faq-section {
+    margin-bottom: 2.5rem;
+}
+
+.faq-section__heading {
+    margin: 0 0 1rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--secondary);
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--outline);
+}
+
+.faq-item:first-of-type {
+    border-top: 1px solid var(--outline);
+}
+
+.faq-item summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.2rem 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--ink);
+    user-select: none;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary::after {
+    content: "+";
+    flex-shrink: 0;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--muted);
+    line-height: 1;
+    transition: transform 200ms ease;
+}
+
+.faq-item[open] summary::after {
+    transform: rotate(45deg);
+}
+
+.faq-item__body {
+    padding: 0 0 1.4rem;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.faq-item__body p {
+    margin: 0 0 0.75rem;
+}
+
+.faq-item__body p:last-child {
+    margin-bottom: 0;
+}
+
+.faq-item__body ol,
+.faq-item__body ul {
+    margin: 0.5rem 0 0;
+    padding-left: 1.4rem;
+}
+
+.faq-item__body li {
+    margin-bottom: 0.4rem;
+}
+
+.faq-item__body a {
+    color: var(--primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.faq-item__body code {
+    background: var(--surface-high);
+    border-radius: 0.4rem;
+    padding: 0.15em 0.45em;
+    font-size: 0.9em;
+    color: var(--secondary);
 }
 
 .page-shell {
