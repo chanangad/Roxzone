@@ -31,10 +31,11 @@ body {
 
 body {
     font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background:
+    background-color: var(--bg);
+    background-image:
         radial-gradient(circle at top left, rgba(167, 200, 255, 0.08), transparent 28%),
-        radial-gradient(circle at bottom right, rgba(255, 183, 135, 0.08), transparent 24%),
-        var(--bg);
+        radial-gradient(circle at bottom right, rgba(255, 183, 135, 0.08), transparent 24%);
+    background-attachment: fixed;
     color: var(--ink);
 }
 
@@ -56,8 +57,8 @@ img {
     align-items: center;
     gap: 2rem;
     padding: 1.5rem 1.75rem;
-    background: rgba(19, 19, 19, 0.82);
-    backdrop-filter: blur(18px);
+    background: var(--bg);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .topbar__brand {
@@ -176,7 +177,13 @@ img {
     visibility: hidden !important;
 }
 
-body {
+/* Google Translate sets body { position: relative; top: 40px; } via inline
+   styles to make room for its (now hidden) banner. Override both so the
+   document doesn't get pushed down or shift its painting origin. */
+body.translated-ltr,
+body.translated-rtl,
+body[style*="top:"] {
+    position: static !important;
     top: 0 !important;
 }
 
