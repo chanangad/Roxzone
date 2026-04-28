@@ -646,6 +646,43 @@ font[style*="background-color"] {
     visibility: hidden;
 }
 
+.prefix-input {
+    display: flex;
+    align-items: center;
+    border-radius: 1rem;
+    min-height: 5.5rem;
+    background: var(--surface-highest);
+}
+
+.prefix-input:focus-within {
+    box-shadow: 0 0 0 2px rgba(167, 200, 255, 0.35);
+}
+
+.prefix-input__prefix {
+    flex-shrink: 0;
+    padding: 1.15rem 0.25rem 1.15rem 1.3rem;
+    color: var(--muted);
+    font-size: 1rem;
+    font-weight: 700;
+    user-select: none;
+    pointer-events: none;
+    line-height: 1;
+}
+
+.prefix-input input {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+    min-height: unset;
+    border-radius: 0;
+    background: transparent;
+    padding: 1.15rem 1.3rem 1.15rem 0;
+}
+
+.prefix-input input:focus {
+    box-shadow: none;
+}
+
 .helper-note {
     margin: 0;
     color: var(--muted);
