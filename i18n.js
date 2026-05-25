@@ -1,23 +1,37 @@
 const LANGUAGES = [
   { code: "en", label: "English" },
+  { code: "cs", label: "Čeština" },
+  { code: "da", label: "Dansk" },
   { code: "de", label: "Deutsch" },
   { code: "es", label: "Español" },
+  { code: "fi", label: "Suomi" },
   { code: "fr", label: "Français" },
+  { code: "hu", label: "Magyar" },
+  { code: "id", label: "Bahasa Indonesia" },
   { code: "it", label: "Italiano" },
-  { code: "pl", label: "Polski" },
-  { code: "nl", label: "Nederlands" },
-  { code: "sv", label: "Svenska" },
-  { code: "no", label: "Norsk" },
-  { code: "pt-PT", label: "Português (Portugal)" },
-  { code: "zh-CN", label: "简体中文" },
   { code: "ko", label: "한국어" },
-  { code: "ja", label: "日本語" }
+  { code: "nl", label: "Nederlands" },
+  { code: "no", label: "Norsk" },
+  { code: "ja", label: "日本語" },
+  { code: "pl", label: "Polski" },
+  // Google Translate exposes Portuguese as a single language code.
+  { code: "pt-BR", label: "Português (Brasil)", translateCode: "pt" },
+  { code: "pt-PT", label: "Português (Portugal)", translateCode: "pt" },
+  { code: "sv", label: "Svenska" },
+  { code: "th", label: "ไทย" },
+  { code: "zh-CN", label: "简体中文" },
+  { code: "zh-TW", label: "繁體中文" }
 ];
 
 const STORAGE_KEY = "roxzone-lang";
 const GOOGLE_LANG_CODES = LANGUAGES
   .filter((l) => l.code !== "en")
-  .map((l) => l.code);
+  .map((l) => l.translateCode || l.code)
+  .filter((code, index, allCodes) => allCodes.indexOf(code) === index);
+
+function getLangMeta(code) {
+  return LANGUAGES.find((l) => l.code === code) || LANGUAGES[0];
+}
 
 function getStoredLang() {
   try {
@@ -55,7 +69,8 @@ function waitFor(predicate, timeoutMs) {
 }
 
 async function applyLanguage(code) {
-  const targetCode = code === "en" ? "" : code;
+  const meta = getLangMeta(code);
+  const targetCode = code === "en" ? "" : meta.translateCode || meta.code;
   let select;
   try {
     select = await waitFor(findGoogleSelect, 8000);
@@ -100,7 +115,7 @@ function updatePickerSelection(code) {
   });
   const label = document.querySelector("[data-lang-current]");
   if (label) {
-    const meta = LANGUAGES.find((l) => l.code === code) || LANGUAGES[0];
+    const meta = getLangMeta(code);
     label.textContent = meta.label;
   }
 }
@@ -127,7 +142,7 @@ function buildLangPicker() {
   if (!root) return;
 
   const current = getStoredLang();
-  const currentMeta = LANGUAGES.find((l) => l.code === current) || LANGUAGES[0];
+  const currentMeta = getLangMeta(current);
 
   const button = document.createElement("button");
   button.type = "button";
