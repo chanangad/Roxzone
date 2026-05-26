@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /success/
+Disallow: /unlock/
+Disallow: /restore/
+Disallow: /*?code=
+Disallow: /*?tab=
+
+Sitemap: https://roxzone.app/sitemap.xml
