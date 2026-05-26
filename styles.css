@@ -866,20 +866,23 @@ font[style*="background-color"] {
 
 .reviews__stars {
     position: relative;
+    display: inline-block;
     font-size: 1.6rem;
     letter-spacing: 0.18em;
     line-height: 1;
     color: rgba(255, 255, 255, 0.12);
+    white-space: nowrap;
 }
 
 .reviews__stars-empty {
-    display: block;
+    display: inline-block;
 }
 
 .reviews__stars-filled {
     position: absolute;
     top: 0;
     left: 0;
+    bottom: 0;
     overflow: hidden;
     white-space: nowrap;
     color: var(--secondary);
