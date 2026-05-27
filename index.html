@@ -219,7 +219,6 @@
               <p class="hint-copy">International</p>
               <div class="payment-group__buttons">
                 <button type="submit" form="unlock-form" class="pay-button pay-button--paypal">Pay with PayPal</button>
-                <button type="button" id="dodo-button" class="pay-button pay-button--dodo">Pay with Dodo Payments</button>
               </div>
             </div>
 
@@ -461,17 +460,6 @@
             window.location.href = data.approveUrl;
             return;
           }
-        } else if (provider === "dodo") {
-          setPanelStatus(unlockStatus, "Creating Dodo Payments checkout…");
-          const data = await postJson("/api/dodo/create-checkout", {
-            claimCode,
-            email,
-            name
-          });
-          if (data && data.paymentUrl) {
-            window.location.href = data.paymentUrl;
-            return;
-          }
         } else {
           setPanelStatus(unlockStatus, "Creating Razorpay checkout…");
           const data = await postJson("/api/razorpay/create-link", {
@@ -493,10 +481,6 @@
     document.getElementById("unlock-form").addEventListener("submit", async (event) => {
       event.preventDefault();
       await beginCheckout("paypal");
-    });
-
-    document.getElementById("dodo-button").addEventListener("click", async () => {
-      await beginCheckout("dodo");
     });
 
     document.getElementById("razorpay-button").addEventListener("click", async () => {
