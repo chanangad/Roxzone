@@ -619,13 +619,29 @@
 
   <script src="../i18n.js"></script>
   <script>
-    // Highlight the active sidebar link based on scroll position
+    // Keep the chip bar's sticky offset matched to the live topbar height,
+    // so both stay locked at the top with no overlap when breakpoints change.
     (function () {
-      var sections = Array.from(document.querySelectorAll("[id]"));
+      var topbar = document.querySelector(".topbar");
+      if (!topbar) return;
+      function syncOffset() {
+        document.documentElement.style.setProperty("--topbar-h", topbar.offsetHeight + "px");
+      }
+      window.addEventListener("resize", syncOffset);
+      syncOffset();
+    })();
+
+    // Highlight the active sidebar link based on scroll position.
+    // Desktop: highlights the deepest active subsection link.
+    // Mobile (chip bar): highlights the parent chapter chip and auto-scrolls it into view.
+    (function () {
+      var allSections = Array.from(document.querySelectorAll("[id]"));
+      var chapterSections = Array.from(document.querySelectorAll(".manual-chapter[id]"));
       var links = Array.from(document.querySelectorAll(".manual-sidebar a[href^='#']"));
+      var chipBar = document.querySelector(".manual-sidebar > ol");
       if (!links.length) return;
 
-      function getActive() {
+      function getActiveId(sections) {
         var scrollY = window.scrollY + 120;
         var active = null;
         for (var i = 0; i < sections.length; i++) {
@@ -637,16 +653,30 @@
       }
 
       function update() {
-        var id = getActive();
+        var isMobile = window.innerWidth <= 980;
+        var id = isMobile ? getActiveId(chapterSections) : getActiveId(allSections);
+        var activeLink = null;
+
         links.forEach(function (a) {
           var matches = a.getAttribute("href") === "#" + id;
           a.style.color = matches ? "var(--primary)" : "";
           a.style.fontWeight = matches ? "800" : "";
           a.style.background = matches ? "var(--surface-high)" : "";
+          if (matches) activeLink = a;
         });
+
+        // On mobile, slide the chip bar horizontally so the active chip is visible.
+        if (isMobile && activeLink && chipBar) {
+          var chip = activeLink.closest("li");
+          if (chip) {
+            var target = chip.offsetLeft - (chipBar.clientWidth - chip.offsetWidth) / 2;
+            chipBar.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
+          }
+        }
       }
 
       window.addEventListener("scroll", update, { passive: true });
+      window.addEventListener("resize", update);
       update();
     })();
   </script>

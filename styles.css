@@ -1457,8 +1457,61 @@ font[style*="background-color"] {
     }
 
     .manual-sidebar {
-        position: static;
+        position: sticky;
+        top: var(--topbar-h, 5.5rem);
+        z-index: 5;
         max-height: none;
+        margin: -1.2rem -0.75rem 0.5rem;
+        padding: 0.75rem 0.85rem;
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+        border-bottom: 1px solid var(--outline);
+        background: rgba(15, 15, 15, 0.96);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .manual-sidebar__title {
+        display: none;
+    }
+
+    .manual-sidebar > ol {
+        display: flex;
+        gap: 0.45rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        margin: 0;
+        padding: 0;
+    }
+
+    .manual-sidebar > ol::-webkit-scrollbar {
+        display: none;
+    }
+
+    .manual-sidebar > ol > li {
+        margin: 0;
+        flex-shrink: 0;
+    }
+
+    .manual-sidebar__chapter {
+        display: inline-block;
+        padding: 0.5rem 0.9rem;
+        border-radius: 999px;
+        background: var(--surface-low);
+        border: 1px solid var(--outline);
+        color: var(--muted);
+        white-space: nowrap;
+        font-size: 0.85rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .manual-sidebar__sub {
+        display: none;
     }
 
     .manual-toggle-grid {
