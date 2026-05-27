@@ -579,7 +579,7 @@ font[style*="background-color"] {
 
 .panel__grid {
     display: grid;
-    grid-template-columns: minmax(300px, 1fr) minmax(280px, 1fr);
+    grid-template-columns: minmax(300px, 1fr) minmax(320px, 1fr);
     gap: 2rem;
     align-items: start;
 }
@@ -589,18 +589,20 @@ font[style*="background-color"] {
     margin-top: 0.15rem;
 }
 
-.form-grid,
-.payment-stack {
+.form-grid {
     display: grid;
     gap: 1.45rem;
-}
-
-.form-grid {
     align-content: start;
 }
 
 .payment-stack {
+    display: grid;
+    gap: 1.75rem;
     align-content: start;
+}
+
+.payment-option--ghost {
+    display: none;
 }
 
 .field {
@@ -624,8 +626,8 @@ font[style*="background-color"] {
     width: 100%;
     border: 0;
     border-radius: 1rem;
-    min-height: 5.5rem;
-    padding: 1.15rem 1.3rem;
+    min-height: 3.75rem;
+    padding: 0.85rem 1.2rem;
     background: var(--surface-highest);
     color: var(--ink);
     font-size: 1rem;
@@ -651,7 +653,7 @@ font[style*="background-color"] {
 
 .payment-option {
     display: grid;
-    grid-template-rows: 1.2rem minmax(5.5rem, auto);
+    grid-template-rows: 1.2rem minmax(3.75rem, auto);
     gap: 0.6rem;
     align-content: start;
 }
@@ -661,10 +663,10 @@ font[style*="background-color"] {
     place-items: center;
     border: 0;
     border-radius: 1rem;
-    height: 5.5rem;
+    height: 3.75rem;
     width: 100%;
     padding: 0 1.4rem;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 900;
     line-height: 1;
     letter-spacing: -0.02em;
@@ -678,6 +680,36 @@ font[style*="background-color"] {
 
 .pay-button:active {
     transform: scale(0.99);
+}
+
+.payment-group {
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+}
+
+.payment-group > .hint-copy {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    min-height: 1.2rem;
+}
+
+.payment-group > .hint-copy::after {
+    content: "";
+}
+
+.payment-group__buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.pay-button--dodo {
+    background: var(--primary);
+    color: #0a1628;
 }
 
 .pay-button--razorpay {
@@ -695,15 +727,11 @@ font[style*="background-color"] {
     color: var(--primary-ink);
 }
 
-.payment-option--ghost {
-    visibility: hidden;
-}
-
 .prefix-input {
     display: flex;
     align-items: center;
     border-radius: 1rem;
-    min-height: 5.5rem;
+    min-height: 3.75rem;
     background: var(--surface-highest);
 }
 
@@ -713,7 +741,7 @@ font[style*="background-color"] {
 
 .prefix-input__prefix {
     flex-shrink: 0;
-    padding: 1.15rem 0.25rem 1.15rem 1.3rem;
+    padding: 0.85rem 0.25rem 0.85rem 1.2rem;
     color: var(--muted);
     font-size: 1rem;
     font-weight: 700;
@@ -729,7 +757,7 @@ font[style*="background-color"] {
     min-height: unset;
     border-radius: 0;
     background: transparent;
-    padding: 1.15rem 1.3rem 1.15rem 0;
+    padding: 0.85rem 1.2rem 0.85rem 0;
 }
 
 .prefix-input input:focus {
@@ -798,6 +826,12 @@ font[style*="background-color"] {
 
     .hero__image-card {
         min-height: 420px;
+    }
+}
+
+@media (max-width: 720px) {
+    .payment-group__buttons {
+        grid-template-columns: 1fr;
     }
 }
 
