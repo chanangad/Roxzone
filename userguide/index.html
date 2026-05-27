@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Guide – Roxzone</title>
+  <meta name="description"
+    content="Complete user guide for Roxzone - the HYROX training app for Garmin watches. Learn how to set up, configure, and race with every feature.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+  <header class="topbar">
+    <a href="../" class="topbar__brand notranslate" translate="no">ROXZONE</a>
+    <nav class="topbar__nav">
+      <a href="../" class="topbar__tab topbar__tab--dim">Store</a>
+      <a href="./" class="topbar__tab topbar__tab--active">Guide</a>
+      <a href="../faq/" class="topbar__tab topbar__tab--dim">FAQ</a>
+    </nav>
+    <div class="topbar__lang" data-lang-picker></div>
+  </header>
+
+  <main class="page-shell">
+    <div class="manual-layout">
+
+      <!-- ── Sidebar Index ──────────────────────────── -->
+      <aside class="manual-sidebar">
+        <p class="manual-sidebar__title">Contents</p>
+        <ol>
+          <li>
+            <a href="#getting-started" class="manual-sidebar__chapter">1. Getting Started</a>
+            <ul class="manual-sidebar__sub">
+              <li><a href="#supported-watches">Supported watches</a></li>
+              <li><a href="#download">Downloading the app</a></li>
+              <li><a href="#first-launch">First launch</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#unlocking" class="manual-sidebar__chapter">2. Unlocking</a>
+            <ul class="manual-sidebar__sub">
+              <li><a href="#claim-code">Your claim code</a></li>
+              <li><a href="#purchase">Purchasing &amp; unlocking</a></li>
+              <li><a href="#manual-unlock">Manual unlock</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#restoring" class="manual-sidebar__chapter">3. Restoring a License</a>
+            <ul class="manual-sidebar__sub">
+              <li><a href="#restore-steps">Restore steps</a></li>
+              <li><a href="#new-watch">Moving to a new watch</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#modes" class="manual-sidebar__chapter">4. Workout Modes</a>
+            <ul class="manual-sidebar__sub">
+              <li><a href="#full-hyrox">Full Hyrox</a></li>
+              <li><a href="#partial-hyrox">Partial Hyrox</a></li>
+              <li><a href="#custom-hyrox">Custom Hyrox</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#settings" class="manual-sidebar__chapter">5. Workout Settings</a>
+            <ul class="manual-sidebar__sub">
+              <li><a href="#run-pace">Run Pace</a></li>
+              <li><a href="#roxzone-toggles">Roxzone toggles</a></li>
+              <li><a href="#gps-mode">GPS Mode (Outdoor)</a></li>
+              <li><a href="#indoor-run">Indoor Run Pace</a></li>
+              <li><a href="#warm-up">Warm-Up</a></li>
+              <li><a href="#touchscreen">Touchscreen lock</a></li>
+              <li><a href="#review-start">Review &amp; Start</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#custom-deep-dive" class="manual-sidebar__chapter">6. Custom Hyrox Setup</a>
+            <ul class="manual-sidebar__sub">
+              <li><a href="#custom-stations">Toggling stations</a></li>
+              <li><a href="#custom-weights">Weights &amp; categories</a></li>
+              <li><a href="#custom-distances">Distances &amp; reps</a></li>
+              <li><a href="#custom-run-distance">Run distance</a></li>
+              <li><a href="#custom-reorder">Reordering stations</a></li>
+              <li><a href="#run-between">Run Between Stations</a></li>
+              <li><a href="#custom-save">Saved configuration</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#during-workout" class="manual-sidebar__chapter">7. During the Workout</a>
+            <ul class="manual-sidebar__sub">
+              <li><a href="#advancing">Advancing segments</a></li>
+              <li><a href="#main-screen">Main screen</a></li>
+              <li><a href="#gps-screen">Run data screen</a></li>
+              <li><a href="#undo">Undo last lap</a></li>
+              <li><a href="#pausing">Pausing &amp; resuming</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#after-workout" class="manual-sidebar__chapter">8. After the Workout</a>
+            <ul class="manual-sidebar__sub">
+              <li><a href="#garmin-connect">Garmin Connect</a></li>
+              <li><a href="#splits">Reading your splits</a></li>
+              <li><a href="#strava">Strava sync</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#troubleshooting" class="manual-sidebar__chapter">9. Troubleshooting</a>
+            <ul class="manual-sidebar__sub">
+              <li><a href="#still-locked">Still locked after payment</a></li>
+              <li><a href="#check-connection">Check Connection message</a></li>
+              <li><a href="#crash">App crash or error</a></li>
+              <li><a href="#setup-not-saved">Setup not saved</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#contact" class="manual-sidebar__chapter">10. Support &amp; Feedback</a>
+            <ul class="manual-sidebar__sub">
+              <li><a href="#contact-email">Contact the developer</a></li>
+              <li><a href="#reviews">Leave a review</a></li>
+            </ul>
+          </li>
+        </ol>
+      </aside>
+
+      <!-- ── Main Content ───────────────────────────── -->
+      <div class="manual-content">
+
+        <h1 class="panel__title" style="margin-bottom:0.4rem;">User Guide</h1>
+        <p class="manual-content__intro">
+          Everything you need to get the most out of Roxzone - from first install on race day to dialling in your custom
+          sim training. Work through the chapters in order for a complete picture, or jump straight to the topic you
+          need via the index.
+        </p>
+
+        <div class="manual-quickstart">
+          <p class="manual-quickstart__label">Quick Start</p>
+          <h2 class="manual-quickstart__title">Full Hyrox Race Tracking</h2>
+          <ol class="manual-quickstart__steps">
+            <li><span>Open Roxzone → select <strong>Full Hyrox</strong></span></li>
+            <li><span>Choose your <strong>race category</strong></span></li>
+            <li><span>Set your <strong>target run pace</strong></span></li>
+            <li><span>Configure Roxzone transitions and GPS (outdoor races: turn GPS on)</span></li>
+            <li><span>Review your setup → press <strong>Start</strong></span></li>
+            <li><span>Press <strong>Lap</strong> to advance between each run, transition, and station</span></li>
+          </ol>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- Chapter 1 - Getting Started                    -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <section class="manual-chapter" id="getting-started">
+          <p class="manual-chapter__eyebrow">Chapter 1</p>
+          <h2 class="manual-chapter__title">Getting Started</h2>
+          <p class="manual-chapter__lede">Roxzone is a Connect IQ app that runs entirely on your Garmin watch - no phone needed once it's installed. Here's how to get it on your wrist and ready to train.</p>
+
+          <div class="manual-section" id="supported-watches">
+            <h3 class="manual-section__title">Supported Watches</h3>
+            <p>Roxzone runs on a wide range of Garmin watches that support Connect IQ 3.2 or later, including popular series such as the Forerunner, Fenix, Epix, Venu, and Vivoactive. The full and up-to-date device list lives on the <a href="https://apps.garmin.com/apps/95ff2e3b-7417-4bcf-8ced-7e4b70113616" target="_blank" rel="noreferrer">Garmin Connect IQ page</a>.</p>
+            <p>Screen-size variants are handled automatically - Roxzone ships optimised layouts for round faces across multiple resolutions so the display always feels sharp and readable mid-effort.</p>
+          </div>
+
+          <div class="manual-section" id="download">
+            <h3 class="manual-section__title">Downloading the App</h3>
+            <ol>
+              <li>Open the <strong>Garmin Connect IQ Store</strong> on your phone or visit <a href="https://apps.garmin.com/apps/95ff2e3b-7417-4bcf-8ced-7e4b70113616" target="_blank" rel="noreferrer">apps.garmin.com</a> and search for <strong>Roxzone</strong>.</li>
+              <li>Tap <strong>Install</strong>.</li>
+              <li>Make sure your watch is paired with Garmin Connect on your phone and in Bluetooth range - the app pushes to your watch within a few seconds.</li>
+              <li>Once installed, Roxzone appears in your watch's activity or app menu depending on your device.</li>
+            </ol>
+            <div class="manual-callout">
+              <strong>Tip</strong>
+              You can also install directly from your watch's Connect IQ app browser if your device supports it.
+            </div>
+          </div>
+
+          <div class="manual-section" id="first-launch">
+            <h3 class="manual-section__title">First Launch</h3>
+            <p>When you open Roxzone for the first time it will show the <strong>locked screen</strong> with your unique claim code. This is expected - Roxzone requires a one-time purchase to unlock. Your claim code identifies your watch and is needed to complete the purchase.</p>
+            <p>Head to <a href="../">Chapter 2 - Unlocking</a> to complete your purchase and activate the app. Once unlocked, the claim code screen disappears and you're taken straight to the Mode Select screen on every subsequent launch.</p>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- Chapter 2 - Unlocking                          -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <section class="manual-chapter" id="unlocking">
+          <p class="manual-chapter__eyebrow">Chapter 2</p>
+          <h2 class="manual-chapter__title">Unlocking Your License</h2>
+          <p class="manual-chapter__lede">Roxzone is a one-time purchase - pay once and it's yours for life on that watch, with no recurring fees. The license is tied to your specific watch via a claim code.</p>
+
+          <div class="manual-section" id="claim-code">
+            <h3 class="manual-section__title">Your Claim Code</h3>
+            <p>When you first open Roxzone, the screen displays your unique <strong>claim code</strong> - a unique identifier in the format <code>RZ-12345678</code>. This code is specific to your watch and is required to link your purchase to your device.</p>
+            <p>You can retrieve your claim code at any time from the locked screen, or via <strong>Manual Unlock</strong> in the in-app menu. Keep a note of it - you'll need it again if you ever reinstall the app.</p>
+          </div>
+
+          <div class="manual-section" id="purchase">
+            <h3 class="manual-section__title">Purchasing &amp; Unlocking</h3>
+            <ol>
+              <li>Open Roxzone on your watch and note your claim code.</li>
+              <li>Visit the <a href="../">Store</a> page on this site. The Purchase/Unlock tab will be pre-selected.</li>
+              <li>Enter your claim code in the <strong>Watch claim code</strong> field.</li>
+              <li>Enter the email address you want the license registered to - use one you can access long-term, as it's needed for future restores.</li>
+              <li>Complete payment via <strong>PayPal</strong> or <strong>Razorpay / UPI</strong>.</li>
+              <li>After a successful payment you'll land on the confirmation page. Your license is now live.</li>
+              <li>Return to your watch, ensure it's connected to Garmin Connect on your phone, then scroll down on the locked screen and tap <strong>Refresh License</strong>. The app unlocks immediately.</li>
+            </ol>
+            <div class="manual-callout manual-callout--pro">
+              <strong>Pro tip</strong>
+              <p>If you open the Store page directly from the QR code or link on your watch, your claim code is filled in automatically - you just add your email and pay.</p>
+            </div>
+          </div>
+
+          <div class="manual-section" id="manual-unlock">
+            <h3 class="manual-section__title">Manual Unlock</h3>
+            <p>If the automatic deep-link doesn't work on your device, you can always do it manually. On the locked screen, scroll down and tap <strong>Manual Unlock</strong>. This shows your claim code in a format you can type into the Store page on any browser.</p>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- Chapter 3 - Restoring                          -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <section class="manual-chapter" id="restoring">
+          <p class="manual-chapter__eyebrow">Chapter 3</p>
+          <h2 class="manual-chapter__title">Restoring Your License</h2>
+          <p class="manual-chapter__lede">Reinstalling the app or switching to a new watch assigns a fresh claim code. The Restore flow re-links your existing purchase to the new code - no repayment needed.</p>
+
+          <div class="manual-section" id="restore-steps">
+            <h3 class="manual-section__title">Restore Steps</h3>
+            <ol>
+              <li>Open Roxzone on the watch where you want to activate. Note the new claim code displayed on the locked screen.</li>
+              <li>Go to the <a href="../?tab=restore">Store → Restore</a> tab.</li>
+              <li>Enter the new claim code and the <strong>exact email address</strong> used for your original purchase.</li>
+              <li>Tap <strong>Restore Previous License</strong>. The system looks up your purchase record and re-authorises the new code.</li>
+              <li>Return to your watch and tap <strong>Refresh License</strong>. The app unlocks straight away.</li>
+            </ol>
+            <div class="manual-callout">
+              <strong>Note</strong>
+              If you've forgotten your purchase email, check your inbox for the original payment receipt - that email address is the one tied to your license.
+            </div>
+          </div>
+
+          <div class="manual-section" id="new-watch">
+            <h3 class="manual-section__title">Moving to a New Watch</h3>
+            <p>Your Roxzone license isn't locked to a single physical watch forever. When you upgrade your Garmin, install Roxzone on the new watch, open it to get the new claim code, and follow the Restore steps above. The license transfers immediately.</p>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- Chapter 4 - Workout Modes                      -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <section class="manual-chapter" id="modes">
+          <p class="manual-chapter__eyebrow">Chapter 4</p>
+          <h2 class="manual-chapter__title">Workout Modes</h2>
+          <p class="manual-chapter__lede">Every time you open Roxzone you're greeted with the Mode Select screen. Three modes cover everything from official race-day tracking to fully bespoke training sessions.</p>
+
+          <div class="manual-section" id="full-hyrox">
+            <h3 class="manual-section__title">Full Hyrox</h3>
+            <p>The complete official HYROX race format: <strong>8 run legs</strong> followed by <strong>8 functional fitness stations</strong> in the standard race order. Choose your race category, dial in your target run pace, configure your Roxzone and GPS settings, then go.</p>
+            <p>Supported race categories with official station weights pre-loaded:</p>
+            <ul>
+              <li>Men's Open / Women's Open</li>
+              <li>Men's Pro / Women's Pro</li>
+              <li>Men's Doubles / Women's Doubles</li>
+              <li>Men's Pro Doubles / Women's Pro Doubles</li>
+              <li>Mixed Doubles</li>
+            </ul>
+            <p>Full Hyrox gives you the most granular Roxzone configuration - separate toggles for the run-to-station and station-to-run transitions. See <a href="#roxzone-toggles">Roxzone Toggles</a> in Chapter 5 for the full breakdown.</p>
+          </div>
+
+          <div class="manual-section" id="partial-hyrox">
+            <h3 class="manual-section__title">Partial Hyrox (Simulate)</h3>
+            <p>A scaled race simulation designed for high-quality training sessions when you don't have the time or recovery budget for the full event. Pick your race category and then select your volume fraction:</p>
+            <ul>
+              <li><strong>Quarter (25%)</strong> - a sharp, fast session ideal for race-pace sharpening or a speed-focused day.</li>
+              <li><strong>Half (50%)</strong> - the most popular training format; captures the race rhythm without the full fatigue cost.</li>
+              <li><strong>Three-quarter (75%)</strong> - close to full race stress; great for late-block race simulation or building mental toughness.</li>
+            </ul>
+            <p>Roxzone automatically scales both run distance and station volume to match the selected percentage. Station weights remain at the full category standard — only the volume is reduced.</p>
+            <div class="manual-callout manual-callout--pro">
+              <strong>Training Insight</strong>
+              Running a half or three-quarter sim at your race-day pace is one of the best ways to validate your run split targets. The data you pull from these sessions feeds directly into your Full Hyrox race strategy.
+            </div>
+          </div>
+
+          <div class="manual-section" id="custom-hyrox">
+            <h3 class="manual-section__title">Custom Hyrox</h3>
+            <p>Total freedom. Choose which of the 8 stations to include, set custom weights and distances or rep counts per station, reorder the sequence, control run placement, and set the run distance. Everything you configure is saved automatically and reloaded next session.</p>
+            <p>Custom Hyrox is covered in detail in <a href="#custom-deep-dive">Chapter 6</a>.</p>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- Chapter 5 - Workout Settings                   -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <section class="manual-chapter" id="settings">
+          <p class="manual-chapter__eyebrow">Chapter 5</p>
+          <h2 class="manual-chapter__title">Workout Settings</h2>
+          <p class="manual-chapter__lede">Before every session, the Review &amp; Start screen lets you fine-tune the settings that shape how Roxzone tracks and guides your effort. Each setting is explained below.</p>
+
+          <div class="manual-section" id="run-pace">
+            <h3 class="manual-section__title">Run Pace</h3>
+            <p>Set your expected pace per kilometre for every run leg in the session. Roxzone uses this as your personal benchmark throughout the workout — it determines whether the bezel arc shows <strong>green</strong> (on pace) or <strong>red</strong> (behind), and colours the live pace reading on the run data screen. During any run segment, press <strong>Down</strong> to bring up that screen.</p>
+            <div class="manual-callout manual-callout--pro">
+              <strong>Race Strategy Tip</strong>
+              Set your Run Pace 5–10 seconds per kilometre slower than your absolute max. Roxzone rewards honest, sustainable splits - banking time early only to blow up on the back half hurts your overall finish time more than a steady negative split.
+            </div>
+          </div>
+
+          <div class="manual-section" id="roxzone-toggles">
+            <h3 class="manual-section__title">Roxzone Toggles - Tracking Your Transitions</h3>
+            <p>
+              The <strong>Roxzone</strong> is the transition area between the running track and the functional fitness stations - the buffer of time between the moment you stop running and the moment you start a station (and vice versa). Whether or not you track it separately is one of the most impactful data decisions you can make as a HYROX athlete.
+            </p>
+            <p>
+              In a real race, a careless transition can cost you 10–30 seconds per station. Over 8 stations, that's several minutes quietly leaking out of your finish time with nothing to show for it in your splits. The Roxzone toggles let you see exactly where that time goes - and whether you're improving it.
+            </p>
+
+            <h4 style="color:var(--ink);font-size:1rem;font-weight:800;margin:1.2rem 0 0.5rem;">Full Hyrox - Two Independent Toggles</h4>
+            <p>In Full Hyrox mode, you get separate control over each direction of transition:</p>
+            <div class="manual-toggle-grid">
+              <div class="manual-toggle-card">
+                <h4>Run → Station <span class="manual-tag">Rox Before</span></h4>
+                <p>Captures the time between finishing your run leg and beginning your station work. This is your entry transition - the seconds it takes to exit the running track, reach the equipment, and get into position.</p>
+              </div>
+              <div class="manual-toggle-card">
+                <h4>Station → Run <span class="manual-tag manual-tag--orange">Rox After</span></h4>
+                <p>Captures the time between completing your station and starting the next run. This is your exit transition - the moments spent recovering from the station effort, repositioning, and getting back into running stride.</p>
+              </div>
+            </div>
+
+            <p style="margin-top:1rem;">When either toggle is <strong>on</strong>, pressing Lap at the relevant moment starts a dedicated Roxzone split — the display shifts so you always know you're in transition time, not run or station time. Press Lap again to end the transition and begin the next segment.</p>
+            <p>When a toggle is <strong>off</strong>, transition time merges into the adjacent lap. Simpler, but you lose the granularity to see exactly where time is going.</p>
+
+            <h4 style="color:var(--ink);font-size:1rem;font-weight:800;margin:1.2rem 0 0.5rem;">Which combination should I use?</h4>
+            <p>The choice comes down to how granular you want your post-workout data:</p>
+            <ul>
+              <li><strong>Both ON (recommended for race analysis)</strong> - maximum resolution. You get pure run time, pure station time, and both transition splits as separate laps in Garmin Connect. Ideal when you're seriously analysing your race pacing or trying to quantify transition efficiency.</li>
+              <li><strong>Rox Before only</strong> - useful if your entry to stations is a known weak point (e.g. you tend to jog slowly into the Sled Push zone). Your station times stay clean; only the entry buffer is isolated.</li>
+              <li><strong>Rox After only</strong> - isolates your exit and recovery transition. Good for athletes who suspect they're over-resting before getting back to running.</li>
+              <li><strong>Both OFF</strong> - simplified, no transition tracking. Your run laps include the time from leaving the previous station to starting the next station. Best for athletes who want clean, high-level data without additional Lap presses during transitions.</li>
+            </ul>
+
+            <div class="manual-callout">
+              <strong>In Custom Hyrox</strong>
+              <p>Custom Hyrox uses a single Roxzone toggle that covers both directions simultaneously. You can't split them independently in Custom mode.</p>
+            </div>
+
+            <div class="manual-callout manual-callout--pro">
+              <strong>The extra Lap press</strong>
+              Each active Roxzone direction adds one Lap press per station. It takes a session or two to build the rhythm, after which it becomes completely natural. The data payoff is worth it.
+            </div>
+          </div>
+
+          <div class="manual-section" id="gps-mode">
+            <h3 class="manual-section__title">GPS Mode (Outdoor)</h3>
+            <p>GPS Mode activates your watch's satellite positioning for outdoor runs. With it on, Roxzone tracks your actual distance per run leg and gives you a haptic buzz when you've hit your target — your cue to press Lap. The run data screen shows live distance and pace, colour-coded against your target.</p>
+            <p>GPS Mode always defaults to off — enable it only when heading outside. If GPS Mode is on, keep Warm-Up enabled too so the watch gets a signal fix before your first run.</p>
+          </div>
+
+          <div class="manual-section" id="indoor-run">
+            <h3 class="manual-section__title">Indoor Run Pace &amp; Distance</h3>
+            <p>Running indoors? Roxzone gives you live pace and distance even without GPS — ideal for indoor tracks, treadmills, and gym-based HYROX simulations. The estimate gets sharper over time: each completed run leg refines the accuracy, and your watch remembers the improvement across future workouts.</p>
+            <p>The progress arc and haptic buzz work the same way as GPS mode, using the wrist-estimated distance.</p>
+          </div>
+
+          <div class="manual-section" id="warm-up">
+            <h3 class="manual-section__title">Warm-Up</h3>
+            <p>When Warm-Up is enabled (the default), Roxzone opens a dedicated warm-up timer screen before your race or session begins. Your warm-up time is saved as a separate lap in Garmin Connect so it never inflates your actual workout time or splits.</p>
+            <p>You can pause and resume the warm-up freely, or save it early when you're ready to begin. To start your session without a warm-up phase at all, turn the toggle off - the workout begins immediately.</p>
+            <p>If you have GPS Mode on, keep Warm-Up enabled - it gives the GPS time to acquire a strong fix before your first run leg, which meaningfully improves early distance accuracy.</p>
+          </div>
+
+          <div class="manual-section" id="touchscreen">
+            <h3 class="manual-section__title">Touchscreen Lock</h3>
+            <p>On touchscreen-capable Garmin watches, the Touchscreen toggle controls whether the display responds to touch <em>during</em> your session. Turning it off prevents accidental taps - particularly useful during Sled Push, Rowing, and other stations where your hands contact the watch face.</p>
+            <p>Physical buttons continue to work regardless of this setting, so you can still press Lap, open the menu, and navigate screens with full control.</p>
+          </div>
+
+          <div class="manual-section" id="review-start">
+            <h3 class="manual-section__title">Review &amp; Start</h3>
+            <p>The Review &amp; Start screen appears before every session and gives you a final overview of your workout - run count, station list, and current settings. You can adjust Run Pace, Warm-Up, GPS Mode, Roxzone, and Touchscreen from here without navigating back through the full setup menus.</p>
+            <p>Tap <strong>Edit Setup</strong> if you need to make deeper changes (weight category, station details, reordering). When everything looks right, press <strong>Start</strong> to begin.</p>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- Chapter 6 - Custom Hyrox Deep Dive             -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <section class="manual-chapter" id="custom-deep-dive">
+          <p class="manual-chapter__eyebrow">Chapter 6</p>
+          <h2 class="manual-chapter__title">Custom Hyrox - Full Setup Guide</h2>
+          <p class="manual-chapter__lede">Custom Hyrox is where Roxzone becomes a fully programmable training tool. Every parameter is yours to configure, and everything saves automatically.</p>
+
+          <div class="manual-section" id="custom-stations">
+            <h3 class="manual-section__title">Toggling Stations</h3>
+            <p>On the Custom Hyrox config screen you'll see a list of all 8 HYROX stations. Each has an on/off toggle. Only the stations you enable will appear in your workout - stations that are off are skipped entirely.</p>
+            <p>This is perfect for targeting specific weaknesses: a SkiErg + Sled Push block, a pure running-and-rowing session, or a Farmers Carry + SB Lunges endurance circuit.</p>
+          </div>
+
+          <div class="manual-section" id="custom-weights">
+            <h3 class="manual-section__title">Weights &amp; Categories</h3>
+            <p>Under <strong>Weight Category</strong>, choose any official race category to load the standard weights for all five weighted stations. Or select <strong>Station Weights</strong> to enter fully custom values:</p>
+            <ul>
+              <li><strong>Sled Push</strong> and <strong>Sled Pull</strong> - whole-kg value (e.g. 102 kg). Use the digit picker to scroll each place value independently.</li>
+              <li><strong>Farmers Carry</strong>, <strong>SB Lunges</strong>, and <strong>Wall Balls</strong> - decimal-kg value (e.g. 24.5 kg).</li>
+            </ul>
+            <p>Use the scroll buttons to set each value — the watch guides you through each field and saves automatically when you confirm.</p>
+            <p>Your custom weights are remembered and restored every time you open Custom Hyrox.</p>
+          </div>
+
+          <div class="manual-section" id="custom-distances">
+            <h3 class="manual-section__title">Distances &amp; Reps</h3>
+            <p>Open <strong>Edit Station Details</strong> to fine-tune volume per station. Each station offers a range of preset values or a <strong>Custom…</strong> option for fully bespoke entry - distances in metres for machine and carry stations, and a rep count for Wall Balls.</p>
+            <p>Selecting Custom… opens a fine-grained scrollable picker for each station type. Your custom distances and reps are saved alongside your other Custom Hyrox settings.</p>
+          </div>
+
+          <div class="manual-section" id="custom-run-distance">
+            <h3 class="manual-section__title">Run Distance</h3>
+            <p>Tap <strong>Run Distance</strong> on the config screen to set the length of every run leg in the workout. The same distance applies to all run legs in a session.</p>
+            <p>For a standard HYROX sim use 1000m. For shorter rep-based sessions, 400m or 600m keeps the run-to-station rhythm intense without accumulating too much running volume.</p>
+          </div>
+
+          <div class="manual-section" id="custom-reorder">
+            <h3 class="manual-section__title">Reordering Stations</h3>
+            <p>Tap <strong>Reorder</strong> on the config screen to rearrange your stations in any order you like. Your sequence is saved and remembered for all future Custom Hyrox sessions.</p>
+            <div class="manual-callout manual-callout--pro">
+              <strong>Training Tip</strong>
+              Reordering lets you program intentional fatigue pairings - for example, stacking Sled Push directly before SkiErg to practise pushing hard on upper body in a pre-fatigued state, replicating late-race conditions.
+            </div>
+          </div>
+
+          <div class="manual-section" id="run-between">
+            <h3 class="manual-section__title">Run Between Stations</h3>
+            <p>When <strong>Run Between Stations</strong> is on (the default), Roxzone places a run leg before each station, reproducing the standard HYROX format: Run → Station → Run → Station…</p>
+            <p>When turned <strong>off</strong>, you switch to free-placement mode. In the Reorder screen you can manually insert RUN slots anywhere in the sequence - multiple stations back-to-back, multiple runs in a row, or any other pattern you need. This unlocks circuit formats that go well beyond the standard HYROX structure.</p>
+          </div>
+
+          <div class="manual-section" id="custom-save">
+            <h3 class="manual-section__title">Saved Configuration</h3>
+            <p>Your entire Custom Hyrox setup — stations, order, weights, distances, and run distance — is saved automatically and restored exactly as you left it next time. Running a Full or Partial session in between never touches your custom configuration.</p>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- Chapter 7 - During the Workout                 -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <section class="manual-chapter" id="during-workout">
+          <p class="manual-chapter__eyebrow">Chapter 7</p>
+          <h2 class="manual-chapter__title">During the Workout</h2>
+          <p class="manual-chapter__lede">Once your session is running, Roxzone stays out of your way and keeps your most important data front and centre. Here's how to interact with it at full sprint.</p>
+
+          <div class="manual-section" id="advancing">
+            <h3 class="manual-section__title">Advancing Between Segments</h3>
+            <p>Press the <strong>Lap button</strong> to move from one segment to the next. Each press locks in a clean split — your run time, station time, and any Roxzone transition time are all recorded separately in Garmin Connect.</p>
+            <p>With Roxzone toggles on, you'll press Lap at each transition boundary — entering and exiting the Roxzone area. With toggles off, a single Lap press moves you directly from run to station and back, keeping the rhythm simpler.</p>
+          </div>
+
+          <div class="manual-section" id="main-screen">
+            <h3 class="manual-section__title">Main Workout Screen</h3>
+            <p>The primary screen shows everything you need to stay on target during the heat of a session:</p>
+            <ul>
+              <li><strong>Current segment name</strong> and station icon - always know exactly where you are in the workout.</li>
+              <li><strong>Segment elapsed time</strong> - how long you've been in the current run, station, or Roxzone transition.</li>
+<li><strong>Total workout time</strong> - full elapsed time from the moment the workout started.</li>
+              <li><strong>Heart rate</strong> with a colour-coded zone indicator - keep an eye on your aerobic load especially through stations.</li>
+              <li><strong>Bezel progress arc</strong> - fills as you progress through the total workout. During any run segment it reflects your distance progress (GPS-measured outdoors, wrist-estimated indoors), turning <strong>green</strong> when you're ahead of target pace and <strong>red</strong> when you're behind.</li>
+              <li><strong>Next segment indicator</strong> - a preview of what's coming up so you can mentally prepare for the transition.</li>
+            </ul>
+            <p>During Roxzone transitions, the display shifts to a distinct neutral tone - a clear visual signal that you're in transition time, separate from both your run and station clocks.</p>
+          </div>
+
+          <div class="manual-section" id="gps-screen">
+            <h3 class="manual-section__title">Run Data Screen</h3>
+            <p>A second data screen is available during every run segment - whether GPS Mode is on or off. Swipe left or press Down to bring it up. It shows:</p>
+            <ul>
+              <li><strong>Segment timer</strong> - elapsed time for the current run leg.</li>
+              <li><strong>Distance covered</strong> - how far you've run in this leg.</li>
+              <li><strong>Live pace</strong> - colour-coded green when you're on or ahead of target, red when you're behind.</li>
+            </ul>
+            <p>This screen is only available during run segments.</p>
+          </div>
+
+          <div class="manual-section" id="undo">
+            <h3 class="manual-section__title">Undo Last Lap</h3>
+            <p>Pressed Lap too early? After every Lap press a brief confirmation screen appears — use it to undo immediately and pick up exactly where you left off. You can also access <strong>Undo Last Lap</strong> from the pause menu at any time. Undo covers the most recent Lap press only.</p>
+          </div>
+
+          <div class="manual-section" id="pausing">
+            <h3 class="manual-section__title">Pausing &amp; Resuming</h3>
+            <p>Access the in-workout pause menu via long-press or the menu button. While paused, your segment timer is frozen - pause time is never counted in your splits. Resume when ready to continue from exactly where you left off.</p>
+            <p>At the end of the workout, use the menu to <strong>Save &amp; Exit</strong>. The activity syncs to Garmin Connect the next time your watch connects to your phone.</p>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- Chapter 8 - After the Workout                  -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <section class="manual-chapter" id="after-workout">
+          <p class="manual-chapter__eyebrow">Chapter 8</p>
+          <h2 class="manual-chapter__title">After the Workout</h2>
+          <p class="manual-chapter__lede">Your Roxzone session syncs to Garmin Connect as a fully structured activity - lap by lap, segment by segment - giving you a clean data record to review and share.</p>
+
+          <div class="manual-section" id="garmin-connect">
+            <h3 class="manual-section__title">Garmin Connect Sync</h3>
+            <p>Once saved, the workout automatically syncs to Garmin Connect the next time your watch connects to your phone via Bluetooth or Wi-Fi. The activity is recorded as a <strong>Run</strong> activity named <strong>HYROX</strong> - appearing as <strong>Outdoor Run</strong> when GPS Mode was on, or <strong>Indoor Run</strong> for GPS-off sessions.</p>
+            <p>Heart rate, GPS track (if GPS Mode was on), elapsed time, and lap-level data are all captured and visible in the full activity view.</p>
+          </div>
+
+          <div class="manual-section" id="splits">
+            <h3 class="manual-section__title">Reading Your Splits</h3>
+            <p>Open the activity in Garmin Connect and scroll to the <strong>Laps</strong> section. Each segment — every run, every station, every Roxzone transition — is its own lap, clearly labelled by name, so there's no ambiguity about what each row represents.</p>
+            <p>This lap-level granularity is the core data model that makes Roxzone useful for training analysis. Over multiple sessions you can track:</p>
+            <ul>
+              <li>Splits improving or degrading across equivalent runs (Run 1 vs Run 5 vs Run 8)</li>
+              <li>Station-to-station consistency within a session</li>
+              <li>Roxzone transition times trending down as your race efficiency improves</li>
+              <li>Whether your target pace held up across the full event</li>
+            </ul>
+          </div>
+
+          <div class="manual-section" id="strava">
+            <h3 class="manual-section__title">Strava Sync</h3>
+            <p>If your Garmin Connect account is linked to Strava, the Roxzone activity will appear there automatically after syncing to Garmin Connect. Lap-level data is visible in Strava's segment breakdown for athletes who also track their training there.</p>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- Chapter 9 - Troubleshooting                    -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <section class="manual-chapter" id="troubleshooting">
+          <p class="manual-chapter__eyebrow">Chapter 9</p>
+          <h2 class="manual-chapter__title">Troubleshooting</h2>
+          <p class="manual-chapter__lede">Most issues resolve quickly. Work through the relevant section below before reaching out.</p>
+
+          <div class="manual-section" id="still-locked">
+            <h3 class="manual-section__title">App Is Still Locked After Payment</h3>
+            <ol>
+              <li>Make sure your watch is paired with the Garmin Connect app on your phone and that your phone has an active internet connection.</li>
+              <li>On the locked screen, scroll down and tap <strong>Refresh License</strong>.</li>
+              <li>If it still shows locked, wait 60 seconds and try Refresh License again - there's occasionally a brief propagation delay after payment.</li>
+              <li>If the issue persists after a few minutes, <a href="mailto:chanangadhere@gmail.com">contact us</a> with your claim code and the email used for payment - we'll sort it manually within hours.</li>
+            </ol>
+          </div>
+
+          <div class="manual-section" id="check-connection">
+            <h3 class="manual-section__title">"Check Connection" Message</h3>
+            <p>This message appears when the watch can't reach the Roxzone license server - usually a temporary network issue rather than a license problem. Ensure your watch is paired with your phone and your phone has internet, then tap <strong>Refresh License</strong>.</p>
+            <p>If you're already licensed, the app stays fully unlocked and usable. Once connectivity is restored, everything re-verifies automatically.</p>
+            <div class="manual-callout manual-callout--pro">
+              <strong>Network tip</strong>
+              If Refresh License still fails, try switching your phone between Wi-Fi and mobile data (or vice versa). Some networks block the license server — switching usually resolves it immediately.
+            </div>
+          </div>
+
+          <div class="manual-section" id="crash">
+            <h3 class="manual-section__title">App Crash or Error</h3>
+            <ol>
+              <li>Close and reopen the app - most one-off crashes clear on relaunch.</li>
+              <li>If the crash is repeatable, reinstall Roxzone from Connect IQ, then use the <a href="../?tab=restore">Restore</a> tab to recover your license instantly.</li>
+              <li>If a specific watch model or scenario reliably triggers the crash, <a href="mailto:chanangadhere@gmail.com">send us a message</a> with your watch model and the steps to reproduce - we investigate promptly.</li>
+            </ol>
+          </div>
+
+          <div class="manual-section" id="setup-not-saved">
+            <h3 class="manual-section__title">Custom Setup Wasn't Saved</h3>
+            <p>Your setup saves when you exit the config screen via <strong>Continue</strong> or <strong>Back</strong>. If you close the app mid-setup without doing either, your latest changes may not have been saved — always exit cleanly.</p>
+          </div>
+
+        </section>
+
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- Chapter 10 - Support & Feedback                -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <section class="manual-chapter" id="contact">
+          <p class="manual-chapter__eyebrow">Chapter 10</p>
+          <h2 class="manual-chapter__title">Support &amp; Feedback</h2>
+          <p class="manual-chapter__lede">Roxzone is built and supported by a single independent developer. Every email reaches me directly, and every review keeps the project alive.</p>
+
+          <div class="manual-section" id="contact-email">
+            <h3 class="manual-section__title">Contact the Developer</h3>
+            <p>For support requests, license issues, bug reports, or feature suggestions, drop a note at:</p>
+            <p>
+              <a class="manual-contact-link" href="mailto:chanangadhere@gmail.com">chanangadhere@gmail.com</a>
+            </p>
+            <p>Replies typically arrive within hours, occasionally within a day or two during busy weeks. To help me investigate quickly, please include:</p>
+            <ul>
+              <li>Your <strong>watch model</strong> (e.g. Fenix 8 47mm, Forerunner 965)</li>
+              <li>Your <strong>claim code</strong> if the issue is licensing-related</li>
+              <li>A short description of what you expected to happen vs. what actually happened</li>
+            </ul>
+          </div>
+
+          <div class="manual-section" id="reviews">
+            <h3 class="manual-section__title">Enjoying the App? Leave a Review</h3>
+            <div class="manual-review-card">
+              <div class="manual-review-card__stars" aria-hidden="true">★★★★★</div>
+              <h4 class="manual-review-card__title">Reviews keep this app alive</h4>
+              <p class="manual-review-card__body">
+                Roxzone is the work of one independent developer with no marketing budget. If the app
+                has helped your training or your race, a star rating on Garmin Connect IQ is the
+                single biggest thing you can do to support continued development — it helps other
+                HYROX athletes discover it, and it keeps me motivated to ship new features.
+              </p>
+              <a class="manual-review-card__cta"
+                 href="https://apps.garmin.com/en-US/apps/95ff2e3b-7417-4bcf-8ced-7e4b70113616"
+                 target="_blank" rel="noreferrer">
+                Leave a Review on Garmin Connect IQ →
+              </a>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /.manual-content -->
+    </div><!-- /.manual-layout -->
+  </main>
+
+  <script src="../i18n.js"></script>
+  <script>
+    // Highlight the active sidebar link based on scroll position
+    (function () {
+      var sections = Array.from(document.querySelectorAll("[id]"));
+      var links = Array.from(document.querySelectorAll(".manual-sidebar a[href^='#']"));
+      if (!links.length) return;
+
+      function getActive() {
+        var scrollY = window.scrollY + 120;
+        var active = null;
+        for (var i = 0; i < sections.length; i++) {
+          if (sections[i].offsetTop <= scrollY) {
+            active = sections[i].id;
+          }
+        }
+        return active;
+      }
+
+      function update() {
+        var id = getActive();
+        links.forEach(function (a) {
+          var matches = a.getAttribute("href") === "#" + id;
+          a.style.color = matches ? "var(--primary)" : "";
+          a.style.fontWeight = matches ? "800" : "";
+          a.style.background = matches ? "var(--surface-high)" : "";
+        });
+      }
+
+      window.addEventListener("scroll", update, { passive: true });
+      update();
+    })();
+  </script>
+</body>
+
+</html>
