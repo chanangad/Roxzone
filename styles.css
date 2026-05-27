@@ -595,6 +595,12 @@ font[style*="background-color"] {
     align-content: start;
 }
 
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
 .payment-stack {
     display: grid;
     gap: 1.75rem;
@@ -830,6 +836,7 @@ font[style*="background-color"] {
 }
 
 @media (max-width: 720px) {
+    .form-row,
     .payment-group__buttons {
         grid-template-columns: 1fr;
     }

@@ -202,9 +202,15 @@
                 <input id="claim-code-input" name="claim-code" type="text" required placeholder="12345678" autocomplete="off" spellcheck="false">
               </div>
             </div>
-            <div class="field">
-              <label for="unlock-email">Email address</label>
-              <input id="unlock-email" name="email" type="email" required placeholder="athlete@example.com">
+            <div class="form-row">
+              <div class="field">
+                <label for="unlock-name">Name</label>
+                <input id="unlock-name" name="name" type="text" required placeholder="Jane Athlete" autocomplete="name">
+              </div>
+              <div class="field">
+                <label for="unlock-email">Email address</label>
+                <input id="unlock-email" name="email" type="email" required placeholder="athlete@example.com">
+              </div>
             </div>
           </form>
 
@@ -426,9 +432,15 @@
     async function beginCheckout(provider) {
       const suffix = claimCodeInput.value.trim().toUpperCase();
       const claimCode = suffix ? "RZ-" + suffix : "";
+      const name = document.getElementById("unlock-name").value.trim();
       const email = document.getElementById("unlock-email").value.trim();
       if (!claimCode) {
         setPanelStatus(unlockStatus, "Enter the claim code shown on your watch.", "warn");
+        return;
+      }
+
+      if (!name) {
+        setPanelStatus(unlockStatus, "Enter your name first.", "warn");
         return;
       }
 
@@ -442,7 +454,8 @@
           setPanelStatus(unlockStatus, "Creating PayPal checkout…");
           const data = await postJson("/api/paypal/create-order", {
             claimCode,
-            email
+            email,
+            name
           });
           if (data && data.approveUrl) {
             window.location.href = data.approveUrl;
@@ -452,7 +465,8 @@
           setPanelStatus(unlockStatus, "Creating Dodo Payments checkout…");
           const data = await postJson("/api/dodo/create-checkout", {
             claimCode,
-            email
+            email,
+            name
           });
           if (data && data.paymentUrl) {
             window.location.href = data.paymentUrl;
@@ -462,7 +476,8 @@
           setPanelStatus(unlockStatus, "Creating Razorpay checkout…");
           const data = await postJson("/api/razorpay/create-link", {
             claimCode,
-            email
+            email,
+            name
           });
           if (data && data.shortUrl) {
             window.location.href = data.shortUrl;
