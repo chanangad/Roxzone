@@ -23,11 +23,11 @@
 
   <main class="page-shell">
     <section class="panel panel--narrow">
-      <h1 class="panel__title">Payment Complete</h1>
+      <h1 id="success-title" class="panel__title">Finalizing your payment…</h1>
       <p id="success-copy" class="page-copy">
         Confirming your payment with the backend. Please keep this page open for a moment.
       </p>
-      <p id="success-status" class="helper-note helper-note--ok">
+      <p id="success-status" class="helper-note">
         Finalizing checkout...
       </p>
       <div class="action-row">
@@ -37,20 +37,32 @@
   </main>
   <script src="../app.js"></script>
   <script>
+    const successTitle = document.getElementById("success-title");
     const successCopy = document.getElementById("success-copy");
     const successStatus = document.getElementById("success-status");
 
+    // New PayPal flow: the worker captures server-side and redirects here with
+    // provider=paypal&status=paid|failed|error (&code=RZ-...).
+    const provider = query("provider").trim().toLowerCase();
+    const payStatus = query("status").trim().toLowerCase();
+    // Legacy PayPal flow: PayPal returned straight to the site with ?token=.
     const paypalToken = query("token").trim();
     const dodoClaimCode = query("code").trim().toUpperCase();
     const razorpayPaymentId = query("razorpay_payment_id").trim();
     const razorpayClaimCode = query("razorpay_payment_link_reference_id").trim().toUpperCase();
     const claimCode = dodoClaimCode || razorpayClaimCode;
 
-    function setMessage(copy, status, kind) {
+    function setMessage(title, copy, status, kind) {
+      if (title) {
+        successTitle.textContent = title;
+      }
       successCopy.innerHTML = copy;
       successStatus.textContent = status;
       successStatus.className = `helper-note helper-note--${kind}`;
     }
+
+    const PAID_COPY = "Your payment is confirmed. Return to the watch app and choose <strong>Refresh License</strong>.";
+    const NOT_CHARGED_COPY = "We couldn't complete your PayPal payment, so <strong>you have not been charged</strong>. Please return to the store to try again, or email <a href=\"mailto:hello@roxzone.app\">hello@roxzone.app</a>.";
 
     async function pollLicensePaid(code) {
       const maxAttempts = 10;
@@ -72,39 +84,38 @@
     }
 
     async function finalizeCheckout() {
-      if (paypalToken) {
-        try {
-          await postJson("/api/paypal/capture-order", {orderId: paypalToken});
-          setMessage(
-            "Your payment is confirmed. Return to the watch app and choose <strong>Refresh License</strong>.",
-            "PayPal payment captured successfully.",
-            "ok"
-          );
-        } catch (error) {
-          setMessage(
-            "We could not finalize the PayPal payment automatically yet. Return to the watch app and try <strong>Refresh License</strong> once more in a few seconds.",
-            error.message,
-            "warn"
-          );
+      // Preferred PayPal flow: capture already happened server-side.
+      if (provider === "paypal" && payStatus) {
+        if (payStatus === "paid") {
+          setMessage("Payment Complete", PAID_COPY, "PayPal payment captured successfully.", "ok");
+        } else {
+          setMessage("Payment Not Completed", NOT_CHARGED_COPY,
+            payStatus === "failed" ? "Payment was not captured." : "No valid payment reference was found.",
+            "warn");
         }
         return;
       }
 
+      // Legacy fallback: PayPal returned directly with a token; capture here.
+      if (paypalToken) {
+        try {
+          await postJson("/api/paypal/capture-order", {orderId: paypalToken});
+          setMessage("Payment Complete", PAID_COPY, "PayPal payment captured successfully.", "ok");
+        } catch (error) {
+          setMessage("Payment Not Completed", NOT_CHARGED_COPY, error.message, "warn");
+        }
+        return;
+      }
+
+      // Razorpay / Dodo: confirm against real backend state.
       if (claimCode) {
-        setMessage(
-          "Thanks for your purchase. Confirming with our servers…",
-          "Waiting for payment confirmation…",
-          "ok"
-        );
+        setMessage(null, "Thanks for your purchase. Confirming with our servers…", "Waiting for payment confirmation…", "ok");
         const paid = await pollLicensePaid(claimCode);
         if (paid) {
-          setMessage(
-            "Your payment is confirmed. Return to the watch app and choose <strong>Refresh License</strong>.",
-            "Payment confirmed.",
-            "ok"
-          );
+          setMessage("Payment Complete", PAID_COPY, "Payment confirmed.", "ok");
         } else {
           setMessage(
+            "Almost there…",
             "Your payment was received but our servers are still finalizing it. Return to the watch app and try <strong>Refresh License</strong> in a minute.",
             "Still finalizing — the webhook may take a few extra seconds.",
             "warn"
@@ -114,6 +125,7 @@
       }
 
       setMessage(
+        "Payment Status Unknown",
         "This page works best when opened after a checkout redirect.",
         "No payment reference was found in the URL.",
         "warn"
