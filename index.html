@@ -219,7 +219,7 @@
               <p class="hint-copy">International</p>
               <div class="payment-group__buttons">
                 <button type="submit" form="unlock-form" class="pay-button pay-button--paypal">Pay with PayPal</button>
-                <button type="button" id="dodo-button" class="pay-button pay-button--dodo">Pay with Card</button>
+                <button type="button" id="dodo-button" class="pay-button pay-button--dodo">Pay with Card or Wallet</button>
               </div>
             </div>
 
@@ -462,7 +462,7 @@
             return;
           }
         } else if (provider === "dodo") {
-          setPanelStatus(unlockStatus, "Creating card checkout…");
+          setPanelStatus(unlockStatus, "Creating checkout…");
           const data = await postJson("/api/dodo/create-checkout", {
             claimCode,
             email,
