@@ -220,6 +220,7 @@
               <div class="payment-group__buttons">
                 <button type="submit" form="unlock-form" class="pay-button pay-button--paypal">Pay with PayPal</button>
                 <button type="button" id="dodo-button" class="pay-button pay-button--dodo">Pay with Card or Wallet</button>
+                <button type="button" id="razorpay-intl-button" class="pay-button pay-button--razorpay">Pay with Razorpay</button>
               </div>
             </div>
 
@@ -429,7 +430,7 @@
     claimCodeInput.addEventListener("input", () => syncClaimCode(claimCodeInput.value));
     restoreClaimCodeInput.addEventListener("input", () => syncClaimCode(restoreClaimCodeInput.value));
 
-    async function beginCheckout(provider) {
+    async function beginCheckout(provider, currency) {
       const suffix = claimCodeInput.value.trim().toUpperCase();
       const claimCode = suffix ? "RZ-" + suffix : "";
       const name = document.getElementById("unlock-name").value.trim();
@@ -477,7 +478,8 @@
           const data = await postJson("/api/razorpay/create-link", {
             claimCode,
             email,
-            name
+            name,
+            currency: currency || "INR"
           });
           if (data && data.shortUrl) {
             window.location.href = data.shortUrl;
@@ -501,17 +503,19 @@
     })();
 
     if (!isIndia) {
-      // Hide Razorpay button group for non-India users
-      const razorpayGroup = document.getElementById("razorpay-button").closest(".payment-group");
-      if (razorpayGroup) razorpayGroup.style.display = "none";
-      // Hide INR price block
-      document.querySelectorAll(".price-block--intl, .price-divider--intl").forEach(el => el.style.display = "");
+      // Hide India-only Razorpay button for international users
+      const razorpayIndiaGroup = document.getElementById("razorpay-button").closest(".payment-group");
+      if (razorpayIndiaGroup) razorpayIndiaGroup.style.display = "none";
+      // Hide INR price, show only USD
       document.querySelectorAll(".price-card__amount--inr, .price-card__region--inr").forEach(el => {
         el.closest(".price-block").style.display = "none";
       });
       document.querySelectorAll(".price-divider--intl").forEach(el => el.style.display = "none");
     } else {
-      // Hide USD price block for India users
+      // Hide entire international payment group for India users
+      const intlGroup = document.getElementById("razorpay-intl-button").closest(".payment-group");
+      if (intlGroup) intlGroup.style.display = "none";
+      // Hide USD price, show only INR
       document.querySelectorAll(".price-block--intl").forEach(el => el.style.display = "none");
       document.querySelectorAll(".price-divider--intl").forEach(el => el.style.display = "none");
     }
@@ -526,7 +530,11 @@
     });
 
     document.getElementById("razorpay-button").addEventListener("click", async () => {
-      await beginCheckout("razorpay");
+      await beginCheckout("razorpay", "INR");
+    });
+
+    document.getElementById("razorpay-intl-button").addEventListener("click", async () => {
+      await beginCheckout("razorpay", "USD");
     });
 
     document.getElementById("restore-form").addEventListener("submit", async (event) => {
