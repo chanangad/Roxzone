@@ -164,11 +164,11 @@
           <div>
             <span class="price-card__eyebrow">Lifetime Access</span>
             <div class="price-amounts">
-              <div class="price-block">
+              <div class="price-block price-block--intl">
                 <div class="price-card__amount">$7.99</div>
                 <div class="price-card__region">Worldwide</div>
               </div>
-              <div class="price-divider"></div>
+              <div class="price-divider price-divider--intl"></div>
               <div class="price-block">
                 <div class="price-card__amount price-card__amount--inr">&#x20B9;499</div>
                 <div class="price-card__region price-card__region--inr">India</div>
@@ -488,6 +488,32 @@
       } catch (error) {
         setPanelStatus(unlockStatus, error.message, "warn");
       }
+    }
+
+    // Geo detection: show India-only UI for IST users, international UI for everyone else
+    const isIndia = (function() {
+      try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        return tz === "Asia/Kolkata" || tz === "Asia/Calcutta";
+      } catch (e) {
+        return false;
+      }
+    })();
+
+    if (!isIndia) {
+      // Hide Razorpay button group for non-India users
+      const razorpayGroup = document.getElementById("razorpay-button").closest(".payment-group");
+      if (razorpayGroup) razorpayGroup.style.display = "none";
+      // Hide INR price block
+      document.querySelectorAll(".price-block--intl, .price-divider--intl").forEach(el => el.style.display = "");
+      document.querySelectorAll(".price-card__amount--inr, .price-card__region--inr").forEach(el => {
+        el.closest(".price-block").style.display = "none";
+      });
+      document.querySelectorAll(".price-divider--intl").forEach(el => el.style.display = "none");
+    } else {
+      // Hide USD price block for India users
+      document.querySelectorAll(".price-block--intl").forEach(el => el.style.display = "none");
+      document.querySelectorAll(".price-divider--intl").forEach(el => el.style.display = "none");
     }
 
     document.getElementById("unlock-form").addEventListener("submit", async (event) => {
