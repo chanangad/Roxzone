@@ -493,6 +493,10 @@
       }
     }
 
+    // Populate the price card from the worker (single source of truth). Runs
+    // fire-and-forget; hardcoded values show until it resolves, then get replaced.
+    loadPricing();
+
     // Geo detection: show India-only UI for IST users, international UI for everyone else
     const isIndia = (function() {
       try {
