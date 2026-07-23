@@ -83,11 +83,11 @@
     ],
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": "4.5",
+      "ratingValue": "4.6",
       "bestRating": "5",
       "worstRating": "1",
-      "ratingCount": "44",
-      "reviewCount": "44"
+      "ratingCount": "78",
+      "reviewCount": "78"
     },
     "review": [
       {
@@ -111,8 +111,8 @@
       {
         "@type": "Review",
         "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-        "author": { "@type": "Person", "name": "Lawrence Yap" },
-        "reviewBody": "Had issues in a previous version and the author promptly fixed them. It's working well and good for tracking your race."
+        "author": { "@type": "Person", "name": "유환석" },
+        "reviewBody": "가민 하이록스 어플중에서 단연최고에요. 커스텀도 가능하고 종목도 다 있네요"
       }
     ]
   }
@@ -219,9 +219,11 @@
             <div class="payment-group">
               <p class="hint-copy">International</p>
               <div class="payment-group__buttons">
+                <!-- International Razorpay + PayPal disabled — international uses Dodo only.
                 <button type="button" id="razorpay-intl-button" class="pay-button pay-button--razorpay">Card or Wallet</button>
-                <button type="button" id="dodo-button" class="pay-button pay-button--dodo">Other Payment Methods</button>
                 <button type="submit" form="unlock-form" class="pay-button pay-button--paypal">Pay with PayPal</button>
+                -->
+                <button type="button" id="dodo-button" class="pay-button pay-button--dodo">Card or Wallet</button>
               </div>
             </div>
 
@@ -283,11 +285,11 @@
         <h2 id="reviews-title" class="reviews__title">What HYROX athletes are saying</h2>
         <div class="reviews__summary">
           <div class="reviews__stars" aria-hidden="true">
-            <span class="reviews__stars-filled" style="width: 88.5%">★★★★★</span>
+            <span class="reviews__stars-filled" style="width: 92%">★★★★★</span>
             <span class="reviews__stars-empty">★★★★★</span>
           </div>
           <p class="reviews__summary-text">
-            <strong>4.5 out of 5</strong> · 62 reviews on Garmin Connect IQ
+            <strong>4.6 out of 5</strong> · 78 reviews on Garmin Connect IQ
           </p>
         </div>
       </header>
@@ -337,11 +339,10 @@
         <article class="review-card">
           <div class="review-card__stars" aria-label="5 out of 5 stars">★★★★★</div>
           <blockquote class="review-card__quote">
-            Had issues in a previous version and the author promptly fixed them. It's working well and
-            good for tracking your race.
+            가민 하이록스 어플중에서 단연최고에요. 커스텀도 가능하고 종목도 다 있네요
           </blockquote>
           <footer class="review-card__meta">
-            <span class="review-card__author">Lawrence Yap</span>
+            <span class="review-card__author">유환석</span>
             <span class="review-card__source">Garmin Connect IQ</span>
           </footer>
         </article>
@@ -518,7 +519,7 @@
       document.querySelectorAll(".price-divider--intl").forEach(el => el.style.display = "none");
     } else {
       // Hide entire international payment group for India users
-      const intlGroup = document.getElementById("razorpay-intl-button").closest(".payment-group");
+      const intlGroup = document.getElementById("dodo-button").closest(".payment-group");
       if (intlGroup) intlGroup.style.display = "none";
       // Hide USD price, show only INR
       document.querySelectorAll(".price-block--intl").forEach(el => el.style.display = "none");
@@ -527,7 +528,8 @@
 
     document.getElementById("unlock-form").addEventListener("submit", async (event) => {
       event.preventDefault();
-      await beginCheckout("paypal");
+      if (isIndia) { await beginCheckout("razorpay", "INR"); }
+      else { await beginCheckout("dodo"); }
     });
 
     document.getElementById("dodo-button").addEventListener("click", async () => {
@@ -538,9 +540,10 @@
       await beginCheckout("razorpay", "INR");
     });
 
-    document.getElementById("razorpay-intl-button").addEventListener("click", async () => {
-      await beginCheckout("razorpay", "USD");
-    });
+    // International Razorpay disabled — international uses Dodo only.
+    // document.getElementById("razorpay-intl-button").addEventListener("click", async () => {
+    //   await beginCheckout("razorpay", "USD");
+    // });
 
     document.getElementById("restore-form").addEventListener("submit", async (event) => {
       event.preventDefault();
