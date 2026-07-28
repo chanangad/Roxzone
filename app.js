@@ -1,4 +1,8 @@
-const API_BASE = "https://hyrox-unlock-worker.roxzone.workers.dev";
+// Same-origin on purpose. The worker is also reachable at
+// hyrox-unlock-worker.roxzone.workers.dev, but *.workers.dev is DNS-poisoned by
+// the Great Firewall, so checkout was unreachable from mainland China. The
+// roxzone.app/api/* route in the worker's wrangler.toml fronts the same worker.
+const API_BASE = "https://roxzone.app";
 
 function query(name) {
   const params = new URLSearchParams(window.location.search);
