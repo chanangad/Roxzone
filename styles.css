@@ -611,6 +611,13 @@ font[style*="background-color"] {
     gap: 1rem;
 }
 
+/* The UA's [hidden] { display: none } loses to the author display:grid above,
+   so the attribute alone would not hide a .form-row. Needed by the India-only
+   state field, which starts hidden. */
+.form-row[hidden] {
+    display: none;
+}
+
 .payment-stack {
     display: grid;
     gap: 1.75rem;
