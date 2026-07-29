@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./styles.css?v=2">
 
   <script type="application/ld+json">
   {
@@ -218,7 +218,7 @@
             <div class="form-row" id="unlock-state-row" hidden>
               <div class="field">
                 <label for="unlock-state">State</label>
-                <select id="unlock-state" name="state">
+                <select id="unlock-state" name="state" class="is-placeholder">
                   <option value="">Select your state</option>
                   <option value="37">Andhra Pradesh</option>
                   <option value="35">Andaman and Nicobar Islands</option>
@@ -584,6 +584,13 @@
       // Place of supply is only meaningful for a domestic GST invoice.
       const stateRow = document.getElementById("unlock-state-row");
       if (stateRow) stateRow.hidden = false;
+      // Drop the placeholder colour once a real state is chosen.
+      const stateSelect = document.getElementById("unlock-state");
+      if (stateSelect) {
+        stateSelect.addEventListener("change", () => {
+          stateSelect.classList.toggle("is-placeholder", !stateSelect.value);
+        });
+      }
     }
 
     document.getElementById("unlock-form").addEventListener("submit", async (event) => {

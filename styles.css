@@ -638,7 +638,8 @@ font[style*="background-color"] {
     align-items: center;
 }
 
-.field input {
+.field input,
+.field select {
     width: 100%;
     border: 0;
     border-radius: 1rem;
@@ -650,11 +651,35 @@ font[style*="background-color"] {
     outline: none;
 }
 
+/* Native select chrome ignores background/radius on most browsers, so draw our
+   own chevron and reserve room for it. */
+.field select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 3rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9' fill='none'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23c1c6d4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.2rem center;
+}
+
+/* The unchosen prompt should read as a placeholder, like the inputs do. */
+.field select.is-placeholder {
+    color: rgba(193, 198, 212, 0.35);
+}
+
+/* Dropdown list itself is OS-rendered — force readable colours on the options. */
+.field select option {
+    background: var(--surface-highest);
+    color: var(--ink);
+}
+
 .field input::placeholder {
     color: rgba(193, 198, 212, 0.35);
 }
 
-.field input:focus {
+.field input:focus,
+.field select:focus {
     box-shadow: 0 0 0 2px rgba(167, 200, 255, 0.35);
 }
 
