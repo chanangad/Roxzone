@@ -1,0 +1,4 @@
+Contact: mailto:hello@roxzone.app
+Expires: 2027-07-31T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://roxzone.app/.well-known/security.txt
