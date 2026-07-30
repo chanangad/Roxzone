@@ -50,16 +50,18 @@
 
       <!-- Shown only once the payment is confirmed. The buyer's next action is
            on the watch; nothing on this page should compete with that. -->
+      <!-- The watch now checks for the payment itself, so step 2 is only the
+           fallback for app versions released before auto-unlock shipped. -->
       <ol id="activation-steps" class="steps" hidden>
         <li>
           <span class="num">1</span>
           <span class="step-body"><strong>Open ROXZONE on your Garmin watch</strong>
-            <span class="step-sub">The app you bought the unlock for</span></span>
+            <span class="step-sub">Keep the watch near your phone. It unlocks itself within a few seconds.</span></span>
         </li>
         <li>
           <span class="num">2</span>
-          <span class="step-body"><strong>Select "Refresh License"</strong>
-            <span class="step-sub">In the app's menu. Your watch needs its phone connection for this one step.</span></span>
+          <span class="step-body"><strong>Still locked? Select "Refresh License"</strong>
+            <span class="step-sub">Older app versions need this one tap. Update the app and it becomes automatic.</span></span>
         </li>
         <li>
           <span class="num">3</span>
@@ -169,7 +171,7 @@
         } else {
           setMessage(
             "Almost there…",
-            "Your payment was received but our servers are still finalizing it. Open ROXZONE on your watch and select <strong>Refresh License</strong> in a minute.",
+            "Your payment was received but our servers are still finalizing it. Open ROXZONE on your watch in a minute and it will pick up the unlock automatically.",
             "Still finalizing. The confirmation can take a few extra seconds.",
             "warn"
           );
