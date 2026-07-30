@@ -147,7 +147,7 @@
           <!-- Scroll-scrubbed product clip in place of the still: scrolling the
                hero plays the whole clip. The image underneath stays the page
                for reduced-motion, save-data, and any load failure. -->
-          <video id="hero-scrub" class="hero__scrub" src="./assets/hero-watch.mp4"
+          <video id="hero-scrub" class="hero__scrub" src="./assets/hero-watch-intra.mp4"
                  muted playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
         </div>
       </div>
@@ -694,14 +694,24 @@
         return Math.min(Math.max(window.scrollY / span, 0), 1);
       }
 
+      // With the all-intra encode every frame is a keyframe, so Safari's
+      // fastSeek is both instant and frame-exact; elsewhere currentTime is fine.
+      function seekTo(t) {
+        try {
+          if (typeof video.fastSeek === "function") {
+            video.fastSeek(t);
+          } else {
+            video.currentTime = t;
+          }
+        } catch (_) {
+          // seek not possible yet; the next scroll retries
+        }
+      }
+
       function tick() {
         current += (target - current) * 0.18;
         if (Math.abs(target - current) > 0.008) {
-          try {
-            video.currentTime = current;
-          } catch (_) {
-            // seek not possible yet; the next scroll retries
-          }
+          seekTo(current);
           raf = requestAnimationFrame(tick);
         } else {
           raf = null;
@@ -717,9 +727,7 @@
         // large gaps seek immediately; easing only ever smooths small deltas.
         if (Math.abs(target - current) > 0.6) {
           current = target;
-          try {
-            video.currentTime = target;
-          } catch (_) {}
+          seekTo(target);
           return;
         }
         if (!raf) {
@@ -729,15 +737,22 @@
 
       // Only take over from the static image once the buffer actually covers
       // the scrub window; with a cold cache, metadata alone cannot seek to 5s.
-      function seekableCoversWindow() {
+      function rangesCover(ranges) {
         try {
-          for (let i = 0; i < video.seekable.length; i++) {
-            if (video.seekable.start(i) <= START && video.seekable.end(i) >= END) {
+          for (let i = 0; i < ranges.length; i++) {
+            if (ranges.start(i) <= START && ranges.end(i) >= END) {
               return true;
             }
           }
         } catch (_) {}
         return false;
+      }
+
+      // Seekable is the honest signal, but servers without Range support report
+      // seekable as [0,0] even when the whole clip is buffered - and a fully
+      // buffered clip scrubs fine.
+      function seekableCoversWindow() {
+        return rangesCover(video.seekable) || rangesCover(video.buffered);
       }
 
       function activate() {
@@ -760,6 +775,9 @@
       video.addEventListener("loadeddata", activate);
       video.addEventListener("canplaythrough", activate);
       video.addEventListener("progress", activate);
+      // A cached video can finish loading before these listeners attach and
+      // then never fire them again, so try once right away too.
+      activate();
 
       video.addEventListener("error", () => {
         hero.classList.remove("hero--video");
