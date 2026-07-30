@@ -416,20 +416,6 @@ font[style*="background-color"] {
     padding: 1rem 0;
 }
 
-.hero__badge {
-    display: inline-flex;
-    width: fit-content;
-    padding: 0.4rem 0.85rem;
-    border-radius: 999px;
-    background: rgba(222, 116, 26, 0.18);
-    color: var(--secondary);
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    margin-bottom: -0.4rem;
-}
-
 .hero__title {
     margin: 0;
     font-size: clamp(2.6rem, 5.6vw, 4.6rem);
@@ -756,7 +742,7 @@ font[style*="background-color"] {
     display: grid;
     place-items: center;
     border: 0;
-    border-radius: 1rem;
+    border-radius: 999px;
     height: 3.75rem;
     width: 100%;
     padding: 0 1.4rem;
@@ -897,7 +883,7 @@ font[style*="background-color"] {
     justify-content: center;
     min-height: 3.5rem;
     padding: 0 1.4rem;
-    border-radius: 1rem;
+    border-radius: 999px;
     font-weight: 800;
     letter-spacing: -0.02em;
 }
@@ -931,24 +917,33 @@ font[style*="background-color"] {
 }
 
 @media (max-width: 640px) {
+    /* 95% of traffic is mobile: the sticky header must cost as little of the
+       viewport as possible. */
     .topbar {
         display: grid;
         grid-template-columns: 1fr auto;
         grid-template-areas: "brand lang" "nav nav";
-        row-gap: 0.7rem;
-        padding: 1rem 1rem 0.85rem;
+        row-gap: 0.4rem;
+        padding: 0.65rem 1rem 0.6rem;
         align-items: center;
     }
 
     .topbar__brand {
         grid-area: brand;
-        font-size: 1.7rem;
+        font-size: 1.45rem;
     }
 
     .topbar__nav {
         grid-area: nav;
-        gap: 1.25rem;
+        gap: 1rem;
     }
+
+    /* Six full review cards are most of the page height on a phone; three make
+       the point and the store link carries the rest. */
+    .review-card:nth-child(n+4) {
+        display: none;
+    }
+
 
     .topbar__lang {
         grid-area: lang;

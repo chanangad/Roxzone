@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=4">
+  <link rel="stylesheet" href="./styles.css?v=5">
 
   <script type="application/ld+json">
   {
@@ -153,13 +153,12 @@
       </div>
 
       <div class="hero__content">
-        <div class="hero__badge">Elite Performance</div>
         <h1 class="hero__title">
           Roxzone
           <span>Hyrox Tracker</span>
         </h1>
         <p class="hero__copy">
-          The HYROX training app for Garmin watches — official 8-station race mode, custom
+          The HYROX training app for Garmin watches: official 8-station race mode, custom
           simulations, Roxzone transition tracking, GPS pacing and clean lap-wise data, all
           saved to Garmin Connect as a single activity.
         </p>
@@ -188,13 +187,13 @@
     </section>
 
     <section class="panel">
-      <h2 class="panel__title">License Management</h2>
+      <h2 class="panel__title">Unlock your watch</h2>
 
-      <div class="panel__tabs" role="tablist" aria-label="License management tabs">
+      <div class="panel__tabs" role="tablist" aria-label="Unlock and restore tabs">
         <button type="button" id="tab-unlock" class="panel__tab panel__tab--active" data-tab="unlock" role="tab"
-          aria-controls="panel-unlock" aria-selected="true">Purchase/Unlock</button>
+          aria-controls="panel-unlock" aria-selected="true">Unlock</button>
         <button type="button" id="tab-restore" class="panel__tab" data-tab="restore" role="tab"
-          aria-controls="panel-restore" aria-selected="false">Restore</button>
+          aria-controls="panel-restore" aria-selected="false">Restore purchase</button>
       </div>
 
       <section id="panel-unlock" class="panel__content panel__content--active" role="tabpanel"
@@ -685,10 +684,13 @@
       let raf = null;
 
       function scrollProgress() {
-        const span = hero.offsetTop + hero.offsetHeight - window.innerHeight * 0.3;
-        if (span <= 0) {
-          return 0;
-        }
+        // Span from the media card, not the whole hero: on mobile the hero is
+        // mostly text below the card, and a hero-based span leaves the clip
+        // unfinished by the time the card scrolls out of view. Rect-based so
+        // the math is document-relative regardless of positioned ancestors.
+        const rect = video.parentElement.getBoundingClientRect();
+        const cardBottom = rect.top + window.scrollY + rect.height;
+        const span = Math.max(cardBottom - window.innerHeight * 0.25, 200);
         return Math.min(Math.max(window.scrollY / span, 0), 1);
       }
 
