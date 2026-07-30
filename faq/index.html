@@ -266,6 +266,51 @@
           </div>
         </details>
 
+        <details class="faq-item">
+          <summary>Why is it a Run and not a Workout or Cardio activity?</summary>
+          <div class="faq-item__body">
+            <p>This is deliberate, and it's the single most important technical decision in the app.</p>
+            <p>Garmin's firmware only populates wrist-based <strong>pace and cadence</strong> when the activity is recorded as a Run. Record the same session as Training or Cardio and those fields come back empty — verified on the Fenix 8, where speed and cadence are simply null under the Training sport type. So a HYROX recorded as "Cardio" would show you no indoor pace at all, which defeats the point of pacing your runs.</p>
+            <p>Indoor sessions specifically use the <em>Indoor Running</em> sub-sport rather than <em>Treadmill</em>. Both give the same pace signal, but Treadmill brings Garmin's aggressive auto-pause and auto-stop, which fires the moment you stop moving — i.e. during every single station. Indoor Running behaves itself.</p>
+            <p>The trade-off is that these land in your feed as runs. See the next answer for how to relabel them.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>How do I make HYROX sessions show as Workouts in Strava?</summary>
+          <div class="faq-item__body">
+            <p>Every Roxzone activity is named <strong>HYROX</strong>, which gives Strava something reliable to match on.</p>
+            <p>In Strava, create an auto-rename rule that matches the activity name <strong>HYROX</strong> and sets the type to <strong>Workout</strong>. It's a one-time setup and applies to every future session automatically — you never touch it again.</p>
+            <p>Worth knowing before you do: changing the type to Workout in Strava hides the pace and distance views. If you want to keep pace analysis on your runs, many athletes leave the type as Run and simply rely on the HYROX name to identify them.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Does indoor pace work without GPS or a foot pod?</summary>
+          <div class="faq-item__body">
+            <p>Yes. With GPS Mode off, the watch derives pace and distance from its own wrist-based motion sensing — the same mechanism Garmin uses for indoor runs. No foot pod needed.</p>
+            <p>Accuracy improves once your watch has learned your stride, which happens automatically over a few outdoor GPS runs. If your indoor distances read consistently long or short, run outdoors with GPS a couple of times and the calibration corrects itself.</p>
+            <p>For an outdoor HYROX or a race, turn GPS Mode on and distance comes from GPS instead.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>What is the "Station" column in my Garmin Connect laps?</summary>
+          <div class="faq-item__body">
+            <p>Roxzone writes a custom FIT field called <strong>Station</strong> on every lap, carrying that segment's real name — <em>Ski Erg</em>, <em>Sled Push</em>, <em>Roxzone</em>, <em>Warm Up</em>, and so on.</p>
+            <p>That means your laps table reads as the workout actually happened, instead of "Lap 1, Lap 2, Lap 3…" that you have to decode from memory. Third-party tools that read FIT developer fields can pick this up too.</p>
+            <p>Strava does not display custom FIT fields, so lap names appear in Garmin Connect but not in Strava.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Is heart rate recorded per station?</summary>
+          <div class="faq-item__body">
+            <p>Yes. Because the session records as a normal Run, all standard Garmin metrics come through: continuous heart rate, HR zones, calories, and per-lap averages. Each station and each run therefore carries its own average HR in the laps table.</p>
+            <p>Your maximum HR during runs is tracked separately too, which is what the shared result page uses.</p>
+          </div>
+        </details>
+
       </div>
 
       <!-- ── Troubleshooting ────────────────────────────── -->
