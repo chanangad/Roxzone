@@ -11,7 +11,27 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../styles.css?v=3">
+  <style>
+    /* Activation steps, scoped to this page. The whole point of the page is the
+       action on the WATCH, so the steps are the hero, not the receipt. */
+    .steps { display: grid; gap: 0.9rem; margin: 1.6rem 0; padding: 0; list-style: none; }
+    .steps li {
+      display: flex; align-items: flex-start; gap: 1rem;
+      background: var(--surface-highest, #2c2c2e);
+      border-radius: 1rem; padding: 1rem 1.2rem;
+    }
+    .steps .num {
+      flex: 0 0 auto; width: 2rem; height: 2rem; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: #3f6fd8; color: #fff; font-weight: 800; font-size: 0.95rem;
+    }
+    .steps .step-body { line-height: 1.5; padding-top: 0.2rem; }
+    .steps .step-body strong { color: var(--ink, #e4e2e1); }
+    .steps .step-sub { display: block; color: var(--muted, #9aa0ae); font-size: 0.85rem; margin-top: 0.15rem; }
+    .success-home { display: inline-block; margin-top: 1.4rem; color: var(--muted, #9aa0ae); font-size: 0.9rem; }
+    .success-home:hover { color: var(--ink, #e4e2e1); }
+  </style>
 </head>
 <body>
   <header class="topbar">
@@ -27,11 +47,32 @@
       <p id="success-copy" class="page-copy">
         Confirming your payment with the backend. Please keep this page open for a moment.
       </p>
+
+      <!-- Shown only once the payment is confirmed. The buyer's next action is
+           on the watch; nothing on this page should compete with that. -->
+      <ol id="activation-steps" class="steps" hidden>
+        <li>
+          <span class="num">1</span>
+          <span class="step-body"><strong>Open ROXZONE on your Garmin watch</strong>
+            <span class="step-sub">The app you bought the unlock for</span></span>
+        </li>
+        <li>
+          <span class="num">2</span>
+          <span class="step-body"><strong>Select "Refresh License"</strong>
+            <span class="step-sub">In the app's menu. Your watch needs its phone connection for this one step.</span></span>
+        </li>
+        <li>
+          <span class="num">3</span>
+          <span class="step-body"><strong>Done. Lifetime unlock.</strong>
+            <span class="step-sub">Your invoice is on its way to your email.</span></span>
+        </li>
+      </ol>
+
       <p id="success-status" class="helper-note">
         Finalizing checkout...
       </p>
-      <div class="action-row">
-        <a class="action-link action-link--primary" href="../">Back to Home</a>
+      <div id="success-actions" class="action-row">
+        <a id="home-link" class="action-link action-link--primary" href="../">Back to Home</a>
       </div>
     </section>
   </main>
@@ -40,6 +81,8 @@
     const successTitle = document.getElementById("success-title");
     const successCopy = document.getElementById("success-copy");
     const successStatus = document.getElementById("success-status");
+    const activationSteps = document.getElementById("activation-steps");
+    const homeLink = document.getElementById("home-link");
 
     // New PayPal flow: the worker captures server-side and redirects here with
     // provider=paypal&status=paid|failed|error (&code=RZ-...).
@@ -61,7 +104,17 @@
       successStatus.className = `helper-note helper-note--${kind}`;
     }
 
-    const PAID_COPY = "Your payment is confirmed. Return to the watch app and choose <strong>Refresh License</strong>.";
+    // Payment confirmed: the page's one job is to get the buyer to press
+    // Refresh License on the watch. Steps become the hero; the home link is
+    // demoted to a footnote so it cannot compete with the instruction.
+    function showActivation(statusText) {
+      setMessage("Payment complete. One step left:", "", statusText, "ok");
+      successCopy.hidden = true;
+      activationSteps.hidden = false;
+      homeLink.className = "success-home";
+      homeLink.textContent = "Back to roxzone.app";
+    }
+
     const NOT_CHARGED_COPY = "We couldn't complete your PayPal payment, so <strong>you have not been charged</strong>. Please return to the store to try again, or email <a href=\"mailto:hello@roxzone.app\">hello@roxzone.app</a>.";
 
     async function pollLicensePaid(code) {
@@ -87,7 +140,7 @@
       // Preferred PayPal flow: capture already happened server-side.
       if (provider === "paypal" && payStatus) {
         if (payStatus === "paid") {
-          setMessage("Payment Complete", PAID_COPY, "PayPal payment captured successfully.", "ok");
+          showActivation("PayPal payment captured successfully.");
         } else {
           setMessage("Payment Not Completed", NOT_CHARGED_COPY,
             payStatus === "failed" ? "Payment was not captured." : "No valid payment reference was found.",
@@ -100,7 +153,7 @@
       if (paypalToken) {
         try {
           await postJson("/api/paypal/capture-order", {orderId: paypalToken});
-          setMessage("Payment Complete", PAID_COPY, "PayPal payment captured successfully.", "ok");
+          showActivation("PayPal payment captured successfully.");
         } catch (error) {
           setMessage("Payment Not Completed", NOT_CHARGED_COPY, error.message, "warn");
         }
@@ -112,12 +165,12 @@
         setMessage(null, "Thanks for your purchase. Confirming with our servers…", "Waiting for payment confirmation…", "ok");
         const paid = await pollLicensePaid(claimCode);
         if (paid) {
-          setMessage("Payment Complete", PAID_COPY, "Payment confirmed.", "ok");
+          showActivation("Payment confirmed.");
         } else {
           setMessage(
             "Almost there…",
-            "Your payment was received but our servers are still finalizing it. Return to the watch app and try <strong>Refresh License</strong> in a minute.",
-            "Still finalizing — the webhook may take a few extra seconds.",
+            "Your payment was received but our servers are still finalizing it. Open ROXZONE on your watch and select <strong>Refresh License</strong> in a minute.",
+            "Still finalizing. The confirmation can take a few extra seconds.",
             "warn"
           );
         }
