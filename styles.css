@@ -337,8 +337,6 @@ font[style*="background-color"] {
     opacity: 0;
     transition: opacity 0.5s ease;
     pointer-events: none;
-    -webkit-mask-image: radial-gradient(ellipse at center, #000 58%, transparent 88%);
-            mask-image: radial-gradient(ellipse at center, #000 58%, transparent 88%);
 }
 
 .hero--video .hero__scrub {
@@ -383,6 +381,12 @@ font[style*="background-color"] {
     overflow: visible;
     position: relative;
     isolation: isolate;
+    /* The mask lives on the card, not on the media: the scroll zoom transforms
+       the video, and a mask on the video would scale with it and drag the
+       clip's frame edge out over the title. Anchored here it stays fixed in
+       page coordinates whatever the zoom does. */
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 58%, transparent 88%);
+            mask-image: radial-gradient(ellipse at center, #000 58%, transparent 88%);
 }
 
 .hero__image-card::before {
@@ -399,28 +403,6 @@ font[style*="background-color"] {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    -webkit-mask-image: radial-gradient(ellipse at center, #000 58%, transparent 88%);
-            mask-image: radial-gradient(ellipse at center, #000 58%, transparent 88%);
-}
-
-/* Scroll-scrubbed hero video. Sits over the static image and fades in only
-   once enough of it has loaded to seek; the image beneath is the fallback for
-   reduced-motion, save-data, and any load failure. */
-.hero__scrub {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-    -webkit-mask-image: radial-gradient(ellipse at center, #000 58%, transparent 88%);
-            mask-image: radial-gradient(ellipse at center, #000 58%, transparent 88%);
-}
-
-.hero__scrub.is-active {
-    opacity: 1;
 }
 
 .hero__content {

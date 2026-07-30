@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=6">
+  <link rel="stylesheet" href="./styles.css?v=8">
 
   <script type="application/ld+json">
   {
@@ -682,7 +682,10 @@
       const isSmall = window.matchMedia("(max-width: 980px)").matches;
       video.src = isSmall ? video.dataset.srcMobile : video.dataset.srcDesktop;
 
-      const FPS = 24;
+      // The phone variant is interpolated to 48fps so frame steps stay finer
+      // than the thumb can perceive on a 120Hz display; desktop keeps the
+      // native 24 from the generation.
+      const FPS = isSmall ? 48 : 24;
       const START = 0;
       let END = 3;
       let current = START;
@@ -746,15 +749,26 @@
           seekBusy = false;
           return;
         }
-        // If seeked never fires (edge-case engines), release the lock rather
-        // than freezing the scrub forever.
+        seekToken += 1;
+        const token = seekToken;
+        if (hasRvfc) {
+          video.requestVideoFrameCallback(() => release(token));
+        }
+        // If no completion signal ever arrives, release the lock rather than
+        // freezing the scrub forever.
         clearTimeout(seekGuard);
-        seekGuard = setTimeout(() => {
-          seekBusy = false;
-        }, 250);
+        seekGuard = setTimeout(() => release(token), 250);
       }
 
-      video.addEventListener("seeked", () => {
+      // Release the seek lock only when a frame has actually been PRESENTED.
+      // Chrome's seeked event fires before paint, which lets seeks outpace the
+      // display and is felt as micro-stutter; requestVideoFrameCallback is the
+      // honest signal where supported.
+      let seekToken = 0;
+      function release(token) {
+        if (token !== seekToken || !seekBusy) {
+          return;
+        }
         clearTimeout(seekGuard);
         seekBusy = false;
         if (pendingTime !== null) {
@@ -762,7 +776,11 @@
           pendingTime = null;
           requestSeek(t);
         }
-      });
+      }
+      const hasRvfc = typeof video.requestVideoFrameCallback === "function";
+      if (!hasRvfc) {
+        video.addEventListener("seeked", () => release(seekToken));
+      }
 
       function onScroll() {
         if (!ready) {
