@@ -378,15 +378,26 @@ font[style*="background-color"] {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: visible;
+    overflow: hidden;
     position: relative;
     isolation: isolate;
-    /* The mask lives on the card, not on the media: the scroll zoom transforms
-       the video, and a mask on the video would scale with it and drag the
-       clip's frame edge out over the title. Anchored here it stays fixed in
-       page coordinates whatever the zoom does. */
-    -webkit-mask-image: radial-gradient(ellipse at center, #000 58%, transparent 88%);
-            mask-image: radial-gradient(ellipse at center, #000 58%, transparent 88%);
+}
+
+/* Edge feathering is an OVERLAY, not a mask: iOS WebKit can drop an accelerated
+   video layer entirely when an ancestor carries a mask, which made the watch
+   vanish on iPhones. A vignette painted over the video composites reliably
+   everywhere, stays fixed in page coordinates while the zoom scales the video
+   beneath it, and the card's overflow clip contains the zoom. */
+.hero__image-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center,
+        rgba(19, 19, 19, 0) 58%,
+        rgba(19, 19, 19, 0.55) 78%,
+        var(--bg) 94%);
 }
 
 .hero__image-card::before {
