@@ -1773,3 +1773,30 @@ font[style*="background-color"] {
         padding: 0.4rem 0.65rem;
     }
 }
+
+/* Mainland-China payment note. Hidden by default and revealed by timezone;
+   [hidden] needs the explicit rule because .china-note sets its own display. */
+.china-note {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+    padding: 0.9rem 1rem;
+    border-radius: 0.9rem;
+    background: rgba(167, 200, 255, 0.09);
+    border: 1px solid rgba(167, 200, 255, 0.22);
+}
+
+.china-note[hidden] {
+    display: none;
+}
+
+.china-note p {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.china-note__zh {
+    color: var(--ink);
+}

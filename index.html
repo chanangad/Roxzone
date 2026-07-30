@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=9">
+  <link rel="stylesheet" href="./styles.css?v=10">
 
   <script type="application/ld+json">
   {
@@ -278,6 +278,15 @@
                 <button type="submit" form="unlock-form" class="pay-button pay-button--paypal">Pay with PayPal</button>
                 -->
                 <button type="button" id="dodo-button" class="pay-button pay-button--dodo">Card or Wallet</button>
+              </div>
+              <!-- Shown only to visitors in a mainland-China timezone. WeChat Pay
+                   is available but invisible until the Dodo checkout page, so
+                   buyers assume they need a foreign card and give up. Bilingual
+                   because the site's language picker runs on Google Translate,
+                   which is blocked in China. -->
+              <div class="china-note" id="china-note" hidden>
+                <p class="china-note__zh"><strong>中国用户：支持微信支付，无需国外信用卡。</strong>点击上方 “Card or Wallet”，在结算页面选择 <strong>WeChat</strong> 完成付款。请用 Safari 或 Chrome 打开，不要在微信内置浏览器中打开。</p>
+                <p class="china-note__en">WeChat Pay is supported, no foreign card needed. Tap “Card or Wallet” above, then choose <strong>WeChat</strong> on the checkout page. Open it in Safari or Chrome rather than WeChat's built-in browser.</p>
               </div>
             </div>
 
@@ -570,6 +579,25 @@
         return false;
       }
     })();
+
+    // Mainland-China timezones. Same mechanism as the India branch above: the
+    // note is helpful and harmless if it reaches the wrong person, so timezone
+    // is accurate enough and costs no request.
+    const isChina = (function () {
+      try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        return tz === "Asia/Shanghai" || tz === "Asia/Urumqi"
+          || tz === "Asia/Chongqing" || tz === "Asia/Harbin"
+          || tz === "Asia/Hong_Kong" || tz === "Asia/Macau";
+      } catch (e) {
+        return false;
+      }
+    })();
+
+    if (isChina) {
+      const chinaNote = document.getElementById("china-note");
+      if (chinaNote) { chinaNote.hidden = false; }
+    }
 
     if (!isIndia) {
       // Hide India-only Razorpay button for international users
