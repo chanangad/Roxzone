@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=5">
+  <link rel="stylesheet" href="./styles.css?v=6">
 
   <script type="application/ld+json">
   {
@@ -722,7 +722,11 @@
         if (!ready) {
           return;
         }
-        target = START + (END - START) * scrollProgress();
+        const progress = scrollProgress();
+        // Same scroll value also drives the CSS dolly-in; how far it travels is
+        // a per-breakpoint decision left to the stylesheet.
+        hero.style.setProperty("--scrub", progress.toFixed(4));
+        target = START + (END - START) * progress;
         // rAF can be throttled to a standstill (hidden tab, low-power mode), so
         // large gaps seek immediately; easing only ever smooths small deltas.
         if (Math.abs(target - current) > 0.6) {

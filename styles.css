@@ -350,6 +350,22 @@ font[style*="background-color"] {
     transition: opacity 0.5s ease;
 }
 
+/* Scroll also drives a dolly-in: --scrub (0 to 1) comes from the same handler
+   that scrubs the clip, and --zoom-range sets how far the watch travels toward
+   the viewer. Scale is a compositor-only property, so this stays smooth on
+   phones where decoding frames is the expensive part. Desktop keeps it modest
+   because the watch shares its row with the title and price card; the single
+   column below gets the full break-out. */
+.hero__image-card {
+    --zoom-range: 0.09;
+}
+
+.hero--video .hero__scrub {
+    transform: scale(calc(1 + var(--scrub, 0) * var(--zoom-range)));
+    transform-origin: center center;
+    will-change: transform;
+}
+
 .hero__media {
     display: flex;
 }
@@ -906,6 +922,9 @@ font[style*="background-color"] {
 
     .hero__image-card {
         min-height: 420px;
+        /* Single column: nothing sits beside the watch, so it can push well past
+           the card and read as coming out of the screen. */
+        --zoom-range: 0.3;
     }
 }
 
