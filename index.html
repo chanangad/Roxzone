@@ -681,6 +681,15 @@
       // the card never displays more than this on a small screen anyway.
       const isSmall = window.matchMedia("(max-width: 980px)").matches;
       video.src = isSmall ? video.dataset.srcMobile : video.dataset.srcDesktop;
+      video.load();
+      // iOS fetches video lazily even with preload=auto: without a nudge it
+      // loads metadata only and never decodes a frame. A tiny off-zero seek
+      // forces it to fetch and decode, which is what everything below waits on.
+      video.addEventListener("loadedmetadata", () => {
+        try {
+          video.currentTime = 0.001;
+        } catch (_) {}
+      }, {once: true});
 
       // The phone variant is interpolated to 48fps so frame steps stay finer
       // than the thumb can perceive on a 120Hz display; desktop keeps the
@@ -777,10 +786,12 @@
           requestSeek(t);
         }
       }
+      // Both signals are registered: rVFC is the honest one where it fires,
+      // but Safari does not reliably fire it for paused seeks, and relying on
+      // it alone left seeks waiting out the guard timer. The token makes a
+      // double release harmless.
       const hasRvfc = typeof video.requestVideoFrameCallback === "function";
-      if (!hasRvfc) {
-        video.addEventListener("seeked", () => release(seekToken));
-      }
+      video.addEventListener("seeked", () => release(seekToken));
 
       function onScroll() {
         if (!ready) {
@@ -800,11 +811,14 @@
         if (Number.isFinite(video.duration) && video.duration > 0) {
           END = video.duration - 0.05;
         }
-        if (!seekableCoversWindow()) {
+        // Both conditions matter: seekable says the file CAN be scrubbed, and
+        // readyState says a frame is actually decoded. Hiding the still on
+        // seekable alone blanked the hero on iOS, which lazy-loads video and
+        // reports seekable ranges from the server before decoding anything.
+        if (!seekableCoversWindow() || video.readyState < 2) {
           return;
         }
         ready = true;
-        video.currentTime = START;
         hero.classList.add("hero--video");
         onScroll();
       }
@@ -812,6 +826,7 @@
       video.addEventListener("loadeddata", activate);
       video.addEventListener("canplaythrough", activate);
       video.addEventListener("progress", activate);
+      video.addEventListener("seeked", activate);
       // A cached video can finish loading before these listeners attach and
       // then never fire them again, so try once right away too.
       activate();
