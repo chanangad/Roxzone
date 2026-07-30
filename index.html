@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=3">
+  <link rel="stylesheet" href="./styles.css?v=4">
 
   <script type="application/ld+json">
   {
@@ -141,9 +141,18 @@
 
   <main class="page-shell">
     <section class="hero">
+      <!-- Scroll-scrubbed cover: the product video (watch on the left of frame)
+           is the full-bleed background of the hero, and scrolling plays the
+           rotation segment (5s to 8s). The static image card underneath is the
+           fallback for reduced-motion, save-data, and load failures; it is
+           hidden only once the video is actually ready. -->
+      <video id="hero-scrub" class="hero__scrub" src="./assets/hero-scrub.mp4"
+             muted playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
+      <div class="hero__veil" aria-hidden="true"></div>
+
       <div class="hero__media">
         <div class="hero__image-card">
-          <img src="./assets/500x500.jpg" alt="Roxzone HYROX Tracker app shown on a Garmin watch face" width="500" height="500">
+          <img id="hero-still" src="./assets/500x500.jpg" alt="Roxzone HYROX Tracker app shown on a Garmin watch face" width="500" height="500">
         </div>
       </div>
 
@@ -654,6 +663,112 @@
     <p class="site-footer__legal">Roxzone is an independent training tool and is not affiliated with or endorsed by HYROX.</p>
     <p class="site-footer__copy">© 2026 Chan Digital. All rights reserved.</p>
   </footer>
+  <script>
+    // Scroll-scrubbed hero: scrolling the hero section plays the watch-rotation
+    // segment (5s to 8s) of the product video, eased so sparse keyframes don't
+    // stutter. Never autoplays as a movie; scroll position IS the playhead.
+    (function () {
+      const video = document.getElementById("hero-scrub");
+      const hero = document.querySelector(".hero");
+      if (!video || !hero) {
+        return;
+      }
+
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const saveData = navigator.connection && navigator.connection.saveData;
+      if (reducedMotion || saveData) {
+        video.remove();
+        return;
+      }
+
+      const START = 5;
+      const END = 8;
+      let target = START;
+      let current = START;
+      let ready = false;
+      let raf = null;
+
+      function scrollProgress() {
+        const span = hero.offsetTop + hero.offsetHeight - window.innerHeight * 0.3;
+        if (span <= 0) {
+          return 0;
+        }
+        return Math.min(Math.max(window.scrollY / span, 0), 1);
+      }
+
+      function tick() {
+        current += (target - current) * 0.18;
+        if (Math.abs(target - current) > 0.008) {
+          try {
+            video.currentTime = current;
+          } catch (_) {
+            // seek not possible yet; the next scroll retries
+          }
+          raf = requestAnimationFrame(tick);
+        } else {
+          raf = null;
+        }
+      }
+
+      function onScroll() {
+        if (!ready) {
+          return;
+        }
+        target = START + (END - START) * scrollProgress();
+        // rAF can be throttled to a standstill (hidden tab, low-power mode), so
+        // large gaps seek immediately; easing only ever smooths small deltas.
+        if (Math.abs(target - current) > 0.6) {
+          current = target;
+          try {
+            video.currentTime = target;
+          } catch (_) {}
+          return;
+        }
+        if (!raf) {
+          raf = requestAnimationFrame(tick);
+        }
+      }
+
+      // Only take over from the static image once the buffer actually covers
+      // the scrub window; with a cold cache, metadata alone cannot seek to 5s.
+      function seekableCoversWindow() {
+        try {
+          for (let i = 0; i < video.seekable.length; i++) {
+            if (video.seekable.start(i) <= START && video.seekable.end(i) >= END) {
+              return true;
+            }
+          }
+        } catch (_) {}
+        return false;
+      }
+
+      function activate() {
+        if (ready) {
+          return;
+        }
+        if (!seekableCoversWindow()) {
+          return;
+        }
+        ready = true;
+        video.currentTime = START;
+        current = START;
+        hero.classList.add("hero--video");
+        onScroll();
+      }
+
+      video.addEventListener("loadeddata", activate);
+      video.addEventListener("canplaythrough", activate);
+      video.addEventListener("progress", activate);
+
+      video.addEventListener("error", () => {
+        hero.classList.remove("hero--video");
+        video.remove();
+      }, {once: true});
+
+      window.addEventListener("scroll", onScroll, {passive: true});
+      window.addEventListener("resize", onScroll, {passive: true});
+    })();
+  </script>
 </body>
 
 </html>
