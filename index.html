@@ -141,18 +141,14 @@
 
   <main class="page-shell">
     <section class="hero">
-      <!-- Scroll-scrubbed cover: the product video (watch on the left of frame)
-           is the full-bleed background of the hero, and scrolling plays the
-           rotation segment (5s to 8s). The static image card underneath is the
-           fallback for reduced-motion, save-data, and load failures; it is
-           hidden only once the video is actually ready. -->
-      <video id="hero-scrub" class="hero__scrub" src="./assets/hero-scrub.mp4"
-             muted playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
-      <div class="hero__veil" aria-hidden="true"></div>
-
       <div class="hero__media">
         <div class="hero__image-card">
           <img id="hero-still" src="./assets/500x500.jpg" alt="Roxzone HYROX Tracker app shown on a Garmin watch face" width="500" height="500">
+          <!-- Scroll-scrubbed product clip in place of the still: scrolling the
+               hero plays the whole clip. The image underneath stays the page
+               for reduced-motion, save-data, and any load failure. -->
+          <video id="hero-scrub" class="hero__scrub" src="./assets/hero-watch.mp4"
+                 muted playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
         </div>
       </div>
 
@@ -664,9 +660,9 @@
     <p class="site-footer__copy">© 2026 Chan Digital. All rights reserved.</p>
   </footer>
   <script>
-    // Scroll-scrubbed hero: scrolling the hero section plays the watch-rotation
-    // segment (5s to 8s) of the product video, eased so sparse keyframes don't
-    // stutter. Never autoplays as a movie; scroll position IS the playhead.
+    // Scroll-scrubbed hero: scrolling the hero section plays the product clip,
+    // eased so sparse keyframes don't stutter. Never autoplays as a movie;
+    // scroll position IS the playhead.
     (function () {
       const video = document.getElementById("hero-scrub");
       const hero = document.querySelector(".hero");
@@ -681,8 +677,8 @@
         return;
       }
 
-      const START = 5;
-      const END = 8;
+      const START = 0;
+      let END = 3;
       let target = START;
       let current = START;
       let ready = false;
@@ -745,6 +741,9 @@
       function activate() {
         if (ready) {
           return;
+        }
+        if (Number.isFinite(video.duration) && video.duration > 0) {
+          END = video.duration - 0.05;
         }
         if (!seekableCoversWindow()) {
           return;

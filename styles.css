@@ -322,55 +322,32 @@ font[style*="background-color"] {
     gap: 3rem;
     align-items: stretch;
     margin-bottom: 2.5rem;
-    position: relative;
-    border-radius: 1.5rem;
-    overflow: hidden;
 }
 
-.hero__media,
-.hero__content {
-    position: relative;
-    z-index: 2;
-}
-
-/* Scroll-scrubbed cover video. The clip composes the watch on the left of
-   frame, so the content column reads over the dark right side. Both video and
-   veil stay invisible until the video can actually seek; the static image card
-   underneath is the fallback the whole time. */
+/* Scroll-scrubbed product clip, sitting exactly where the still image sits and
+   masked the same way so the dark clip background melts into the page. Stays
+   invisible until the video can actually seek; the still underneath is the
+   fallback the whole time. */
 .hero__scrub {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: 30% center;
-    z-index: 0;
+    object-fit: contain;
     opacity: 0;
     transition: opacity 0.5s ease;
     pointer-events: none;
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 58%, transparent 88%);
+            mask-image: radial-gradient(ellipse at center, #000 58%, transparent 88%);
 }
 
-.hero__veil {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    pointer-events: none;
-    background:
-        linear-gradient(90deg, rgba(11, 11, 12, 0) 42%, rgba(11, 11, 12, 0.45) 70%, rgba(11, 11, 12, 0.7) 100%),
-        linear-gradient(180deg, rgba(11, 11, 12, 0.3) 0%, rgba(11, 11, 12, 0) 30%, rgba(11, 11, 12, 0) 62%, rgba(11, 11, 12, 0.9) 100%);
-}
-
-.hero--video .hero__scrub,
-.hero--video .hero__veil {
+.hero--video .hero__scrub {
     opacity: 1;
 }
 
-/* The video already shows the watch; the static card just holds the column
-   open so the content stays on the right. */
-.hero--video .hero__image-card {
-    visibility: hidden;
+.hero--video .hero__image-card img {
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
 .hero__media {
@@ -943,38 +920,6 @@ font[style*="background-color"] {
 
     .hero__image-card {
         min-height: 420px;
-    }
-
-    /* Single column: a full-height cover would scale the watch up behind the
-       text, so the video becomes a top band instead — watch on screen first,
-       content right below it, band fading into the page background. */
-    .hero--video .hero__media {
-        display: none;
-    }
-
-    .hero--video {
-        align-items: start;
-        padding-top: 44svh;
-    }
-
-    .hero--video .hero__scrub,
-    .hero--video .hero__veil {
-        height: 50svh;
-        inset: 0 0 auto 0;
-    }
-
-    .hero--video .hero__scrub {
-        object-position: 35% center;
-    }
-
-    .hero--video .hero__veil {
-        background:
-            linear-gradient(90deg, rgba(13, 13, 14, 0.95) 0%, rgba(13, 13, 14, 0) 14%, rgba(13, 13, 14, 0) 86%, rgba(13, 13, 14, 0.95) 100%),
-            linear-gradient(180deg, rgba(11, 11, 12, 0.55) 0%, rgba(11, 11, 12, 0) 30%, rgba(11, 11, 12, 0) 60%, rgba(13, 13, 14, 0.97) 94%);
-    }
-
-    .hero--video .hero__content {
-        padding: 0 1.2rem;
     }
 }
 
