@@ -143,11 +143,13 @@
     <section class="hero">
       <div class="hero__media">
         <div class="hero__image-card">
-          <img id="hero-still" src="./assets/500x500.jpg" alt="Roxzone HYROX Tracker app shown on a Garmin watch face" width="500" height="500">
+          <img id="hero-still" src="./assets/hero-still.jpg" alt="Roxzone HYROX Tracker app shown on a Garmin watch face" width="1024" height="1024">
           <!-- Scroll-scrubbed product clip in place of the still: scrolling the
                hero plays the whole clip. The image underneath stays the page
                for reduced-motion, save-data, and any load failure. -->
-          <video id="hero-scrub" class="hero__scrub" src="./assets/hero-watch-intra.mp4"
+          <video id="hero-scrub" class="hero__scrub"
+                 data-src-desktop="./assets/hero-watch-d.mp4"
+                 data-src-mobile="./assets/hero-watch-m.mp4"
                  muted playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
         </div>
       </div>
@@ -659,9 +661,8 @@
     <p class="site-footer__copy">© 2026 Chan Digital. All rights reserved.</p>
   </footer>
   <script>
-    // Scroll-scrubbed hero: scrolling the hero section plays the product clip,
-    // eased so sparse keyframes don't stutter. Never autoplays as a movie;
-    // scroll position IS the playhead.
+    // Scroll-scrubbed hero: scroll position IS the playhead of the product
+    // clip. It never autoplays as a movie.
     (function () {
       const video = document.getElementById("hero-scrub");
       const hero = document.querySelector(".hero");
@@ -676,71 +677,20 @@
         return;
       }
 
+      // Phones get a lighter encode: decode work scales with pixel count, and
+      // the card never displays more than this on a small screen anyway.
+      const isSmall = window.matchMedia("(max-width: 980px)").matches;
+      video.src = isSmall ? video.dataset.srcMobile : video.dataset.srcDesktop;
+
+      const FPS = 24;
       const START = 0;
       let END = 3;
-      let target = START;
       let current = START;
       let ready = false;
-      let raf = null;
+      let seekBusy = false;
+      let pendingTime = null;
+      let seekGuard = null;
 
-      function scrollProgress() {
-        // Span from the media card, not the whole hero: on mobile the hero is
-        // mostly text below the card, and a hero-based span leaves the clip
-        // unfinished by the time the card scrolls out of view. Rect-based so
-        // the math is document-relative regardless of positioned ancestors.
-        const rect = video.parentElement.getBoundingClientRect();
-        const cardBottom = rect.top + window.scrollY + rect.height;
-        const span = Math.max(cardBottom - window.innerHeight * 0.25, 200);
-        return Math.min(Math.max(window.scrollY / span, 0), 1);
-      }
-
-      // With the all-intra encode every frame is a keyframe, so Safari's
-      // fastSeek is both instant and frame-exact; elsewhere currentTime is fine.
-      function seekTo(t) {
-        try {
-          if (typeof video.fastSeek === "function") {
-            video.fastSeek(t);
-          } else {
-            video.currentTime = t;
-          }
-        } catch (_) {
-          // seek not possible yet; the next scroll retries
-        }
-      }
-
-      function tick() {
-        current += (target - current) * 0.18;
-        if (Math.abs(target - current) > 0.008) {
-          seekTo(current);
-          raf = requestAnimationFrame(tick);
-        } else {
-          raf = null;
-        }
-      }
-
-      function onScroll() {
-        if (!ready) {
-          return;
-        }
-        const progress = scrollProgress();
-        // Same scroll value also drives the CSS dolly-in; how far it travels is
-        // a per-breakpoint decision left to the stylesheet.
-        hero.style.setProperty("--scrub", progress.toFixed(4));
-        target = START + (END - START) * progress;
-        // rAF can be throttled to a standstill (hidden tab, low-power mode), so
-        // large gaps seek immediately; easing only ever smooths small deltas.
-        if (Math.abs(target - current) > 0.6) {
-          current = target;
-          seekTo(target);
-          return;
-        }
-        if (!raf) {
-          raf = requestAnimationFrame(tick);
-        }
-      }
-
-      // Only take over from the static image once the buffer actually covers
-      // the scrub window; with a cold cache, metadata alone cannot seek to 5s.
       function rangesCover(ranges) {
         try {
           for (let i = 0; i < ranges.length; i++) {
@@ -759,6 +709,72 @@
         return rangesCover(video.seekable) || rangesCover(video.buffered);
       }
 
+      function scrollProgress() {
+        // Span from the media card, not the whole hero: on mobile the hero is
+        // mostly text below the card, and a hero-based span would leave the
+        // clip unfinished by the time the card scrolls out of view.
+        const rect = video.parentElement.getBoundingClientRect();
+        const cardBottom = rect.top + window.scrollY + rect.height;
+        const span = Math.max(cardBottom - window.innerHeight * 0.25, 200);
+        return Math.min(Math.max(window.scrollY / span, 0), 1);
+      }
+
+      // Seeks are serialized: firing a new currentTime while the previous seek
+      // is still in flight queues up decode work faster than the phone can
+      // finish it, which is exactly what scrubbing jank is. One seek at a time;
+      // while one is in flight the newest request simply replaces the queued
+      // one, so a fast fling lands on the latest frame instead of replaying
+      // every frame in between.
+      function requestSeek(t) {
+        t = Math.round(t * FPS) / FPS;
+        if (Math.abs(t - current) < 0.5 / FPS) {
+          return;
+        }
+        if (seekBusy) {
+          pendingTime = t;
+          return;
+        }
+        seekBusy = true;
+        current = t;
+        try {
+          if (typeof video.fastSeek === "function") {
+            video.fastSeek(t);
+          } else {
+            video.currentTime = t;
+          }
+        } catch (_) {
+          seekBusy = false;
+          return;
+        }
+        // If seeked never fires (edge-case engines), release the lock rather
+        // than freezing the scrub forever.
+        clearTimeout(seekGuard);
+        seekGuard = setTimeout(() => {
+          seekBusy = false;
+        }, 250);
+      }
+
+      video.addEventListener("seeked", () => {
+        clearTimeout(seekGuard);
+        seekBusy = false;
+        if (pendingTime !== null) {
+          const t = pendingTime;
+          pendingTime = null;
+          requestSeek(t);
+        }
+      });
+
+      function onScroll() {
+        if (!ready) {
+          return;
+        }
+        const progress = scrollProgress();
+        // Same scroll value also drives the CSS dolly-in; how far it travels is
+        // a per-breakpoint decision left to the stylesheet.
+        hero.style.setProperty("--scrub", progress.toFixed(4));
+        requestSeek(START + (END - START) * progress);
+      }
+
       function activate() {
         if (ready) {
           return;
@@ -771,7 +787,6 @@
         }
         ready = true;
         video.currentTime = START;
-        current = START;
         hero.classList.add("hero--video");
         onScroll();
       }
