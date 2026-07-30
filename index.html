@@ -36,7 +36,29 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=10">
+  <link rel="stylesheet" href="./styles.css?v=12">
+
+  <script>
+    // Geo decision runs BEFORE the body paints. The payment groups live in the
+    // markup for both regions, so deciding later (as the main script did) let
+    // both sets of buttons render until JS caught up - brief on fast
+    // connections, very visible on slow ones. Setting an attribute on <html>
+    // here lets CSS hide the wrong one from the first frame.
+    (function () {
+      var geo = "intl";
+      try {
+        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (tz === "Asia/Kolkata" || tz === "Asia/Calcutta") {
+          geo = "india";
+        } else if (tz === "Asia/Shanghai" || tz === "Asia/Urumqi"
+                || tz === "Asia/Chongqing" || tz === "Asia/Harbin"
+                || tz === "Asia/Hong_Kong" || tz === "Asia/Macau") {
+          geo = "china";
+        }
+      } catch (e) {}
+      document.documentElement.setAttribute("data-geo", geo);
+    })();
+  </script>
 
   <script type="application/ld+json">
   {
@@ -221,7 +243,7 @@
             </div>
             <!-- Place of supply. Shown only for India, where it decides whether
                  the GST invoice carries CGST+SGST or IGST. -->
-            <div class="form-row" id="unlock-state-row" hidden>
+            <div class="form-row" id="unlock-state-row">
               <div class="field">
                 <label for="unlock-state">State</label>
                 <select id="unlock-state" name="state" class="is-placeholder">
@@ -270,8 +292,7 @@
           </form>
 
           <div class="payment-stack">
-            <div class="payment-group">
-              <p class="hint-copy">International</p>
+            <div class="payment-group" data-region="intl">
               <div class="payment-group__buttons">
                 <!-- International Razorpay + PayPal disabled — international uses Dodo only.
                 <button type="button" id="razorpay-intl-button" class="pay-button pay-button--razorpay">Card or Wallet</button>
@@ -284,14 +305,13 @@
                    buyers assume they need a foreign card and give up. Bilingual
                    because the site's language picker runs on Google Translate,
                    which is blocked in China. -->
-              <div class="china-note" id="china-note" hidden>
+              <div class="china-note" id="china-note">
                 <p class="china-note__zh"><strong>中国用户：支持微信支付，无需国外信用卡。</strong>点击上方 “Card or Wallet”，在结算页面选择 <strong>WeChat</strong> 完成付款。请用 Safari 或 Chrome 打开，不要在微信内置浏览器中打开。</p>
                 <p class="china-note__en">WeChat Pay is supported, no foreign card needed. Tap “Card or Wallet” above, then choose <strong>WeChat</strong> on the checkout page. Open it in Safari or Chrome rather than WeChat's built-in browser.</p>
               </div>
             </div>
 
-            <div class="payment-group">
-              <p class="hint-copy">India</p>
+            <div class="payment-group" data-region="india">
               <div class="payment-group__buttons">
                 <button type="button" id="razorpay-button" class="pay-button pay-button--razorpay">Pay with Razorpay</button>
               </div>
@@ -594,15 +614,12 @@
       }
     })();
 
-    if (isChina) {
-      const chinaNote = document.getElementById("china-note");
-      if (chinaNote) { chinaNote.hidden = false; }
-    }
-
     if (!isIndia) {
       // Hide India-only Razorpay button for international users
-      const razorpayIndiaGroup = document.getElementById("razorpay-button").closest(".payment-group");
-      if (razorpayIndiaGroup) razorpayIndiaGroup.style.display = "none";
+      // Payment groups are gated in CSS off the data-geo attribute set in
+      // <head>, so nothing to hide here: an inline style set now would only
+      // fight the stylesheet and win, which is how the two mechanisms
+      // contradicted each other.
       // Hide INR price, show only USD
       document.querySelectorAll(".price-card__amount--inr, .price-card__region--inr").forEach(el => {
         el.closest(".price-block").style.display = "none";
@@ -610,14 +627,9 @@
       document.querySelectorAll(".price-divider--intl").forEach(el => el.style.display = "none");
     } else {
       // Hide entire international payment group for India users
-      const intlGroup = document.getElementById("dodo-button").closest(".payment-group");
-      if (intlGroup) intlGroup.style.display = "none";
       // Hide USD price, show only INR
       document.querySelectorAll(".price-block--intl").forEach(el => el.style.display = "none");
       document.querySelectorAll(".price-divider--intl").forEach(el => el.style.display = "none");
-      // Place of supply is only meaningful for a domestic GST invoice.
-      const stateRow = document.getElementById("unlock-state-row");
-      if (stateRow) stateRow.hidden = false;
       // Drop the placeholder colour once a real state is chosen.
       const stateSelect = document.getElementById("unlock-state");
       if (stateSelect) {

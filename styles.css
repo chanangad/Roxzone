@@ -653,10 +653,20 @@ font[style*="background-color"] {
 }
 
 /* The UA's [hidden] { display: none } loses to the author display:grid above,
-   so the attribute alone would not hide a .form-row. Needed by the India-only
-   state field, which starts hidden. */
+   so the attribute alone would not hide a .form-row. */
 .form-row[hidden] {
     display: none;
+}
+
+/* Place of supply is only meaningful for a domestic GST invoice, so the state
+   field is gated on data-geo like the payment groups: decided in <head> before
+   first paint rather than hidden by JS after the field has already shown. */
+#unlock-state-row {
+    display: none;
+}
+
+[data-geo="india"] #unlock-state-row {
+    display: grid;
 }
 
 .payment-stack {
@@ -1774,10 +1784,18 @@ font[style*="background-color"] {
     }
 }
 
-/* Mainland-China payment note. Hidden by default and revealed by timezone;
-   [hidden] needs the explicit rule because .china-note sets its own display. */
+/* Region gating. The markup carries both regions' payment groups; the data-geo
+   attribute is set in <head> before first paint, so the irrelevant one is never
+   rendered rather than being hidden by JS after the page has already shown it. */
+[data-geo="india"] .payment-group[data-region="intl"],
+[data-geo="intl"] .payment-group[data-region="india"],
+[data-geo="china"] .payment-group[data-region="india"] {
+    display: none;
+}
+
+/* Mainland-China payment note: hidden everywhere, shown only for data-geo=china. */
 .china-note {
-    display: grid;
+    display: none;
     gap: 0.5rem;
     margin-top: 0.9rem;
     padding: 0.9rem 1rem;
@@ -1786,8 +1804,8 @@ font[style*="background-color"] {
     border: 1px solid rgba(167, 200, 255, 0.22);
 }
 
-.china-note[hidden] {
-    display: none;
+[data-geo="china"] .china-note {
+    display: grid;
 }
 
 .china-note p {
