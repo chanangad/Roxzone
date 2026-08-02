@@ -960,13 +960,6 @@ font[style*="background-color"] {
         gap: 1rem;
     }
 
-    /* Six full review cards are most of the page height on a phone; three make
-       the point and the store link carries the rest. */
-    .review-card:nth-child(n+4) {
-        display: none;
-    }
-
-
     .topbar__lang {
         grid-area: lang;
         margin-left: 0;
