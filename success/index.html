@@ -11,11 +11,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=3">
+  <link rel="stylesheet" href="../styles.css?v=12">
   <style>
     /* Activation steps, scoped to this page. The whole point of the page is the
        action on the WATCH, so the steps are the hero, not the receipt. */
     .steps { display: grid; gap: 0.9rem; margin: 1.6rem 0; padding: 0; list-style: none; }
+    /* An author `display` beats the UA sheet's `[hidden]`, so without this the
+       steps show even before the payment is confirmed. */
+    .steps[hidden] { display: none; }
     .steps li {
       display: flex; align-items: flex-start; gap: 1rem;
       background: var(--surface-highest, #2c2c2e);
@@ -35,10 +38,13 @@
 </head>
 <body>
   <header class="topbar">
-    <a class="topbar__brand" href="../">ROXZONE</a>
+    <a class="topbar__brand notranslate" href="../" translate="no">ROXZONE</a>
     <nav class="topbar__nav">
-      <span class="topbar__tab topbar__tab--active">Store</span>
+      <a href="../" class="topbar__tab topbar__tab--dim">Store</a>
+      <a href="../userguide/" class="topbar__tab topbar__tab--dim">Guide</a>
+      <a href="../faq/" class="topbar__tab topbar__tab--dim">FAQ</a>
     </nav>
+    <div class="topbar__lang" data-lang-picker></div>
   </header>
 
   <main class="page-shell">
@@ -77,6 +83,20 @@
       </div>
     </section>
   </main>
+
+  <footer class="site-footer">
+    <nav class="site-footer__links">
+      <a href="../">Home</a>
+      <a href="../userguide/">User Guide</a>
+      <a href="https://www.instagram.com/roxzone.app" target="_blank" rel="noopener">Instagram</a>
+      <a href="../privacy/">Privacy Policy</a>
+      <a href="mailto:chanangadhere@gmail.com">Support</a>
+    </nav>
+    <p class="site-footer__legal">Roxzone is an independent training tool and is not affiliated with or endorsed by HYROX.</p>
+    <p class="site-footer__copy">© 2026 Chan Digital. All rights reserved.</p>
+  </footer>
+
+  <script src="../i18n.js"></script>
   <script src="../app.js"></script>
   <script>
     const successTitle = document.getElementById("success-title");
