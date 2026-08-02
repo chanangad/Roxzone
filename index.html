@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=15">
+  <link rel="stylesheet" href="./styles.css?v=16">
 
   <script>
     // Geo decision runs BEFORE the body paints. The payment groups live in the
@@ -226,7 +226,8 @@
               <label for="claim-code-input">Watch claim code</label>
               <div class="prefix-input">
                 <span class="prefix-input__prefix" aria-hidden="true">RZ-</span>
-                <input id="claim-code-input" name="claim-code" type="text" required placeholder="12345678" autocomplete="off" spellcheck="false">
+                <input id="claim-code-input" name="claim-code" type="text" required placeholder="12345678" autocomplete="off" spellcheck="false"
+                       inputmode="numeric" pattern="[0-9]*">
               </div>
             </div>
             <div class="form-row">
@@ -336,7 +337,8 @@
               <label for="restore-claim-code-input">Watch claim code</label>
               <div class="prefix-input">
                 <span class="prefix-input__prefix" aria-hidden="true">RZ-</span>
-                <input id="restore-claim-code-input" name="restore-claim-code" type="text" required placeholder="12345678" autocomplete="off" spellcheck="false">
+                <input id="restore-claim-code-input" name="restore-claim-code" type="text" required placeholder="12345678" autocomplete="off" spellcheck="false"
+                       inputmode="numeric" pattern="[0-9]*">
               </div>
             </div>
             <div class="field">
@@ -467,8 +469,33 @@
     const restoreStatus = document.getElementById("restore-status");
     const claimCodeInput = document.getElementById("claim-code-input");
     const restoreClaimCodeInput = document.getElementById("restore-claim-code-input");
+    // The watch builds its code with seed.format("%08d"), so the part after
+    // "RZ-" is always digits. Anything else is a mistyping, and until now it
+    // went all the way through checkout: the buyer paid, the row was written
+    // under a code no watch will ever ask about, and they stayed locked.
+    //
+    // Length is deliberately NOT enforced. The code is generated once and kept
+    // in Application.Storage forever, so watches first run under the old
+    // generator still legitimately show 9 and 10 digit codes.
+    function claimCodeDigits(value) {
+      var text = String(value == null ? "" : value).trim().toUpperCase();
+      // The field itself holds only the number - "RZ-" is a fixed prefix drawn
+      // beside it - but buyers do paste the whole code, so strip the prefix and
+      // the single separator after it. iOS smart punctuation rewrites that
+      // separator to an em dash and some paste it with none at all.
+      if (text.indexOf("RZ") === 0) {
+        text = text.replace(/^RZ/, "").replace(/^[^0-9-]/, "");
+        if (text.charAt(0) === "-") { text = text.slice(1); }
+      }
+      // A hyphen still leading is a minus sign, not a separator: the oldest
+      // builds overflowed a signed 32-bit seed and wrote real codes like
+      // RZ--1830119053, and those rows are still live.
+      var sign = text.charAt(0) === "-" ? "-" : "";
+      return sign + text.replace(/\D/g, "");
+    }
+
     const rawCode = query("code").trim().toUpperCase();
-    const initialClaimCode = rawCode.startsWith("RZ-") ? rawCode.slice(3) : rawCode;
+    const initialClaimCode = claimCodeDigits(rawCode);
     const initialTab = query("tab") === "restore" ? "restore" : "unlock";
 
     claimCodeInput.value = initialClaimCode;
@@ -481,8 +508,7 @@
     }
 
     function syncClaimCode(value) {
-      var suffix = value.trim().toUpperCase();
-      if (suffix.startsWith("RZ-")) { suffix = suffix.slice(3); }
+      var suffix = claimCodeDigits(value);
       claimCodeInput.value = suffix;
       restoreClaimCodeInput.value = suffix;
 
@@ -514,7 +540,7 @@
       if (pushState) {
         const params = new URLSearchParams(window.location.search);
         params.set("tab", name);
-        const currentSuffix = claimCodeInput.value.trim().toUpperCase();
+        const currentSuffix = claimCodeDigits(claimCodeInput.value);
         if (currentSuffix) {
           params.set("code", "RZ-" + currentSuffix);
         } else {
@@ -532,12 +558,31 @@
     restoreClaimCodeInput.addEventListener("input", () => syncClaimCode(restoreClaimCodeInput.value));
 
     async function beginCheckout(provider, currency) {
-      const suffix = claimCodeInput.value.trim().toUpperCase();
+      const rawSuffix = claimCodeInput.value.trim().toUpperCase();
+      const suffix = claimCodeDigits(rawSuffix);
       const claimCode = suffix ? "RZ-" + suffix : "";
       const name = document.getElementById("unlock-name").value.trim();
       const email = document.getElementById("unlock-email").value.trim();
       if (!claimCode) {
         setPanelStatus(unlockStatus, "Enter the claim code shown on your watch.", "warn");
+        return;
+      }
+
+      // Caught here rather than after payment: a code that is not all digits
+      // buys a licence no watch will ever ask about, so the buyer pays and
+      // stays locked. Letters are impossible - the watch formats an integer.
+      if (/\D/.test(rawSuffix.replace(/^RZ/, "").replace(/[\s-]/g, ""))) {
+        setPanelStatus(unlockStatus,
+          "Claim codes are numbers only. Check the code on your watch and re-enter it.", "warn");
+        return;
+      }
+
+      // "%08d" pads to at least 8, so a shorter code cannot have come from any
+      // build - it means digits were dropped. There is deliberately no upper
+      // bound: the earliest builds really did issue 9 and 10 digit codes.
+      if (suffix.replace("-", "").length < 8) {
+        setPanelStatus(unlockStatus,
+          "That code looks too short. Claim codes are at least 8 digits - check your watch screen.", "warn");
         return;
       }
 
@@ -677,6 +722,10 @@
     document.getElementById("restore-form").addEventListener("submit", async (event) => {
       event.preventDefault();
       const email = document.getElementById("restore-email").value.trim();
+      // Deliberately permissive: restore resolves a row that already exists, so
+      // it has to keep matching legacy codes the old generator wrote, including
+      // the negative ones ("RZ--1830119053"). Validation belongs on checkout,
+      // where a wrong code creates a licence no watch can claim.
       const restoreSuffix = restoreClaimCodeInput.value.trim().toUpperCase();
       const claimCode = restoreSuffix ? "RZ-" + restoreSuffix : "";
       if (!claimCode) {
