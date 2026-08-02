@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=13">
+  <link rel="stylesheet" href="./styles.css?v=14">
 
   <script>
     // Geo decision runs BEFORE the body paints. The payment groups live in the
@@ -360,6 +360,22 @@
       </section>
 
     </section>
+
+    <!-- Real-world shot between the checkout and the reviews: the hero above is
+         a studio render of the UI, so this is the only place the page shows the
+         app actually being worn mid-session. Below the fold, hence lazy. -->
+    <figure class="in-gym">
+      <picture>
+        <source type="image/webp"
+                srcset="./assets/gym-720.webp 720w, ./assets/gym-960.webp 960w, ./assets/gym-1440.webp 1440w"
+                sizes="(max-width: 640px) 100vw, min(1200px, 100vw)">
+        <img src="./assets/gym-960.jpg"
+             srcset="./assets/gym-720.jpg 720w, ./assets/gym-960.jpg 960w, ./assets/gym-1440.jpg 1440w"
+             sizes="(max-width: 640px) 100vw, min(1200px, 100vw)"
+             width="1440" height="720" loading="lazy" decoding="async"
+             alt="A Garmin watch running Roxzone on an athlete's wrist in a HYROX gym, showing Run 2, 1000m, a 00:07 split and the upcoming Sled Push.">
+      </picture>
+    </figure>
 
     <section class="reviews" aria-labelledby="reviews-title">
       <header class="reviews__header">

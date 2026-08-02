@@ -960,6 +960,21 @@ font[style*="background-color"] {
         gap: 1rem;
     }
 
+    /* At the source 2:1 the band is only ~190px tall on a phone and the watch
+       face shrinks to an unreadable dot. Cropping to 4:3 and holding the frame
+       on the watch keeps the screen legible, which is the whole point of the
+       shot. 61%/55% is the centre of the watch in the 1440x720 original. */
+    .in-gym {
+        margin-top: 2.2rem;
+    }
+
+    .in-gym img {
+        aspect-ratio: 4 / 3;
+        height: auto;
+        object-fit: cover;
+        object-position: 61% 55%;
+    }
+
     .topbar__lang {
         grid-area: lang;
         margin-left: 0;
@@ -1012,6 +1027,22 @@ font[style*="background-color"] {
         flex: 1 1 0;
         padding-inline: 1rem;
     }
+}
+
+/* In-gym banner. Matches the review cards' radius and outline so it reads as
+   part of the same card language rather than a stray image. */
+.in-gym {
+    margin: 3rem 0 0;
+    border: 1px solid var(--outline);
+    border-radius: 1.25rem;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.in-gym img {
+    display: block;
+    width: 100%;
+    height: auto;
 }
 
 .reviews {
