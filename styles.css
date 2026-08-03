@@ -2041,24 +2041,7 @@ font[style*="background-color"] {
     max-width: 420px;
 }
 
-@media (max-width: 900px) {
-    .share-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
 
-    /* Phones first on a phone: the mockup follows the heading, the copy rows
-       trail it. Held back from the edges so the render breathes. */
-    .share-mockups {
-        order: -1;
-        padding: 0 2rem;
-        margin-top: 0;
-    }
-
-    .share-mockups img {
-        max-width: 300px;
-    }
-}
 
 /* Keep the photo styling authoritative over the generic thumb rules above. */
 .share-thumb--photo figcaption {
@@ -2089,4 +2072,25 @@ font[style*="background-color"] {
     margin-top: 0.55rem;
     color: var(--ink);
     font-weight: 700;
+}
+
+/* Kept last: a media query adds no specificity, so these must come after
+   the base .share-mockups rules to win. */
+@media (max-width: 900px) {
+    .share-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    /* Phones first on a phone: the mockup follows the heading, the copy rows
+       trail it. Held back from the edges so the render breathes. */
+    .share-mockups {
+        order: -1;
+        padding: 0 2rem;
+        margin-top: 0;
+    }
+
+    .share-mockups img {
+        max-width: 300px;
+    }
 }
