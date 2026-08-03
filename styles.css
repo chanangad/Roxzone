@@ -2030,13 +2030,14 @@ font[style*="background-color"] {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 62% 54%;
+    object-position: 62% 61%;
 }
 
-/* Narrow screens get a squarer band so the watch face keeps its size. */
+/* Narrow screens: still shorter than the source so it reads as a band, but
+   not so short that the watch face shrinks. */
 @media (max-width: 640px) {
     .manual-banner {
-        aspect-ratio: 2 / 1;
+        aspect-ratio: 2.4 / 1;
     }
 }
 
