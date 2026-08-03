@@ -33,8 +33,7 @@ body {
     font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     background-color: var(--bg);
     background-image:
-        radial-gradient(circle at top left, rgba(167, 200, 255, 0.08), transparent 28%),
-        radial-gradient(circle at bottom right, rgba(255, 183, 135, 0.08), transparent 24%);
+        radial-gradient(circle at top left, rgba(167, 200, 255, 0.08), transparent 28%);
     background-attachment: fixed;
     color: var(--ink);
 }
@@ -1873,15 +1872,31 @@ font[style*="background-color"] {
 }
 
 /* ── Social share section ─────────────────────────────── */
-/* The sample result is embedded live so visitors can scroll it and press
-   Share themselves; the cards and sticker beside it are real exports from
-   that page, not mockups. */
+
+/* ── Social share ─────────────────────────────────── */
 .share-feature {
     margin-top: 3rem;
+    margin-bottom: 4rem;
+}
+
+/* Desktop: text left, clip large on the right, the left pair vertically
+   centred against it via 1fr spacer rows. On phones the areas stack in
+   source order: heading, clip, button. */
+.share-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.15fr);
+    grid-template-rows: 1fr auto auto 1fr;
+    grid-template-areas:
+        ".    video"
+        "head video"
+        "cta  video"
+        ".    video";
+    column-gap: 3rem;
+    align-items: center;
 }
 
 .share-feature__header {
-    margin-bottom: 2rem;
+    grid-area: head;
 }
 
 .share-feature__title {
@@ -1895,178 +1910,12 @@ font[style*="background-color"] {
 
 .share-feature__lede {
     margin: 0;
-    max-width: 34rem;
+    max-width: 30rem;
     color: var(--muted);
     font-size: 1.02rem;
     line-height: 1.6;
 }
 
-.share-grid {
-    display: grid;
-    grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
-    gap: 3rem;
-    align-items: start;
-}
-
-.share-cta {
-    display: inline-block;
-    margin-top: 0.4rem;
-    padding: 0.85rem 1.6rem;
-    border-radius: 999px;
-    background: var(--primary-strong);
-    color: var(--primary-ink);
-    font-size: 0.98rem;
-    font-weight: 800;
-    transition: filter 160ms ease;
-}
-
-.share-cta:hover {
-    filter: brightness(1.15);
-}
-
-.share-points {
-    margin: 0 0 1.8rem;
-    padding: 0;
-    list-style: none;
-}
-
-.share-points li {
-    padding: 1.05rem 0;
-    border-bottom: 1px solid var(--outline);
-    color: var(--muted);
-    font-size: 0.97rem;
-    line-height: 1.6;
-}
-
-.share-points li:first-child {
-    border-top: 1px solid var(--outline);
-}
-
-.share-points strong {
-    display: block;
-    margin-bottom: 0.25rem;
-    color: var(--ink);
-    font-size: 1.02rem;
-    font-weight: 700;
-}
-
-.share-picker__tabs {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1.1rem;
-}
-
-.share-picker__tab {
-    border: 1px solid var(--outline);
-    border-radius: 999px;
-    padding: 0.45rem 1.15rem;
-    background: var(--surface-low);
-    color: var(--muted);
-    font-family: inherit;
-    font-size: 0.9rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
-}
-
-.share-picker__tab:hover {
-    border-color: var(--primary);
-    color: var(--primary);
-}
-
-.share-picker__tab--active {
-    background: var(--primary-strong);
-    border-color: var(--primary-strong);
-    color: var(--primary-ink);
-}
-
-.share-picker__panel {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-end;
-}
-
-/* The flex display above would beat the UA sheet's [hidden]. */
-.share-picker__panel[hidden] {
-    display: none;
-}
-
-
-/* The overlay demo is the finished artefact: a sticker already sitting on a
-   race photo. Full width of its column; height must follow the aspect ratio,
-   not the height attribute. */
-.share-thumb--photo {
-    width: 100%;
-}
-
-.share-thumb--photo img {
-    width: 100%;
-    height: auto;
-    border-radius: 0.9rem;
-    border: 1px solid var(--outline);
-}
-
-.share-thumb--photo figcaption {
-    text-transform: none;
-    letter-spacing: normal;
-    font-size: 0.85rem;
-}
-
-/* Story and post exports share the panel row; each figure takes its natural
-   share of the width and the image follows its own aspect. */
-.share-thumb {
-    margin: 0;
-    min-width: 0;
-    flex: 1 1 0;
-}
-
-.share-thumb img {
-    width: 100%;
-    height: auto;
-    border-radius: 0.9rem;
-    border: 1px solid var(--outline);
-}
-
-.share-thumb figcaption {
-    margin-top: 0.5rem;
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.78rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-}
-
-/* A lone square at full column width overwhelms; cap it. */
-.share-picker__panel[data-share-panel="post"] .share-thumb {
-    max-width: 420px;
-}
-
-
-
-/* Keep the photo styling authoritative over the generic thumb rules above. */
-.share-thumb--photo figcaption {
-    text-transform: none;
-    letter-spacing: normal;
-    font-size: 0.85rem;
-}
-
-/* One composed render: both phones mid-post in the Instagram composer. The
-   PNG carries its own perspective and transparency; no extra chrome needed. */
-.share-mockups {
-    display: flex;
-    justify-content: center;
-    /* Lifted so the phones sit beside the lede rather than starting level
-       with the first row. */
-    margin-top: -5rem;
-}
-
-.share-mockups img {
-    width: 100%;
-    max-width: 430px;
-    height: auto;
-}
-
-/* The lede's closing line lands as its own beat. */
 .share-feature__punch {
     display: block;
     margin-top: 0.55rem;
@@ -2074,23 +1923,92 @@ font[style*="background-color"] {
     font-weight: 700;
 }
 
-/* Kept last: a media query adds no specificity, so these must come after
-   the base .share-mockups rules to win. */
+.share-cta-row {
+    grid-area: cta;
+    margin-top: 1.4rem;
+}
+
+.share-mockups {
+    grid-area: video;
+    display: flex;
+    justify-content: center;
+}
+
+.share-scrub-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+}
+
+.share-scrub-wrap img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* The canvas sits exactly over the poster (frame 1 of the same sequence) and
+   fades in once it has something real to draw. */
+.share-scrub {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 180ms ease;
+}
+
+.share-mockups--video .share-scrub {
+    opacity: 1;
+}
+
+/* Softens the clip's rectangle edge into the page: the clip background is
+   rgb(20,20,20) against the page's #131313. */
+.share-scrub__vignette {
+    position: absolute;
+    inset: -2px;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(19, 19, 19, 0) 58%, #131313 99%);
+}
+
+.share-cta {
+    display: inline-block;
+    color: var(--primary);
+    font-size: 0.98rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 160ms ease;
+}
+
+.share-cta:hover {
+    color: var(--primary-ink);
+}
+
 @media (max-width: 900px) {
     .share-grid {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        grid-template-rows: none;
+        grid-template-areas:
+            "head"
+            "video"
+            "cta";
+        row-gap: 1.8rem;
     }
 
-    /* Phones first on a phone: the mockup follows the heading, the copy rows
-       trail it. Held back from the edges so the render breathes. */
-    .share-mockups {
-        order: -1;
-        padding: 0 2rem;
+    .share-feature__header,
+    .share-cta-row {
+        text-align: center;
+    }
+
+    .share-feature__lede {
+        margin: 0 auto;
+    }
+
+    .share-cta-row {
         margin-top: 0;
     }
 
-    .share-mockups img {
-        max-width: 300px;
+    .share-scrub-wrap {
+        max-width: min(440px, 92vw);
     }
 }
