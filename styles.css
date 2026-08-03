@@ -1833,3 +1833,23 @@ font[style*="background-color"] {
 .china-note__zh {
     color: var(--ink);
 }
+
+/* Licence picker on the restore tab - shown only when one email owns
+   several paid licences and the buyer must choose which one moves. */
+#restore-choices {
+    border: 1px solid var(--outline);
+    border-radius: 0.9rem;
+    padding: 0.8rem 1rem;
+}
+
+#restore-choices legend {
+    padding: 0 0.35rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.restore-choice {
+    display: block;
+    margin: 0.4rem 0;
+    cursor: pointer;
+}

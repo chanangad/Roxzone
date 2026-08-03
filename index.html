@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=16">
+  <link rel="stylesheet" href="./styles.css?v=17">
 
   <script>
     // Geo decision runs BEFORE the body paints. The payment groups live in the
@@ -226,7 +226,7 @@
               <label for="claim-code-input">Watch claim code</label>
               <div class="prefix-input">
                 <span class="prefix-input__prefix" aria-hidden="true">RZ-</span>
-                <input id="claim-code-input" name="claim-code" type="text" required placeholder="12345678" autocomplete="off" spellcheck="false"
+                <input id="claim-code-input" name="claim-code" type="text" required placeholder="4839 2017 5264" autocomplete="off" spellcheck="false"
                        inputmode="numeric" pattern="[0-9]*">
               </div>
             </div>
@@ -337,7 +337,7 @@
               <label for="restore-claim-code-input">Watch claim code</label>
               <div class="prefix-input">
                 <span class="prefix-input__prefix" aria-hidden="true">RZ-</span>
-                <input id="restore-claim-code-input" name="restore-claim-code" type="text" required placeholder="12345678" autocomplete="off" spellcheck="false"
+                <input id="restore-claim-code-input" name="restore-claim-code" type="text" required placeholder="4839 2017 5264" autocomplete="off" spellcheck="false"
                        inputmode="numeric" pattern="[0-9]*">
               </div>
             </div>
@@ -345,6 +345,12 @@
               <label for="restore-email">Email address</label>
               <input id="restore-email" name="email" type="email" required placeholder="original-email@example.com">
             </div>
+            <!-- Filled by script when the email owns more than one licence:
+                 the buyer picks which purchase to move by date and code end,
+                 since nobody has the old full code after a reinstall. -->
+            <fieldset id="restore-choices" class="field" hidden>
+              <legend>Which purchase do you want to move?</legend>
+            </fieldset>
           </form>
 
           <div class="payment-stack payment-stack--restore">
@@ -494,12 +500,24 @@
       return sign + text.replace(/\D/g, "");
     }
 
+    // Mirrors the watch, which shows the code grouped in fours ("4839 2017
+    // 5264"). The field displays the same grouping so the buyer can compare
+    // digit-for-digit; everything submitted or put in the URL stays unspaced.
+    function groupClaimDigits(digits) {
+      var out = "";
+      for (var i = 0; i < digits.length; i += 4) {
+        if (i > 0) { out += " "; }
+        out += digits.substring(i, i + 4);
+      }
+      return out;
+    }
+
     const rawCode = query("code").trim().toUpperCase();
     const initialClaimCode = claimCodeDigits(rawCode);
     const initialTab = query("tab") === "restore" ? "restore" : "unlock";
 
-    claimCodeInput.value = initialClaimCode;
-    restoreClaimCodeInput.value = initialClaimCode;
+    claimCodeInput.value = groupClaimDigits(initialClaimCode);
+    restoreClaimCodeInput.value = groupClaimDigits(initialClaimCode);
     activateTab(initialTab, false);
 
     function setPanelStatus(node, message, kind) {
@@ -509,8 +527,9 @@
 
     function syncClaimCode(value) {
       var suffix = claimCodeDigits(value);
-      claimCodeInput.value = suffix;
-      restoreClaimCodeInput.value = suffix;
+      var display = groupClaimDigits(suffix);
+      claimCodeInput.value = display;
+      restoreClaimCodeInput.value = display;
 
       const params = new URLSearchParams(window.location.search);
       if (suffix) {
@@ -556,6 +575,14 @@
 
     claimCodeInput.addEventListener("input", () => syncClaimCode(claimCodeInput.value));
     restoreClaimCodeInput.addEventListener("input", () => syncClaimCode(restoreClaimCodeInput.value));
+
+    // A licence choice belongs to the email it was listed for - typing a
+    // different address invalidates it.
+    document.getElementById("restore-email").addEventListener("input", () => {
+      const box = document.getElementById("restore-choices");
+      box.hidden = true;
+      box.querySelectorAll("label").forEach((n) => n.remove());
+    });
 
     async function beginCheckout(provider, currency) {
       const rawSuffix = claimCodeInput.value.trim().toUpperCase();
@@ -725,8 +752,10 @@
       // Deliberately permissive: restore resolves a row that already exists, so
       // it has to keep matching legacy codes the old generator wrote, including
       // the negative ones ("RZ--1830119053"). Validation belongs on checkout,
-      // where a wrong code creates a licence no watch can claim.
-      const restoreSuffix = restoreClaimCodeInput.value.trim().toUpperCase();
+      // where a wrong code creates a licence no watch can claim. Only the
+      // grouping spaces the field displays are stripped - stored codes are
+      // unspaced.
+      const restoreSuffix = restoreClaimCodeInput.value.replace(/\s/g, "").toUpperCase();
       const claimCode = restoreSuffix ? "RZ-" + restoreSuffix : "";
       if (!claimCode) {
         setPanelStatus(restoreStatus, "Missing claim code. Open Restore from the watch app or type the code from Manual Unlock.", "warn");
@@ -743,9 +772,41 @@
           setPanelStatus(restoreStatus, "No paid purchase found for that email.", "warn");
           return;
         }
+
+        // More than one licence on this email: the buyer has to pick which
+        // purchase moves, identified by date and code end - the full old code
+        // is gone from the watch after a reinstall, so it is never asked for.
+        const choicesBox = document.getElementById("restore-choices");
+        let licenceRef = null;
+        if (requestData.choices && requestData.choices.length > 1) {
+          const picked = choicesBox.querySelector("input[name=restore-choice]:checked");
+          if (picked) {
+            licenceRef = Number(picked.value);
+          } else {
+            choicesBox.querySelectorAll("label").forEach((n) => n.remove());
+            requestData.choices.forEach((c) => {
+              const label = document.createElement("label");
+              label.className = "restore-choice";
+              const radio = document.createElement("input");
+              radio.type = "radio";
+              radio.name = "restore-choice";
+              radio.value = String(c.ref);
+              label.appendChild(radio);
+              label.appendChild(document.createTextNode(
+                ` Purchased ${c.purchased} - code ending ${c.codeEnd}`));
+              choicesBox.appendChild(label);
+            });
+            choicesBox.hidden = false;
+            setPanelStatus(restoreStatus,
+              "This email has more than one license. Pick which purchase to move, then press Restore again.", "warn");
+            return;
+          }
+        }
+
         const data = await postJson("/api/restore/complete", {
           claimCode,
-          email
+          email,
+          licenceRef
         });
         setPanelStatus(restoreStatus, data.message || "Purchase restored. Refresh the watch app now.", "ok");
       } catch (error) {
