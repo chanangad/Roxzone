@@ -1835,21 +1835,61 @@ font[style*="background-color"] {
 }
 
 /* Licence picker on the restore tab - shown only when one email owns
-   several paid licences and the buyer must choose which one moves. */
+   several paid licences and the buyer must choose which one moves. The
+   overrides matter: inside .field, labels are uppercased and letter-spaced
+   and inputs are full-width 3.75rem pills, which turned each radio into a
+   giant circle with shouting text. */
 #restore-choices {
+    margin: 0;
     border: 1px solid var(--outline);
     border-radius: 0.9rem;
-    padding: 0.8rem 1rem;
+    padding: 0.5rem 0.6rem 0.6rem;
 }
 
 #restore-choices legend {
     padding: 0 0.35rem;
-    font-size: 0.9rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     color: var(--muted);
 }
 
-.restore-choice {
-    display: block;
-    margin: 0.4rem 0;
+#restore-choices label {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 0.15rem 0 0;
+    padding: 0.65rem 0.8rem;
+    min-height: 0;
+    border: 1px solid transparent;
+    border-radius: 0.7rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--ink);
     cursor: pointer;
+    transition: background 140ms ease, border-color 140ms ease;
+}
+
+#restore-choices label:hover {
+    background: var(--surface-high);
+}
+
+#restore-choices label:has(input:checked) {
+    background: var(--surface-high);
+    border-color: var(--primary);
+}
+
+#restore-choices input[type="radio"] {
+    flex: 0 0 auto;
+    width: 1.05rem;
+    height: 1.05rem;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    background: transparent;
+    accent-color: var(--primary-strong);
 }

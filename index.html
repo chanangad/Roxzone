@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=17">
+  <link rel="stylesheet" href="./styles.css?v=19">
 
   <script>
     // Geo decision runs BEFORE the body paints. The payment groups live in the
@@ -201,7 +201,7 @@
                 <!-- <div class="price-card__region price-card__region--inr">HYROX Delhi offer</div> -->
               </div>
             </div>
-            <p class="price-card__copy">One time purchase.</p>
+            <p class="price-card__copy">One time purchase. Unlocks one watch.</p>
           </div>
           <span class="price-card__cta">View on Garmin Connect IQ</span>
         </a>
@@ -792,8 +792,13 @@
               radio.name = "restore-choice";
               radio.value = String(c.ref);
               label.appendChild(radio);
+              let when = c.purchased;
+              try {
+                when = new Date(`${c.purchased}T00:00:00Z`).toLocaleDateString(undefined,
+                  {day: "numeric", month: "short", year: "numeric", timeZone: "UTC"});
+              } catch (e) { /* keep the ISO date */ }
               label.appendChild(document.createTextNode(
-                ` Purchased ${c.purchased} - code ending ${c.codeEnd}`));
+                `Purchased ${when} · code ending ${c.codeEnd}`));
               choicesBox.appendChild(label);
             });
             choicesBox.hidden = false;
