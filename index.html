@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=19">
+  <link rel="stylesheet" href="./styles.css?v=27">
 
   <script>
     // Geo decision runs BEFORE the body paints. The payment groups live in the
@@ -369,21 +369,44 @@
 
     </section>
 
-    <!-- Real-world shot between the checkout and the reviews: the hero above is
-         a studio render of the UI, so this is the only place the page shows the
-         app actually being worn mid-session. Below the fold, hence lazy. -->
-    <figure class="in-gym">
-      <picture>
-        <source type="image/webp"
-                srcset="./assets/gym-720.webp 720w, ./assets/gym-960.webp 960w, ./assets/gym-1440.webp 1440w"
-                sizes="(max-width: 640px) 100vw, min(1200px, 100vw)">
-        <img src="./assets/gym-960.jpg"
-             srcset="./assets/gym-720.jpg 720w, ./assets/gym-960.jpg 960w, ./assets/gym-1440.jpg 1440w"
-             sizes="(max-width: 640px) 100vw, min(1200px, 100vw)"
-             width="1440" height="720" loading="lazy" decoding="async"
-             alt="A Garmin watch running Roxzone on an athlete's wrist in a HYROX gym, showing Run 2, 1000m, a 00:07 split and the upcoming Sled Push.">
-      </picture>
-    </figure>
+    <!-- Social share. The strongest proof is the real thing, so the sample
+         result is embedded live rather than screenshotted: visitors scroll it
+         and press Share themselves. The card and sticker images are actual
+         exports from that page, not mockups. -->
+    <!-- Social share. Copy cards left, the actual share-sheet formats right,
+         mirroring the tabs a buyer sees after pressing Share on the result
+         page. The images are real exports from that page, not mockups. -->
+    <section class="share-feature" aria-labelledby="share-title">
+      <header class="share-feature__header">
+        <h2 id="share-title" class="share-feature__title">Social Share</h2>
+        <p class="share-feature__lede">Your race deserves better than a screenshot. Every workout
+          ends with a link that holds it all: runs, stations, Roxzones, heart rate.
+          <span class="share-feature__punch">Study it like a coach, share it like a win.</span></p>
+      </header>
+
+      <div class="share-grid">
+        <div class="share-copy">
+          <ul class="share-points">
+            <li><strong>Every split, one page.</strong> Times and heart rate for every run,
+              station and Roxzone.</li>
+            <li><strong>No uploads. No accounts.</strong> Your workout saves to Garmin Connect
+              as always. The share link itself never expires.</li>
+            <li><strong>Six sticker styles.</strong> Transparent PNGs for your own race photo.</li>
+            <li><strong>Story and post cards.</strong> Full size, shared in one tap.</li>
+          </ul>
+          <a class="share-cta" href="https://a.roxzone.app/v?d=1_1785638700_0_100_0_1000_283.227.297.154.304.183.308.238.313.241.316.112.319.249.324.334_-1.0.-1.1.-1.2.-1.3.-1.4.-1.5.-1.6.-1.7_21.19.23.18.22.24.26.17.23.19.22.18.21.23.22_0.1.2.3.4.5.6.7.8.9.10.11.12.13.14_171.176.174.179.177.181.175.183.176.179.178.174.180.182.179.186" target="_blank" rel="noreferrer">Open a sample result &#8599;</a>
+        </div>
+
+        <div class="share-mockups">
+          <img src="./assets/share-mock-duo-560.webp"
+               srcset="./assets/share-mock-duo-560.webp 560w, ./assets/share-mock-duo-960.webp 960w"
+               sizes="(max-width: 900px) 82vw, 430px"
+               width="960" height="1299" loading="lazy" decoding="async"
+               alt="Two phones posting a Roxzone result to an Instagram story: one with the full splits card, one with a race photo carrying the overlay sticker">
+        </div>
+      </div>
+    </section>
+
 
     <section class="reviews" aria-labelledby="reviews-title">
       <header class="reviews__header">

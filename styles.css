@@ -960,12 +960,6 @@ font[style*="background-color"] {
         gap: 1rem;
     }
 
-    /* Full frame on phones too. Cropping to hold the watch made the screen
-       bigger but lost the gym, the HYROX branding and the whole composition. */
-    .in-gym {
-        margin-top: 2.2rem;
-    }
-
     .topbar__lang {
         grid-area: lang;
         margin-left: 0;
@@ -1018,22 +1012,6 @@ font[style*="background-color"] {
         flex: 1 1 0;
         padding-inline: 1rem;
     }
-}
-
-/* In-gym banner. Matches the review cards' radius and outline so it reads as
-   part of the same card language rather than a stray image. */
-.in-gym {
-    margin: 3rem 0 0;
-    border: 1px solid var(--outline);
-    border-radius: 1.25rem;
-    overflow: hidden;
-    line-height: 0;
-}
-
-.in-gym img {
-    display: block;
-    width: 100%;
-    height: auto;
 }
 
 .reviews {
@@ -1892,4 +1870,223 @@ font[style*="background-color"] {
     border-radius: 50%;
     background: transparent;
     accent-color: var(--primary-strong);
+}
+
+/* ── Social share section ─────────────────────────────── */
+/* The sample result is embedded live so visitors can scroll it and press
+   Share themselves; the cards and sticker beside it are real exports from
+   that page, not mockups. */
+.share-feature {
+    margin-top: 3rem;
+}
+
+.share-feature__header {
+    margin-bottom: 2rem;
+}
+
+.share-feature__title {
+    margin: 0 0 0.8rem;
+    font-size: 2.1rem;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+    color: var(--secondary);
+}
+
+.share-feature__lede {
+    margin: 0;
+    max-width: 34rem;
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 1.6;
+}
+
+.share-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
+    gap: 3rem;
+    align-items: start;
+}
+
+.share-cta {
+    display: inline-block;
+    margin-top: 0.4rem;
+    padding: 0.85rem 1.6rem;
+    border-radius: 999px;
+    background: var(--primary-strong);
+    color: var(--primary-ink);
+    font-size: 0.98rem;
+    font-weight: 800;
+    transition: filter 160ms ease;
+}
+
+.share-cta:hover {
+    filter: brightness(1.15);
+}
+
+.share-points {
+    margin: 0 0 1.8rem;
+    padding: 0;
+    list-style: none;
+}
+
+.share-points li {
+    padding: 1.05rem 0;
+    border-bottom: 1px solid var(--outline);
+    color: var(--muted);
+    font-size: 0.97rem;
+    line-height: 1.6;
+}
+
+.share-points li:first-child {
+    border-top: 1px solid var(--outline);
+}
+
+.share-points strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--ink);
+    font-size: 1.02rem;
+    font-weight: 700;
+}
+
+.share-picker__tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.1rem;
+}
+
+.share-picker__tab {
+    border: 1px solid var(--outline);
+    border-radius: 999px;
+    padding: 0.45rem 1.15rem;
+    background: var(--surface-low);
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.share-picker__tab:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.share-picker__tab--active {
+    background: var(--primary-strong);
+    border-color: var(--primary-strong);
+    color: var(--primary-ink);
+}
+
+.share-picker__panel {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+/* The flex display above would beat the UA sheet's [hidden]. */
+.share-picker__panel[hidden] {
+    display: none;
+}
+
+
+/* The overlay demo is the finished artefact: a sticker already sitting on a
+   race photo. Full width of its column; height must follow the aspect ratio,
+   not the height attribute. */
+.share-thumb--photo {
+    width: 100%;
+}
+
+.share-thumb--photo img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.9rem;
+    border: 1px solid var(--outline);
+}
+
+.share-thumb--photo figcaption {
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 0.85rem;
+}
+
+/* Story and post exports share the panel row; each figure takes its natural
+   share of the width and the image follows its own aspect. */
+.share-thumb {
+    margin: 0;
+    min-width: 0;
+    flex: 1 1 0;
+}
+
+.share-thumb img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.9rem;
+    border: 1px solid var(--outline);
+}
+
+.share-thumb figcaption {
+    margin-top: 0.5rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* A lone square at full column width overwhelms; cap it. */
+.share-picker__panel[data-share-panel="post"] .share-thumb {
+    max-width: 420px;
+}
+
+@media (max-width: 900px) {
+    .share-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    /* Phones first on a phone: the mockup follows the heading, the copy rows
+       trail it. Held back from the edges so the render breathes. */
+    .share-mockups {
+        order: -1;
+        padding: 0 2rem;
+        margin-top: 0;
+    }
+
+    .share-mockups img {
+        max-width: 300px;
+    }
+}
+
+/* Keep the photo styling authoritative over the generic thumb rules above. */
+.share-thumb--photo figcaption {
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 0.85rem;
+}
+
+/* One composed render: both phones mid-post in the Instagram composer. The
+   PNG carries its own perspective and transparency; no extra chrome needed. */
+.share-mockups {
+    display: flex;
+    justify-content: center;
+    /* Lifted so the phones sit beside the lede rather than starting level
+       with the first row. */
+    margin-top: -5rem;
+}
+
+.share-mockups img {
+    width: 100%;
+    max-width: 430px;
+    height: auto;
+}
+
+/* The lede's closing line lands as its own beat. */
+.share-feature__punch {
+    display: block;
+    margin-top: 0.55rem;
+    color: var(--ink);
+    font-weight: 700;
 }
