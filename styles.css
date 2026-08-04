@@ -482,6 +482,16 @@ font[style*="background-color"] {
     line-height: 1;
     letter-spacing: -0.06em;
     white-space: nowrap;
+    /* Both regions share one colour. Only one price is ever on screen, so the
+       card looked like a different design depending on where you opened it. */
+    color: var(--primary-ink);
+}
+
+/* The amount runs at -0.06em tracking, which also pulled the currency symbol
+   into the first digit. Give just that pair its space back. */
+.price-card__cur {
+    margin-right: 0.06em;
+    letter-spacing: 0;
 }
 
 .price-card__region {
@@ -522,7 +532,6 @@ font[style*="background-color"] {
 }
 
 .price-card__amount--inr {
-    color: var(--secondary);
     font-size: 2.6rem;
 }
 
@@ -536,6 +545,24 @@ font[style*="background-color"] {
     font-weight: 600;
     letter-spacing: 0.02em;
     opacity: 0.7;
+    text-transform: uppercase;
+}
+
+/* A quiet badge beside the amount. It inherited the amount's colour before,
+   which made it read as part of the number rather than a note about it. */
+.price-card__tax {
+    display: inline-block;
+    margin-left: 0.6rem;
+    vertical-align: 0.42em;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid rgba(234, 240, 255, 0.5);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--primary-ink);
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    line-height: 1;
     text-transform: uppercase;
 }
 
