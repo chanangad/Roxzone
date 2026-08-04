@@ -35,15 +35,27 @@ async function loadPricing() {
       return;
     }
     const {usd, inr} = await res.json();
+    // Write into the number span only. Setting textContent on the whole amount
+    // wipes its children, which silently deleted the currency symbol and the
+    // "incl. tax" pill the moment this fetch resolved. Falls back to the old
+    // behaviour for any markup that predates the span.
+    const setAmount = (el, symbol, value) => {
+      const num = el.querySelector(".price-card__num");
+      if (num) {
+        num.textContent = value;
+      } else {
+        el.textContent = `${symbol}${value}`;
+      }
+    };
     if (inr) {
       const inrInt = String(inr).replace(/\.00$/, "");
       document.querySelectorAll(".price-card__amount--inr").forEach((el) => {
-        el.textContent = `₹${inrInt}`;
+        setAmount(el, "₹", inrInt);
       });
     }
     if (usd) {
       document.querySelectorAll(".price-block--intl .price-card__amount").forEach((el) => {
-        el.textContent = `$${usd}`;
+        setAmount(el, "$", usd);
       });
     }
   } catch (_) {
