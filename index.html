@@ -149,6 +149,19 @@
     "logo": "https://roxzone.app/favicon.png"
   }
   </script>
+  <!-- Google shows a "site name" rather than the <title> on homepage results,
+       and WebSite.name is the strongest signal it reads for that. Without this
+       block it fell back to the bare domain, so the result read "roxzone".
+       Must stay on the homepage only. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ROXZONE",
+    "alternateName": "ROXZONE for Garmin",
+    "url": "https://roxzone.app/"
+  }
+  </script>
 </head>
 
 <body>
