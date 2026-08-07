@@ -370,7 +370,9 @@ font[style*="background-color"] {
 .hero__image-card {
     flex: 1 1 auto;
     background: transparent;
-    border-radius: 0;
+    /* The overflow clip already contains the zoom, so the radius rounds the
+       clip's visible rectangle for free. */
+    border-radius: 1.5rem;
     padding: 0;
     height: 100%;
     min-height: 520px;
