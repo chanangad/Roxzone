@@ -2018,7 +2018,9 @@ font[style*="background-color"] {
    aside rather than another CTA. */
 .share-tag {
     display: inline-block;
-    margin: 0 0 0.9rem;
+    /* Nudged left of the title's edge so the torn end hangs into the margin
+       like it was slapped on, not typeset. */
+    margin: 0 0 0.9rem -1.1rem;
     max-width: 300px;
     transition: transform 180ms ease;
 }
@@ -2062,7 +2064,8 @@ font[style*="background-color"] {
     }
 
     .share-tag {
-        margin-bottom: 0.8rem;
+        /* Centered layout: no left nudge, it would just sit off-centre. */
+        margin: 0 0 0.8rem;
         max-width: 250px;
     }
 }
