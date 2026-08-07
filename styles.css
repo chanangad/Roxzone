@@ -2058,6 +2058,8 @@ font[style*="background-color"] {
 .share-tag__icon {
     flex-shrink: 0;
     margin-top: 1px;
+    /* Tilted against the note so it reads doodled-on, not placed. */
+    transform: rotate(-7deg);
 }
 
 .share-tag__text strong {
