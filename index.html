@@ -34,9 +34,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Kalam:wght@400;700&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=40">
+  <link rel="stylesheet" href="./styles.css?v=41">
 
   <script>
     // Geo decision runs BEFORE the body paints. The payment groups live in the
@@ -376,23 +376,15 @@
     <section class="share-feature" aria-labelledby="share-title">
       <div class="share-grid">
         <header class="share-feature__header">
-          <!-- Sticky note pinned above the section title: the ask to tag,
-               handwritten, as a human aside rather than another CTA. -->
+          <!-- Torn kraft-tape note pinned above the section title: the ask to
+               tag, handwritten, as a human aside rather than another CTA. -->
           <a class="share-tag" href="https://www.instagram.com/roxzone.app" target="_blank" rel="noopener">
-            <!-- Hand-doodled Instagram glyph. At sticky-note size a subtle
-                 wobble reads as printed, so the sketchiness is exaggerated:
-                 the outline overshoots and crosses itself at the start, the
-                 lens is egg-shaped with a flicked tail, and the whole glyph
-                 tilts against the note. -->
-            <svg class="share-tag__icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-              <path d="M8.6 3.6 C6 3.3 4.1 4.6 3.7 7.2 C3.3 9.8 3.4 13.9 3.8 16.4 C4.2 18.9 5.9 20.2 8.4 20.4 C11 20.6 14.6 20.7 16.9 20.3 C19.3 19.9 20.6 18.3 20.8 15.9 C21 13.4 20.9 9.8 20.5 7.3 C20.1 4.8 18.5 3.5 16 3.5 C13.8 3.5 10.4 3.4 8 3.6 L6.6 3.9"
-                    fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M12.5 8.3 C10.2 7.9 8.4 9.5 8.3 11.7 C8.2 14 9.9 15.9 12.1 15.8 C14.3 15.7 15.9 14 15.7 11.8 C15.5 9.7 14 8.3 12 8.3 L10.9 8.6"
-                    fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M16.9 6.5 C17.1 6.2 17.6 6.2 17.7 6.6 C17.8 7 17.4 7.3 17.1 7.1 C16.8 6.9 16.9 6.6 17.1 6.4"
-                    fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-            </svg>
-            <span class="share-tag__text">Tag us <strong>@roxzone.app</strong></span>
+            <picture>
+              <source srcset="./assets/share-tape.webp" type="image/webp">
+              <img src="./assets/share-tape.png" width="737" height="223"
+                   loading="lazy" decoding="async"
+                   alt="Tag us @roxzone.app on Instagram">
+            </picture>
           </a>
           <h2 id="share-title" class="share-feature__title">Social Share</h2>
           <p class="share-feature__lede">Your race deserves better than a screenshot. Every workout
