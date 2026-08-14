@@ -1228,16 +1228,30 @@ font[style*="background-color"] {
 }
 
 /* The tiles drift in a slow marquee - a showreel, not a menu. The track holds
-   the six cards twice; animating to -50% then restarting is invisible because
-   the second half is an exact copy. Hover pauses the belt. */
+   the six cards twice, and the drift is JS-driven scrollLeft (see the fleet
+   script) so a finger or trackpad can also scrub it natively; the loop wraps
+   at the halfway point, which is invisible because the second half is an
+   exact copy. */
 .fleet__scroller {
     position: relative;
-    overflow: hidden;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
-/* Fade the belt's cut edges into the page. */
-.fleet__scroller::before,
-.fleet__scroller::after {
+.fleet__scroller::-webkit-scrollbar {
+    display: none;
+}
+
+/* Fade the belt's cut edges into the page. On the wrapper, not the scroller:
+   absolutely-positioned children of a scroll container travel with its
+   content, so the fades would drift off-screen with the first swipe. */
+.fleet__belt {
+    position: relative;
+}
+
+.fleet__belt::before,
+.fleet__belt::after {
     content: "";
     position: absolute;
     top: 0;
@@ -1247,12 +1261,12 @@ font[style*="background-color"] {
     pointer-events: none;
 }
 
-.fleet__scroller::before {
+.fleet__belt::before {
     left: 0;
     background: linear-gradient(to right, var(--bg), transparent);
 }
 
-.fleet__scroller::after {
+.fleet__belt::after {
     right: 0;
     background: linear-gradient(to left, var(--bg), transparent);
 }
@@ -1261,26 +1275,6 @@ font[style*="background-color"] {
     display: flex;
     gap: 1rem;
     width: max-content;
-    animation: fleet-drift 45s linear infinite;
-}
-
-.fleet__track:hover {
-    animation-play-state: paused;
-}
-
-@keyframes fleet-drift {
-    from { transform: translateX(0); }
-    to   { transform: translateX(calc(-50% - 0.5rem)); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .fleet__track {
-        animation: none;
-    }
-
-    .fleet__scroller {
-        overflow-x: auto;
-    }
 }
 
 /* No box: everywhere else on the page the imagery sits naked against the

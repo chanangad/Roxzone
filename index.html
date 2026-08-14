@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=44">
+  <link rel="stylesheet" href="./styles.css?v=45">
 
   <script>
     // Geo decision runs BEFORE the body paints. The payment groups live in the
@@ -509,7 +509,8 @@
       <header class="fleet__header">
         <h2 id="fleet-title" class="fleet__title">More from Chan Digital</h2>
       </header>
-      <div class="fleet__scroller">
+      <div class="fleet__belt">
+        <div class="fleet__scroller">
         <div class="fleet__track">
         <a class="fleet-card" href="https://loopface.app/" target="_blank" rel="noreferrer">
           <img src="./assets/fleet/loopface.webp" width="480" height="480" loading="lazy" decoding="async"
@@ -584,6 +585,7 @@
           <span class="fleet-card__name">Table Tennis Go</span>
           <span class="fleet-card__meta">Device app<span class="fleet-card__score"><span class="fleet-card__star">★</span> 5.0 (9)</span></span>
         </a>
+      </div>
       </div>
       </div>
       <p class="fleet__footer">
@@ -1271,6 +1273,79 @@
       }
 
       armStart();
+    })();
+
+    // Fleet marquee: auto-drift driven through scrollLeft rather than a CSS
+    // transform, so the belt is also a real scroller - a finger or trackpad
+    // can grab it natively. The drift pauses on any interaction (touch, wheel,
+    // hover) and resumes a beat after the last one; the loop wraps at the
+    // halfway point, invisible because the track's second half is a copy.
+    (function () {
+      const scroller = document.querySelector(".fleet__scroller");
+      const track = document.querySelector(".fleet__track");
+      if (!scroller || !track) {
+        return;
+      }
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return; // still a plain scrollable row
+      }
+
+      const SPEED = 28;          // px per second, ~the old 45s loop
+      const RESUME_AFTER = 2500; // ms of quiet before the drift resumes
+      let paused = false;
+      let resumeTimer = null;
+      let carry = 0;             // sub-pixel remainder (scrollLeft rounds)
+      let last = null;
+
+      function wrap() {
+        const half = track.scrollWidth / 2;
+        if (half <= 0) { return; }
+        if (scroller.scrollLeft >= half) {
+          scroller.scrollLeft -= half;
+        } else if (scroller.scrollLeft < 0) {
+          scroller.scrollLeft += half;
+        }
+      }
+
+      function step(now) {
+        if (last !== null && !paused && document.visibilityState === "visible") {
+          carry += Math.min(now - last, 100) / 1000 * SPEED;
+          const px = Math.floor(carry);
+          if (px > 0) {
+            carry -= px;
+            scroller.scrollLeft += px;
+            wrap();
+          }
+        }
+        last = now;
+        requestAnimationFrame(step);
+      }
+
+      function rest() {
+        paused = true;
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(function () { paused = false; }, RESUME_AFTER);
+      }
+
+      ["touchstart", "touchmove", "wheel", "pointerdown"].forEach(function (type) {
+        scroller.addEventListener(type, rest, {passive: true});
+      });
+      // Momentum scrolling keeps firing scroll events after the finger lifts;
+      // treating them as activity keeps the drift from fighting the glide.
+      scroller.addEventListener("scroll", function () {
+        wrap();
+        if (paused) { rest(); }
+      }, {passive: true});
+      scroller.addEventListener("mouseenter", function () {
+        paused = true;
+        clearTimeout(resumeTimer);
+      });
+      scroller.addEventListener("mouseleave", function () {
+        clearTimeout(resumeTimer);
+        paused = false;
+      });
+
+      requestAnimationFrame(step);
     })();
   </script>
 </body>
