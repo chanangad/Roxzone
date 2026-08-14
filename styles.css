@@ -1161,18 +1161,214 @@ font[style*="background-color"] {
 .reviews__footer {
     margin: 2rem 0 0;
     text-align: center;
-    font-size: 0.95rem;
 }
 
+/* Same ghost pill as the fleet footer link. */
 .reviews__footer a {
-    color: var(--primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.5rem;
+    border: 1px solid var(--outline);
+    border-radius: 999px;
+    color: var(--ink);
+    font-size: 0.92rem;
     font-weight: 600;
     text-decoration: none;
+    transition: border-color 160ms ease, background 160ms ease;
 }
 
 .reviews__footer a:hover {
-    text-decoration: underline;
+    background: var(--surface-low);
+    border-color: rgba(65, 71, 82, 0.8);
 }
+
+.reviews__footer a:hover .fleet__footer-arrow {
+    transform: translateX(3px);
+}
+
+/* "More from Chan Digital" strip: a quiet studio credit after the reviews.
+   Same card vocabulary as the review cards (surface-low, outline, radius),
+   scaled down - these tiles are links, not pitches. */
+.fleet {
+    margin-top: 3.2rem;
+    padding-top: 3.2rem;
+    position: relative;
+}
+
+/* Separator from the reviews above: a hairline that dissolves at both ends,
+   the same fade-into-dark move the page's vignettes use. */
+.fleet::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right,
+        transparent,
+        rgba(65, 71, 82, 0.55) 20%,
+        rgba(65, 71, 82, 0.55) 80%,
+        transparent);
+}
+
+.fleet__header {
+    margin-bottom: 1.6rem;
+}
+
+/* Same voice as the SOCIAL SHARE title: heavy caps, left-aligned. Kept white
+   so the strip reads as a credit, not another feature pitch. */
+.fleet__title {
+    margin: 0;
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+    color: var(--ink);
+}
+
+/* The tiles drift in a slow marquee - a showreel, not a menu. The track holds
+   the six cards twice; animating to -50% then restarting is invisible because
+   the second half is an exact copy. Hover pauses the belt. */
+.fleet__scroller {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Fade the belt's cut edges into the page. */
+.fleet__scroller::before,
+.fleet__scroller::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(2rem, 6vw, 5rem);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.fleet__scroller::before {
+    left: 0;
+    background: linear-gradient(to right, var(--bg), transparent);
+}
+
+.fleet__scroller::after {
+    right: 0;
+    background: linear-gradient(to left, var(--bg), transparent);
+}
+
+.fleet__track {
+    display: flex;
+    gap: 1rem;
+    width: max-content;
+    animation: fleet-drift 45s linear infinite;
+}
+
+.fleet__track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes fleet-drift {
+    from { transform: translateX(0); }
+    to   { transform: translateX(calc(-50% - 0.5rem)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fleet__track {
+        animation: none;
+    }
+
+    .fleet__scroller {
+        overflow-x: auto;
+    }
+}
+
+/* No box: everywhere else on the page the imagery sits naked against the
+   dark, so the tiles are just artwork with a caption. */
+.fleet-card {
+    display: flex;
+    flex-direction: column;
+    width: clamp(160px, 17vw, 210px);
+    flex-shrink: 0;
+    text-decoration: none;
+    transition: transform 160ms ease;
+}
+
+.fleet-card:hover {
+    transform: translateY(-4px);
+}
+
+.fleet-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.fleet-card__name {
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 0.92rem;
+    letter-spacing: -0.01em;
+}
+
+.fleet-card:hover .fleet-card__name {
+    color: var(--secondary);
+}
+
+.fleet-card__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-top: 0.15rem;
+    color: var(--muted);
+    font-size: 0.78rem;
+}
+
+.fleet-card__score {
+    white-space: nowrap;
+}
+
+.fleet-card__star {
+    color: var(--secondary);
+}
+
+.fleet__footer {
+    margin: 2rem 0 0;
+    text-align: center;
+}
+
+/* Ghost pill, matching the site's button shapes without competing with the
+   real CTAs above it. */
+.fleet__footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.5rem;
+    border: 1px solid var(--outline);
+    border-radius: 999px;
+    color: var(--ink);
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: border-color 160ms ease, background 160ms ease;
+}
+
+.fleet__footer a:hover {
+    background: var(--surface-low);
+    border-color: rgba(65, 71, 82, 0.8);
+}
+
+.fleet__footer-arrow {
+    transition: transform 160ms ease;
+}
+
+.fleet__footer a:hover .fleet__footer-arrow {
+    transform: translateX(3px);
+}
+
 
 @media (max-width: 720px) {
     .reviews__grid {

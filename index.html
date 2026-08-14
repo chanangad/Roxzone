@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=43">
+  <link rel="stylesheet" href="./styles.css?v=44">
 
   <script>
     // Geo decision runs BEFORE the body paints. The payment groups live in the
@@ -496,8 +496,98 @@
 
       <p class="reviews__footer">
         <a href="https://apps.garmin.com/apps/95ff2e3b-7417-4bcf-8ced-7e4b70113616" target="_blank" rel="noreferrer">
-          Read all reviews on Garmin Connect IQ →
+          Read all reviews on Garmin Connect IQ <span class="fleet__footer-arrow" aria-hidden="true">→</span>
         </a>
+      </p>
+    </section>
+
+    <!-- Cross-promo strip for the rest of the Chan Digital fleet. Compact
+         tiles, not sales pitches: this sits after the reviews, so anyone here
+         is either post-purchase or browsing - a quiet studio credit, no CTA
+         competing with ROXZONE's own. -->
+    <section class="fleet" aria-labelledby="fleet-title">
+      <header class="fleet__header">
+        <h2 id="fleet-title" class="fleet__title">More from Chan Digital</h2>
+      </header>
+      <div class="fleet__scroller">
+        <div class="fleet__track">
+        <a class="fleet-card" href="https://loopface.app/" target="_blank" rel="noreferrer">
+          <img src="./assets/fleet/loopface.webp" width="480" height="480" loading="lazy" decoding="async"
+               alt="LoopFace watch face on a Garmin watch">
+          <span class="fleet-card__name">LoopFace</span>
+          <span class="fleet-card__meta">Watch face<span class="fleet-card__score"><span class="fleet-card__star">★</span> 5.0 (24)</span></span>
+        </a>
+        <a class="fleet-card" href="https://chandigital.in/padel/" target="_blank" rel="noreferrer">
+          <img src="./assets/fleet/padel-go.webp" width="480" height="480" loading="lazy" decoding="async"
+               alt="Padel Go app on a Garmin watch">
+          <span class="fleet-card__name">Padel Go</span>
+          <span class="fleet-card__meta">Device app<span class="fleet-card__score"><span class="fleet-card__star">★</span> 4.8 (21)</span></span>
+        </a>
+        <a class="fleet-card" href="https://chandigital.in/tennis/" target="_blank" rel="noreferrer">
+          <img src="./assets/fleet/tennis-go.webp" width="480" height="480" loading="lazy" decoding="async"
+               alt="Tennis Go app on a Garmin watch">
+          <span class="fleet-card__name">Tennis Go</span>
+          <span class="fleet-card__meta">Device app<span class="fleet-card__score"><span class="fleet-card__star">★</span> 5.0 (16)</span></span>
+        </a>
+        <a class="fleet-card" href="https://chandigital.in/pickleball/" target="_blank" rel="noreferrer">
+          <img src="./assets/fleet/pickleball-go.webp" width="480" height="480" loading="lazy" decoding="async"
+               alt="Pickleball Go app on a Garmin watch">
+          <span class="fleet-card__name">Pickleball Go</span>
+          <span class="fleet-card__meta">Device app<span class="fleet-card__score"><span class="fleet-card__star">★</span> 5.0 (19)</span></span>
+        </a>
+        <a class="fleet-card" href="https://chandigital.in/badmintongo/" target="_blank" rel="noreferrer">
+          <img src="./assets/fleet/badminton-go.webp" width="480" height="480" loading="lazy" decoding="async"
+               alt="Badminton Go app on a Garmin watch">
+          <span class="fleet-card__name">Badminton Go</span>
+          <span class="fleet-card__meta">Device app<span class="fleet-card__score"><span class="fleet-card__star">★</span> 5.0 (34)</span></span>
+        </a>
+        <a class="fleet-card" href="https://chandigital.in/tabletennisgo/" target="_blank" rel="noreferrer">
+          <img src="./assets/fleet/tabletennis-go.webp" width="480" height="480" loading="lazy" decoding="async"
+               alt="Table Tennis Go app on a Garmin watch">
+          <span class="fleet-card__name">Table Tennis Go</span>
+          <span class="fleet-card__meta">Device app<span class="fleet-card__score"><span class="fleet-card__star">★</span> 5.0 (9)</span></span>
+        </a>
+      
+        <a class="fleet-card" aria-hidden="true" tabindex="-1" href="https://loopface.app/" target="_blank" rel="noreferrer">
+          <img src="./assets/fleet/loopface.webp" width="480" height="480" loading="lazy" decoding="async"
+               alt="LoopFace watch face on a Garmin watch">
+          <span class="fleet-card__name">LoopFace</span>
+          <span class="fleet-card__meta">Watch face<span class="fleet-card__score"><span class="fleet-card__star">★</span> 5.0 (24)</span></span>
+        </a>
+        <a class="fleet-card" aria-hidden="true" tabindex="-1" href="https://chandigital.in/padel/" target="_blank" rel="noreferrer">
+          <img src="./assets/fleet/padel-go.webp" width="480" height="480" loading="lazy" decoding="async"
+               alt="Padel Go app on a Garmin watch">
+          <span class="fleet-card__name">Padel Go</span>
+          <span class="fleet-card__meta">Device app<span class="fleet-card__score"><span class="fleet-card__star">★</span> 4.8 (21)</span></span>
+        </a>
+        <a class="fleet-card" aria-hidden="true" tabindex="-1" href="https://chandigital.in/tennis/" target="_blank" rel="noreferrer">
+          <img src="./assets/fleet/tennis-go.webp" width="480" height="480" loading="lazy" decoding="async"
+               alt="Tennis Go app on a Garmin watch">
+          <span class="fleet-card__name">Tennis Go</span>
+          <span class="fleet-card__meta">Device app<span class="fleet-card__score"><span class="fleet-card__star">★</span> 5.0 (16)</span></span>
+        </a>
+        <a class="fleet-card" aria-hidden="true" tabindex="-1" href="https://chandigital.in/pickleball/" target="_blank" rel="noreferrer">
+          <img src="./assets/fleet/pickleball-go.webp" width="480" height="480" loading="lazy" decoding="async"
+               alt="Pickleball Go app on a Garmin watch">
+          <span class="fleet-card__name">Pickleball Go</span>
+          <span class="fleet-card__meta">Device app<span class="fleet-card__score"><span class="fleet-card__star">★</span> 5.0 (19)</span></span>
+        </a>
+        <a class="fleet-card" aria-hidden="true" tabindex="-1" href="https://chandigital.in/badmintongo/" target="_blank" rel="noreferrer">
+          <img src="./assets/fleet/badminton-go.webp" width="480" height="480" loading="lazy" decoding="async"
+               alt="Badminton Go app on a Garmin watch">
+          <span class="fleet-card__name">Badminton Go</span>
+          <span class="fleet-card__meta">Device app<span class="fleet-card__score"><span class="fleet-card__star">★</span> 5.0 (34)</span></span>
+        </a>
+        <a class="fleet-card" aria-hidden="true" tabindex="-1" href="https://chandigital.in/tabletennisgo/" target="_blank" rel="noreferrer">
+          <img src="./assets/fleet/tabletennis-go.webp" width="480" height="480" loading="lazy" decoding="async"
+               alt="Table Tennis Go app on a Garmin watch">
+          <span class="fleet-card__name">Table Tennis Go</span>
+          <span class="fleet-card__meta">Device app<span class="fleet-card__score"><span class="fleet-card__star">★</span> 5.0 (9)</span></span>
+        </a>
+      </div>
+      </div>
+      <p class="fleet__footer">
+        <a href="https://chandigital.in/" target="_blank" rel="noreferrer">Visit chandigital.in <span class="fleet__footer-arrow" aria-hidden="true">→</span></a>
       </p>
     </section>
   </main>
