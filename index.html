@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=45">
+  <link rel="stylesheet" href="./styles.css?v=46">
 
   <script>
     // Geo decision runs BEFORE the body paints. The payment groups live in the
@@ -299,6 +299,19 @@
                 </select>
                 <p class="hint-copy">Required for your GST invoice.</p>
               </div>
+            </div>
+            <!-- Promo code, collapsed behind a link: almost nobody has one, and
+               a permanently visible empty field makes full-price buyers wonder
+               what they are missing. Applied on the Dodo route only - Razorpay
+               (India) has no code support. -->
+            <div class="promo-block">
+                <button type="button" id="promo-toggle" class="promo-toggle">Have a promo code?</button>
+                <div class="field promo-field" id="promo-field" hidden>
+                  <label for="promo-code-input">Promo code</label>
+                  <input id="promo-code-input" name="promo-code" type="text" placeholder="e.g. HYROXTHAI"
+                     autocomplete="off" spellcheck="false" autocapitalize="characters">
+                  <p class="hint-copy">Applied on the checkout page total.</p>
+                </div>
             </div>
           </form>
 
@@ -766,6 +779,15 @@
         return;
       }
 
+      // A promo code typed and then silently ignored reads as a broken page
+      // (or worse, a scam). Codes ride the Dodo checkout only.
+      const promoTyped = (document.getElementById("promo-code-input") || {value: ""}).value.trim();
+      if (provider === "razorpay" && promoTyped) {
+        setPanelStatus(unlockStatus,
+          "Promo codes work with the Card or Wallet checkout only, not Razorpay.", "warn");
+        return;
+      }
+
       // Place of supply — decides CGST+SGST vs IGST on the GST invoice, so it
       // is required for INR checkouts only.
       const stateCode = (document.getElementById("unlock-state") || {}).value || "";
@@ -788,11 +810,10 @@
           }
         } else if (provider === "dodo") {
           setPanelStatus(unlockStatus, "Creating checkout…");
-          const data = await postJson("/api/dodo/create-checkout", {
-            claimCode,
-            email,
-            name
-          });
+          const payload = {claimCode, email, name};
+          const promo = (document.getElementById("promo-code-input") || {value: ""}).value.trim();
+          if (promo) { payload.discountCode = promo.toUpperCase(); }
+          const data = await postJson("/api/dodo/create-checkout", payload);
           if (data && data.paymentUrl) {
             window.location.href = data.paymentUrl;
             return;
@@ -874,6 +895,14 @@
       event.preventDefault();
       if (isIndia) { await beginCheckout("razorpay", "INR"); }
       else { await beginCheckout("dodo"); }
+    });
+
+    const promoToggle = document.getElementById("promo-toggle");
+    const promoField = document.getElementById("promo-field");
+    promoToggle.addEventListener("click", () => {
+      promoField.hidden = false;
+      promoToggle.hidden = true;
+      document.getElementById("promo-code-input").focus();
     });
 
     document.getElementById("dodo-button").addEventListener("click", async () => {
