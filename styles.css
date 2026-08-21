@@ -602,7 +602,8 @@ font[style*="background-color"] {
 .panel {
     background: linear-gradient(180deg, rgba(42, 42, 42, 0.92), rgba(27, 28, 28, 0.98));
     border-radius: 2rem;
-    padding: 2.2rem;
+    padding: 4rem 3.8rem;
+    margin: 3.5rem 0;
 }
 
 .panel--narrow {
@@ -757,7 +758,7 @@ font[style*="background-color"] {
     grid-template-columns: 1fr 1fr;
     gap: 1.15rem;
     align-items: center;
-    margin-top: 1.45rem;
+    margin-top: 2.2rem;
 }
 
 .payment-stack {
@@ -1126,7 +1127,8 @@ font[style*="background-color"] {
     }
 
     .panel {
-        padding: 1.25rem;
+        padding: 2rem 1.25rem;
+        margin: 2.2rem 0;
     }
 
     .hero__image-card {
