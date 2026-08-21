@@ -568,29 +568,24 @@ font[style*="background-color"] {
     text-transform: uppercase;
 }
 
+/* Deliberately a whisper: the guarantee exists for the hesitant buyer to
+   find, not to advertise the refund path. */
 .guarantee-note {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.55rem;
     margin: 0;
     color: var(--muted);
-    font-size: 0.88rem;
-    line-height: 1.55;
-    opacity: 0.85;
-}
-
-.guarantee-note svg {
-    width: 1rem;
-    height: 1rem;
-    flex-shrink: 0;
-    margin-top: 0.18rem;
-    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.5;
+    opacity: 0.55;
 }
 
 .guarantee-note a {
-    color: var(--primary);
+    color: inherit;
     text-decoration: underline;
     text-underline-offset: 3px;
+}
+
+.guarantee-note a:hover {
+    color: var(--ink);
 }
 
 .price-card__cta {
@@ -614,11 +609,14 @@ font[style*="background-color"] {
     max-width: 48rem;
 }
 
+/* Big enough that the intro column roughly matches the form column's height;
+   the narrow column makes it break into two stacked words. */
 .panel__title {
-    margin: 0 0 1.5rem;
-    font-size: 2.1rem;
+    margin: 0 0 1.6rem;
+    font-size: clamp(2.4rem, 4.6vw, 3.6rem);
     font-weight: 900;
     letter-spacing: -0.05em;
+    line-height: 0.95;
     text-transform: uppercase;
 }
 
@@ -649,19 +647,74 @@ font[style*="background-color"] {
 
 .panel__content {
     display: none;
-    min-height: 22rem;
 }
 
 .panel__content--active {
     display: block;
 }
 
-.panel__grid {
+/* Identity left, form right. The note row is separate so the guarantee can
+   pin to the panel's bottom edge, level with the pay button that ends the
+   form column. */
+.panel__split {
     display: grid;
-    grid-template-columns: minmax(300px, 1fr) minmax(320px, 1fr);
-    gap: 2rem;
-    align-items: start;
+    grid-template-columns: minmax(260px, 0.85fr) minmax(340px, 1.15fr);
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+        "intro body"
+        "note  body";
+    column-gap: 3rem;
+    row-gap: 1.5rem;
 }
+
+.panel__intro {
+    grid-area: intro;
+}
+
+.panel__body {
+    grid-area: body;
+}
+
+.panel__split > .guarantee-note {
+    grid-area: note;
+    align-self: end;
+    margin: 0;
+}
+
+/* Unlock fields, geo-swapped by grid areas. Intl: code full width, then
+   name/email. India: code+name, then email+state. */
+.form-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+        "code code"
+        "name email";
+    gap: 1.45rem 1.15rem;
+}
+
+[data-geo="india"] .form-fields--unlock {
+    grid-template-areas:
+        "code name"
+        "email state";
+}
+
+/* Restore mirrors the unlock rhythm: code full width, then email. The
+   multi-licence picker spans the row when script reveals it. */
+.form-fields--restore {
+    grid-template-areas:
+        "code code"
+        "email email";
+}
+
+.field--choices {
+    grid-column: 1 / -1;
+}
+
+.field--code { grid-area: code; }
+.field--name { grid-area: name; }
+.field--email { grid-area: email; }
+.field--state { grid-area: state; }
+
 
 .panel__note {
     grid-column: 1 / -1;
@@ -689,18 +742,34 @@ font[style*="background-color"] {
 /* Place of supply is only meaningful for a domestic GST invoice, so the state
    field is gated on data-geo like the payment groups: decided in <head> before
    first paint rather than hidden by JS after the field has already shown. */
-#unlock-state-row {
+#unlock-state-field {
     display: none;
 }
 
-[data-geo="india"] #unlock-state-row {
+[data-geo="india"] #unlock-state-field {
     display: grid;
+}
+
+/* Closing row of the unlock tab: promo entry left, pay button right at the
+   same width as one field column. */
+.checkout-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.15rem;
+    align-items: center;
+    margin-top: 1.45rem;
 }
 
 .payment-stack {
     display: grid;
     gap: 1.75rem;
     align-content: start;
+}
+
+/* Outside the checkout row (the restore tab) the stack still needs its own
+   breathing room from the form above. */
+.payment-stack--restore {
+    margin-top: 1.45rem;
 }
 
 .payment-option--ghost {
@@ -711,6 +780,12 @@ font[style*="background-color"] {
     display: grid;
     gap: 0.6rem;
     align-content: start;
+}
+
+/* An author display beats the UA sheet's [hidden]; without this the restore
+   licence picker shows its legend before script reveals it. */
+.field[hidden] {
+    display: none;
 }
 
 .field label {
@@ -772,8 +847,9 @@ font[style*="background-color"] {
 .hint-copy {
     margin: 0;
     color: var(--muted);
-    font-size: 0.88rem;
-    font-weight: 700;
+    font-size: 0.82rem;
+    font-weight: 400;
+    opacity: 0.85;
     display: flex;
     align-items: center;
 }
@@ -797,6 +873,7 @@ font[style*="background-color"] {
     font-weight: 900;
     line-height: 1;
     letter-spacing: -0.02em;
+    white-space: nowrap;
     cursor: pointer;
     transition: transform 160ms ease, filter 160ms ease;
 }
@@ -834,9 +911,11 @@ font[style*="background-color"] {
     gap: 0.75rem;
 }
 
+
+
 .pay-button--dodo {
-    background: var(--primary);
-    color: #0a1628;
+    background: var(--primary-strong);
+    color: var(--primary-ink);
 }
 
 .pay-button--razorpay {
@@ -894,7 +973,13 @@ font[style*="background-color"] {
 .helper-note {
     margin: 0;
     color: var(--muted);
-    font-size: 0.95rem;
+    font-size: 0.85rem;
+    opacity: 0.85;
+}
+
+/* Status/instruction lines under the pay and restore buttons need air. */
+.panel__body .helper-note {
+    margin-top: 1rem;
 }
 
 .helper-note:empty {
@@ -946,9 +1031,18 @@ font[style*="background-color"] {
 }
 
 @media (max-width: 980px) {
-    .hero,
-    .panel__grid {
+    .hero {
         grid-template-columns: 1fr;
+    }
+
+    /* Stacked: title and toggle, then the form, guarantee last. */
+    .panel__split {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+        grid-template-areas:
+            "intro"
+            "body"
+            "note";
     }
 
     .hero__image-card {
@@ -963,6 +1057,24 @@ font[style*="background-color"] {
     .form-row,
     .payment-group__buttons {
         grid-template-columns: 1fr;
+    }
+
+    /* Phones stack every field; the geo selectors outrank the base rule, so
+       both arrangements need their single-column areas spelled out. */
+    .form-fields,
+    [data-geo="india"] .form-fields {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "code"
+            "name"
+            "email"
+            "state";
+    }
+
+    /* Promo above a full-width button on phones. */
+    .checkout-row {
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
     }
 }
 
@@ -2294,20 +2406,11 @@ font[style*="background-color"] {
 /* Promo code - collapsed behind a link so the default checkout stays clean.
    Half the form width, like the State field: the code is ten-odd characters
    and a full-width box reads as more important than it is. */
+/* Lives in the checkout row's left cell now, so it just fills it. */
 .promo-block {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 1rem;
-}
-
-.promo-block > * {
-    grid-column: 1;
-}
-
-@media (max-width: 640px) {
-    .promo-block {
-        grid-template-columns: 1fr;
-    }
 }
 
 .promo-toggle {

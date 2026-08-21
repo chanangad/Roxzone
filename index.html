@@ -221,43 +221,52 @@
     </section>
 
     <section class="panel">
-      <h2 class="panel__title">Unlock ROXZONE</h2>
+      <!-- Two columns: identity on the left (big title, tab toggle, guarantee
+           pinned to the bottom edge), the form on the right. The guarantee and
+           the pay button bottom-align because the note has its own grid row
+           set to align-self: end while the body spans both rows. -->
+      <div class="panel__split">
+        <div class="panel__intro">
+          <h2 class="panel__title">Unlock ROXZONE</h2>
 
-      <div class="panel__tabs" role="tablist" aria-label="Unlock and restore tabs">
+          <div class="panel__tabs" role="tablist" aria-label="Unlock and restore tabs">
         <button type="button" id="tab-unlock" class="panel__tab panel__tab--active" data-tab="unlock" role="tab"
           aria-controls="panel-unlock" aria-selected="true">Unlock</button>
         <button type="button" id="tab-restore" class="panel__tab" data-tab="restore" role="tab"
           aria-controls="panel-restore" aria-selected="false">Restore purchase</button>
       </div>
+        </div>
 
-      <section id="panel-unlock" class="panel__content panel__content--active" role="tabpanel"
-        aria-labelledby="tab-unlock">
-        <div class="panel__grid">
-          <form id="unlock-form" class="form-grid">
-            <div class="field">
-              <label for="claim-code-input">Watch claim code</label>
-              <div class="prefix-input">
-                <span class="prefix-input__prefix" aria-hidden="true">RZ-</span>
-                <input id="claim-code-input" name="claim-code" type="text" required placeholder="4839 2017 5264" autocomplete="off" spellcheck="false"
-                       inputmode="numeric" pattern="[0-9 -]*">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="field">
-                <label for="unlock-name">Name</label>
-                <input id="unlock-name" name="name" type="text" required placeholder="Jane Athlete" autocomplete="name">
-              </div>
-              <div class="field">
-                <label for="unlock-email">Email address</label>
-                <input id="unlock-email" name="email" type="email" required placeholder="athlete@example.com">
-              </div>
-            </div>
-            <!-- Place of supply. Shown only for India, where it decides whether
-                 the GST invoice carries CGST+SGST or IGST. -->
-            <div class="form-row" id="unlock-state-row">
-              <div class="field">
-                <label for="unlock-state">State</label>
-                <select id="unlock-state" name="state" class="is-placeholder">
+        <div class="panel__body">
+          <section id="panel-unlock" class="panel__content panel__content--active" role="tabpanel"
+            aria-labelledby="tab-unlock">
+            <form id="unlock-form" class="form-grid">
+              <!-- Row 1, the mandatory one: claim code, plus place-of-supply
+                   for India (decides CGST+SGST vs IGST on the invoice). -->
+              <!-- One grid, geo-swapped areas: internationally the code runs
+                   full width with name/email below; India trades that for
+                   code+name then email+state so the GST field joins the flow
+                   instead of dangling. -->
+              <div class="form-fields form-fields--unlock">
+                <div class="field field--code">
+                  <label for="claim-code-input">Watch claim code</label>
+                  <div class="prefix-input">
+                    <span class="prefix-input__prefix" aria-hidden="true">RZ-</span>
+                    <input id="claim-code-input" name="claim-code" type="text" required placeholder="4839 2017 5264" autocomplete="off" spellcheck="false"
+                           inputmode="numeric" pattern="[0-9 -]*">
+                  </div>
+                </div>
+                <div class="field field--name">
+                  <label for="unlock-name">Name</label>
+                  <input id="unlock-name" name="name" type="text" required placeholder="Jane Athlete" autocomplete="name">
+                </div>
+                <div class="field field--email">
+                  <label for="unlock-email">Email address</label>
+                  <input id="unlock-email" name="email" type="email" required placeholder="athlete@example.com">
+                </div>
+                <div class="field field--state" id="unlock-state-field">
+                  <label for="unlock-state">State</label>
+                  <select id="unlock-state" name="state" class="is-placeholder">
                   <option value="">Select your state</option>
                   <option value="37">Andhra Pradesh</option>
                   <option value="35">Andaman and Nicobar Islands</option>
@@ -297,10 +306,15 @@
                   <option value="19">West Bengal</option>
                   <option value="97">Other Territory</option>
                 </select>
-                <p class="hint-copy">Required for your GST invoice.</p>
+                  <p class="hint-copy">Required for your GST invoice.</p>
+                </div>
               </div>
-            </div>
-            <!-- Promo code, collapsed behind a link: almost nobody has one, and
+</form>
+
+          <!-- Closing row: promo entry on the left, the pay button on the
+               right at field width. -->
+          <div class="checkout-row">
+              <!-- Promo code, collapsed behind a link: almost nobody has one, and
                a permanently visible empty field makes full-price buyers wonder
                what they are missing. Applied on the Dodo route only - Razorpay
                (India) has no code support. -->
@@ -313,8 +327,6 @@
                   <p class="hint-copy">Applied on the checkout page total.</p>
                 </div>
             </div>
-          </form>
-
           <div class="payment-stack">
             <div class="payment-group" data-region="intl">
               <div class="payment-group__buttons">
@@ -322,7 +334,7 @@
                 <button type="button" id="razorpay-intl-button" class="pay-button pay-button--razorpay">Card or Wallet</button>
                 <button type="submit" form="unlock-form" class="pay-button pay-button--paypal">Pay with PayPal</button>
                 -->
-                <button type="button" id="dodo-button" class="pay-button pay-button--dodo">Card or Wallet</button>
+                <button type="button" id="dodo-button" class="pay-button pay-button--dodo"><span class="pay-button__label">Pay by Card or Wallet</span></button>
               </div>
               <!-- Shown only to visitors in a mainland-China timezone. WeChat Pay
                    is available but invisible until the Dodo checkout page, so
@@ -337,61 +349,53 @@
 
             <div class="payment-group" data-region="india">
               <div class="payment-group__buttons">
-                <button type="button" id="razorpay-button" class="pay-button pay-button--razorpay">Pay with Razorpay</button>
+                <button type="button" id="razorpay-button" class="pay-button pay-button--razorpay"><span class="pay-button__label">Pay with UPI or Card</span></button>
               </div>
             </div>
           </div>
-
-          <p class="guarantee-note panel__note">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 2L4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z" />
-              <path d="M9 12l2 2 4-4" />
-            </svg>
-            <span>Backed by a <a href="./refund/">24-hour money-back guarantee</a>. Email <a href="mailto:hello@roxzone.app">hello@roxzone.app</a> within 24 hours of purchase for a full refund.</span>
-          </p>
-
-          <p id="unlock-status" class="helper-note panel__note"></p>
-        </div>
-      </section>
-
-      <section id="panel-restore" class="panel__content" role="tabpanel" aria-labelledby="tab-restore" hidden>
-        <div class="panel__grid">
-          <form id="restore-form" class="form-grid">
-            <div class="field">
-              <label for="restore-claim-code-input">Watch claim code</label>
-              <div class="prefix-input">
-                <span class="prefix-input__prefix" aria-hidden="true">RZ-</span>
-                <input id="restore-claim-code-input" name="restore-claim-code" type="text" required placeholder="4839 2017 5264" autocomplete="off" spellcheck="false"
-                       inputmode="numeric" pattern="[0-9 -]*">
-              </div>
-            </div>
-            <div class="field">
-              <label for="restore-email">Email address</label>
-              <input id="restore-email" name="email" type="email" required placeholder="original-email@example.com">
-            </div>
-            <!-- Filled by script when the email owns more than one licence:
-                 the buyer picks which purchase to move by date and code end,
-                 since nobody has the old full code after a reinstall. -->
-            <fieldset id="restore-choices" class="field" hidden>
-              <legend>Which purchase do you want to move?</legend>
-            </fieldset>
-          </form>
-
-          <div class="payment-stack payment-stack--restore">
-            <div class="payment-option payment-option--restore">
-              <p class="hint-copy">Use the same email you used for your original purchase.</p>
-              <button type="submit" form="restore-form" class="pay-button pay-button--restore">Restore Previous
-                License</button>
-            </div>
-            <div class="payment-option payment-option--ghost" aria-hidden="true"></div>
           </div>
 
-          <p id="restore-status" class="helper-note panel__note">After restore, return to the watch app and choose
-            Refresh License.</p>
-        </div>
-      </section>
+          <p id="unlock-status" class="helper-note"></p>
+          </section>
 
+          <section id="panel-restore" class="panel__content" role="tabpanel" aria-labelledby="tab-restore" hidden>
+            <form id="restore-form" class="form-grid">
+              <div class="form-fields form-fields--restore">
+                <div class="field field--code">
+                  <label for="restore-claim-code-input">Watch claim code</label>
+                  <div class="prefix-input">
+                    <span class="prefix-input__prefix" aria-hidden="true">RZ-</span>
+                    <input id="restore-claim-code-input" name="restore-claim-code" type="text" required placeholder="4839 2017 5264" autocomplete="off" spellcheck="false"
+                           inputmode="numeric" pattern="[0-9 -]*">
+                  </div>
+                </div>
+                <div class="field field--email">
+                  <label for="restore-email">Email address</label>
+                  <input id="restore-email" name="email" type="email" required placeholder="original-email@example.com">
+                  <p class="hint-copy">Use the same email you used for your original purchase.</p>
+                </div>
+                <!-- Filled by script when the email owns more than one licence:
+                     the buyer picks which purchase to move by date and code end,
+                     since nobody has the old full code after a reinstall. -->
+                <fieldset id="restore-choices" class="field field--choices" hidden>
+                  <legend>Which purchase do you want to move?</legend>
+                </fieldset>
+              </div>
+            </form>
+
+            <div class="payment-stack payment-stack--restore">
+              <div class="payment-group__buttons">
+                <button type="submit" form="restore-form" class="pay-button pay-button--restore">Restore Previous License</button>
+              </div>
+            </div>
+
+            <p id="restore-status" class="helper-note">After restore, return to the watch app and choose
+              Refresh License.</p>
+          </section>
+        </div>
+
+        <p class="guarantee-note">Backed by a <a href="./refund/">24-hour money-back guarantee</a>.</p>
+      </div>
     </section>
 
     <!-- Social share. Minimal two-column: heading, lede and button on the
