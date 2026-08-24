@@ -377,9 +377,8 @@
                 <!-- Filled by script when the email owns more than one licence:
                      the buyer picks which purchase to move by date and code end,
                      since nobody has the old full code after a reinstall. -->
-                <fieldset id="restore-choices" class="field field--choices" hidden>
-                  <legend>Which purchase do you want to move?</legend>
-                </fieldset>
+                <!-- The licence picker moved to the page the restore email opens: the
+                     choice needs the same proof-of-email as the move itself. -->
               </div>
             </form>
 
@@ -736,14 +735,6 @@
     claimCodeInput.addEventListener("input", () => syncClaimCode(claimCodeInput.value));
     restoreClaimCodeInput.addEventListener("input", () => syncClaimCode(restoreClaimCodeInput.value));
 
-    // A licence choice belongs to the email it was listed for - typing a
-    // different address invalidates it.
-    document.getElementById("restore-email").addEventListener("input", () => {
-      const box = document.getElementById("restore-choices");
-      box.hidden = true;
-      box.querySelectorAll("label").forEach((n) => n.remove());
-    });
-
     async function beginCheckout(provider, currency) {
       const rawSuffix = claimCodeInput.value.trim().toUpperCase();
       const suffix = claimCodeDigits(rawSuffix);
@@ -938,58 +929,20 @@
         return;
       }
 
-      setPanelStatus(restoreStatus, "Checking your purchase…");
+      setPanelStatus(restoreStatus, "Sending confirmation email…");
       try {
+        // Restore now requires proof the person owns the purchase email:
+        // knowing an address used to be enough to move someone's licence.
+        // The API answers identically whether or not the address owns
+        // anything, so there is nothing to report back except "check your
+        // email" - the licence picker and the actual move live on the page
+        // the emailed link opens.
         const requestData = await postJson("/api/restore/request", {
           claimCode,
           email
         });
-        if (!requestData.canRestore) {
-          setPanelStatus(restoreStatus, "No paid purchase found for that email.", "warn");
-          return;
-        }
-
-        // More than one licence on this email: the buyer has to pick which
-        // purchase moves, identified by date and code end - the full old code
-        // is gone from the watch after a reinstall, so it is never asked for.
-        const choicesBox = document.getElementById("restore-choices");
-        let licenceRef = null;
-        if (requestData.choices && requestData.choices.length > 1) {
-          const picked = choicesBox.querySelector("input[name=restore-choice]:checked");
-          if (picked) {
-            licenceRef = Number(picked.value);
-          } else {
-            choicesBox.querySelectorAll("label").forEach((n) => n.remove());
-            requestData.choices.forEach((c) => {
-              const label = document.createElement("label");
-              label.className = "restore-choice";
-              const radio = document.createElement("input");
-              radio.type = "radio";
-              radio.name = "restore-choice";
-              radio.value = String(c.ref);
-              label.appendChild(radio);
-              let when = c.purchased;
-              try {
-                when = new Date(`${c.purchased}T00:00:00Z`).toLocaleDateString(undefined,
-                  {day: "numeric", month: "short", year: "numeric", timeZone: "UTC"});
-              } catch (e) { /* keep the ISO date */ }
-              label.appendChild(document.createTextNode(
-                `Purchased ${when} · code ending ${c.codeEnd}`));
-              choicesBox.appendChild(label);
-            });
-            choicesBox.hidden = false;
-            setPanelStatus(restoreStatus,
-              "This email has more than one license. Pick which purchase to move, then press Restore again.", "warn");
-            return;
-          }
-        }
-
-        const data = await postJson("/api/restore/complete", {
-          claimCode,
-          email,
-          licenceRef
-        });
-        setPanelStatus(restoreStatus, data.message || "Purchase restored. Refresh the watch app now.", "ok");
+        setPanelStatus(restoreStatus,
+          requestData.message || "If that email owns a licence, a confirmation link is on its way.", "ok");
       } catch (error) {
         setPanelStatus(restoreStatus, error.message, "warn");
       }
