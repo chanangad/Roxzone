@@ -1767,7 +1767,11 @@ font[style*="background-color"] {
     line-height: 1.65;
 }
 
-.manual-callout strong {
+/* The callout's title only - it is the direct child. Unscoped, this also
+   caught every <strong> inside the body copy and turned mid-sentence
+   emphasis into a block-level uppercase orange label, so "press and hold
+   the screen" read as shouting on its own line. */
+.manual-callout > strong {
     color: var(--secondary);
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -1776,12 +1780,17 @@ font[style*="background-color"] {
     margin-bottom: 0.35rem;
 }
 
+.manual-callout p strong {
+    color: var(--ink);
+    font-weight: 700;
+}
+
 .manual-callout--pro {
     background: rgba(14, 109, 201, 0.12);
     border-left-color: var(--primary-strong);
 }
 
-.manual-callout--pro strong {
+.manual-callout--pro > strong {
     color: var(--primary);
 }
 
