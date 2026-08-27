@@ -33,6 +33,20 @@
     .steps .step-body strong { color: var(--ink, #e4e2e1); }
     .steps .step-sub { display: block; color: var(--muted, #9aa0ae); font-size: 0.85rem; margin-top: 0.15rem; }
     .success-home { display: inline-block; margin-top: 1.4rem; color: var(--muted, #9aa0ae); font-size: 0.9rem; }
+    /* An author `display` beats the UA sheet's `[hidden]`, the same trap the
+       steps hit, so the hidden state is spelled out. */
+    .follow { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--outline, rgba(65,71,82,.35)); }
+    .follow[hidden] { display: none; }
+    .follow__lead { margin: 0 0 0.85rem; color: var(--muted, #9aa0ae); font-size: 0.9rem; }
+    .follow__links { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+    .follow__link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 1.1rem; border: 1px solid var(--outline, rgba(65,71,82,.35));
+      border-radius: 999px; color: var(--ink, #e4e2e1); font-size: 0.9rem; font-weight: 600;
+      transition: border-color 160ms ease, background 160ms ease;
+    }
+    .follow__mark { width: 15px; height: 15px; display: block; }
+    .follow__link:hover { background: var(--surface-low, #1b1c1c); border-color: rgba(65,71,82,.8); }
     .success-home:hover { color: var(--ink, #e4e2e1); }
   </style>
 </head>
@@ -80,6 +94,29 @@
       </p>
       <div id="success-actions" class="action-row">
         <a id="home-link" class="action-link action-link--primary" href="../">Back to Home</a>
+      </div>
+
+      <!-- Shown only after a confirmed payment. This is the one moment a buyer
+           is both happy and about to leave for good, so the follow ask lives
+           here rather than only in the footer. Never shown on a failed
+           payment, where it would read badly. -->
+      <div id="follow-block" class="follow" hidden>
+        <p class="follow__lead">App updates, new features and beta invites:</p>
+        <div class="follow__links">
+          <a class="follow__link" href="https://www.instagram.com/roxzone.app" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" focusable="false">
+              <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+              <circle cx="17.6" cy="6.4" r="1.2" fill="currentColor"/>
+            </svg>
+            Instagram
+          </a>
+          <a class="follow__link" href="https://www.reddit.com/r/roxzone_app/" target="_blank" rel="noopener">
+            <img src="../assets/reddit-mark.png" width="15" height="15" alt=""
+                 class="follow__mark" loading="lazy" decoding="async">
+            r/roxzone_app
+          </a>
+        </div>
       </div>
     </section>
   </main>
@@ -134,6 +171,7 @@
       setMessage("Payment complete. One step left:", "", statusText, "ok");
       successCopy.hidden = true;
       activationSteps.hidden = false;
+      document.getElementById("follow-block").hidden = false;
       homeLink.className = "success-home";
       homeLink.textContent = "Back to roxzone.app";
     }
