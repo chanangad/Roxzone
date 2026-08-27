@@ -204,15 +204,36 @@ font[style*="background-color"] {
     transition: color 160ms ease, opacity 160ms ease;
 }
 
+/* Dimmed via colour rather than opacity: opacity on the tab would cap the
+   "New" pill inside it, and a child can never exceed its parent's opacity.
+   #83868f is --muted at 65% over the page background. */
 .topbar__tab--dim {
     border-bottom-color: transparent;
-    color: var(--muted);
-    opacity: 0.65;
+    color: #83868f;
 }
+
+/* "New" flag on a nav item. Orange because it is the page's attention colour,
+   and the tab it sits on is deliberately dimmed - the pill has to carry the
+   signal on its own. Remove the span from the markup once it stops being new. */
+.topbar__badge {
+    display: inline-block;
+    margin-left: 0.38rem;
+    padding: 0.12rem 0.36rem;
+    border-radius: 999px;
+    background: var(--secondary-strong);
+    color: #fff;
+    font-size: 0.5rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    line-height: 1;
+    /* Sits against the cap-height of the label rather than its baseline. */
+    vertical-align: 0.34em;
+}
+
 
 .topbar__tab--dim:hover {
     color: var(--ink);
-    opacity: 1;
 }
 
 /* ── FAQ ──────────────────────────────────────────── */
