@@ -167,6 +167,9 @@
     // Payment confirmed: the page's one job is to get the buyer to press
     // Refresh License on the watch. Steps become the hero; the home link is
     // demoted to a footnote so it cannot compete with the instruction.
+    // statusText is deliberately empty on success: the heading already says the
+    // payment completed, so a second confirmation line only adds noise. It
+    // still carries the pending and failure messages.
     function showActivation(statusText) {
       setMessage("Payment complete. One step left:", "", statusText, "ok");
       successCopy.hidden = true;
@@ -201,7 +204,7 @@
       // Preferred PayPal flow: capture already happened server-side.
       if (provider === "paypal" && payStatus) {
         if (payStatus === "paid") {
-          showActivation("PayPal payment captured successfully.");
+          showActivation("");
         } else {
           setMessage("Payment Not Completed", NOT_CHARGED_COPY,
             payStatus === "failed" ? "Payment was not captured." : "No valid payment reference was found.",
@@ -214,7 +217,7 @@
       if (paypalToken) {
         try {
           await postJson("/api/paypal/capture-order", {orderId: paypalToken});
-          showActivation("PayPal payment captured successfully.");
+          showActivation("");
         } catch (error) {
           setMessage("Payment Not Completed", NOT_CHARGED_COPY, error.message, "warn");
         }
@@ -226,7 +229,7 @@
         setMessage(null, "Thanks for your purchase. Confirming with our servers…", "Waiting for payment confirmation…", "ok");
         const paid = await pollLicensePaid(claimCode);
         if (paid) {
-          showActivation("Payment confirmed.");
+          showActivation("");
         } else {
           setMessage(
             "Almost there…",
