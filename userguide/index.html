@@ -121,7 +121,18 @@
             </ul>
           </li>
           <li>
-            <a href="#after-workout" class="manual-sidebar__chapter">8. After the Workout</a>
+            <a href="#race-plan" class="manual-sidebar__chapter">8. Race Plan</a>
+            <ul class="manual-sidebar__sub">
+              <li><a href="#race-plan-before">Before you start</a></li>
+              <li><a href="#race-plan-build">Building a plan</a></li>
+              <li><a href="#race-plan-sync">Getting it on the watch</a></li>
+              <li><a href="#race-plan-race">During the race</a></li>
+              <li><a href="#race-plan-manage">Changing or removing a plan</a></li>
+              <li><a href="#race-plan-messages">Messages on the watch</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#after-workout" class="manual-sidebar__chapter">9. After the Workout</a>
             <ul class="manual-sidebar__sub">
               <li><a href="#summary-screen">Summary screen</a></li>
               <li><a href="#share-mobile">Share to mobile</a></li>
@@ -133,7 +144,7 @@
             </ul>
           </li>
           <li>
-            <a href="#troubleshooting" class="manual-sidebar__chapter">9. Troubleshooting</a>
+            <a href="#troubleshooting" class="manual-sidebar__chapter">10. Troubleshooting</a>
             <ul class="manual-sidebar__sub">
               <li><a href="#still-locked">Still locked after payment</a></li>
               <li><a href="#check-connection">Check Connection message</a></li>
@@ -142,7 +153,7 @@
             </ul>
           </li>
           <li>
-            <a href="#contact" class="manual-sidebar__chapter">10. Support &amp; Feedback</a>
+            <a href="#contact" class="manual-sidebar__chapter">11. Support &amp; Feedback</a>
             <ul class="manual-sidebar__sub">
               <li><a href="#contact-email">Contact the developer</a></li>
               <li><a href="#reviews">Leave a review</a></li>
@@ -469,6 +480,7 @@
             </ul>
             <p>Targets show on the ladder next to each station (<em>Sled Push · 3:30</em>), and during the workout a station with a target gets the same treatment as a run: the bezel ring fills towards the target, and the main screen shows live <strong>ahead / behind</strong> so you know whether to push or hold. Stations without a target simply show the elapsed timer as before.</p>
             <p>Targets are saved with the workout, so they come back with the Start row and with anything you keep in My Workouts.</p>
+            <p>For a target on every run, station and transition at once - a whole race split from one goal time, built on your phone - see <a href="#race-plan">Race Plan</a>.</p>
           </div>
         </section>
 
@@ -607,8 +619,89 @@
         <!-- ═══════════════════════════════════════════════ -->
         <!-- Chapter 8 - After the Workout                  -->
         <!-- ═══════════════════════════════════════════════ -->
-        <section class="manual-chapter" id="after-workout">
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- Chapter 8 - Race Plan                           -->
+        <!-- ═══════════════════════════════════════════════ -->
+
+        <section class="manual-chapter" id="race-plan">
           <p class="manual-chapter__eyebrow">Chapter 8</p>
+          <h2 class="manual-chapter__title">Race Plan <span class="manual-tag">Beta</span></h2>
+          <p class="manual-chapter__lede">Build a plan for your race on your phone - a goal time split across every run, station and transition - sync it to the watch, and race against it. The watch shows your overall ahead/behind at every moment and gives a verdict on every lap.</p>
+
+          <div class="manual-section" id="race-plan-before">
+            <h3 class="manual-section__title">Before You Start</h3>
+            <ul>
+              <li>Your watch needs ROXZONE <strong>5.0.1</strong> or newer. On the watch, <strong>About</strong> in the main menu shows the version.</li>
+              <li>Plans are built at <a href="https://roxzone.app/me/plan">roxzone.app/me/plan</a> - sign in with the email you bought ROXZONE with (no password; a code is emailed to you). It is also reachable from <strong>Account</strong> at the top of this site, then <strong>Race Plan</strong> in the menu.</li>
+              <li>Plans sync to the watch you unlocked with that email. If you own more than one, the page asks which watch when you save a plan. On the watch, <strong>Race Plan</strong> &rarr; <strong>This Watch</strong> shows its ID so you can match them up.</li>
+              <li>Syncing needs your phone nearby with Garmin Connect running - the watch reaches the internet through it.</li>
+            </ul>
+          </div>
+
+          <div class="manual-section" id="race-plan-build">
+            <h3 class="manual-section__title">Building a Plan</h3>
+            <ol>
+              <li>Press <strong>Create a Plan</strong>. Choose the workout the plan is for - <strong>Official HYROX - full race format</strong>, or a <strong>25%</strong>, <strong>50%</strong> or <strong>75% Simulation</strong>. A plan only ever applies to that exact workout.</li>
+              <li>Enter your goal finish time and press <strong>Generate plan</strong>. You get a draft: every run, station and transition receives a split, and the splits add up to your goal.</li>
+              <li>Make it yours. Drag any split and the others rebalance to keep the total. Tap the lock beside a split to hold it fixed while the rest move. <strong>Reset splits</strong> returns to the even draft; <strong>Unlock all</strong> frees every lock. Edit the goal at the top and everything rebalances again.</li>
+              <li>Name the plan and press <strong>Save plan</strong>. It appears under <strong>Saved Plans</strong>. Open a saved plan to review or edit it: <strong>Save changes</strong> updates it, <strong>Save as new</strong> keeps the original and adds a copy.</li>
+            </ol>
+            <div class="manual-callout">
+              <strong>One plan per workout</strong>
+              <p>The watch uses one plan for each workout type. If two saved plans are for the same workout, the most recently edited one carries the <strong>Active</strong> pill and is the one that syncs. Edit the other one and it becomes active instead.</p>
+            </div>
+          </div>
+
+          <div class="manual-section" id="race-plan-sync">
+            <h3 class="manual-section__title">Getting It on the Watch</h3>
+            <ol>
+              <li>Open ROXZONE on the watch and set up the same workout - the official race, or the same simulation - until you reach the <a href="#review-start">Review &amp; Start</a> ladder.</li>
+              <li>The watch checks for plans by itself when it opens that screen. When one matches, it applies on its own: the ladder shows a target on every run and station, and the plan's goal time appears on the <strong>Race Plan</strong> row.</li>
+              <li>To sync right now, press <strong>MENU</strong> on the ladder (or press and hold the screen on two-button watches), then <strong>Race Plan</strong> &rarr; <strong>Sync from Phone</strong>. The line under <strong>Sync from Phone</strong> tells you what happened - see <a href="#race-plan-messages">Messages on the watch</a>.</li>
+            </ol>
+            <p>The plan applies only to the workout it was built for - the same format and the same run distance. Built a full-race plan but opened the 50% simulation? The watch says <strong>None for this workout</strong>.</p>
+            <p>Setting <a href="#station-targets">station targets</a> by hand on the watch for a session takes priority over the plan for that session. <strong>Sync from Phone</strong> puts the plan back.</p>
+          </div>
+
+          <div class="manual-section" id="race-plan-race">
+            <h3 class="manual-section__title">During the Race</h3>
+            <ul>
+              <li><strong>Main screen</strong> - total time on the left, your live ahead/behind on the right: your overall position against the plan, counting every completed run, station and transition. Grey while within a few seconds of the plan, green when ahead, red when behind.</li>
+              <li><strong>Every lap</strong> - a strip on the lap screen reads <strong>0:23 BEHIND</strong>, <strong>0:15 AHEAD</strong> or <strong>ON PLAN</strong>.</li>
+              <li><strong>The ring</strong> - each run, station and transition fills toward its own target: blue while on budget, orange from 90%, red past it.</li>
+            </ul>
+            <p>Simulations repeat until you stop. Each round is judged against the same splits, so "on plan" means on plan for every round.</p>
+          </div>
+
+          <div class="manual-section" id="race-plan-manage">
+            <h3 class="manual-section__title">Changing or Removing a Plan</h3>
+            <ul>
+              <li>Edit the plan on your phone and save. The watch picks up the new version on its next check, or immediately with <strong>Sync from Phone</strong>.</li>
+              <li><strong>Remove Plan</strong> in the watch's <strong>Race Plan</strong> menu takes the plan off that workout and keeps it off - the watch's own checks will not bring it back. It returns when you edit the plan on your phone, or when you press <strong>Sync from Phone</strong>.</li>
+              <li>To delete a plan for good, use the <strong>&#8942;</strong> menu on its card at roxzone.app and choose <strong>Delete</strong>.</li>
+            </ul>
+          </div>
+
+          <div class="manual-section" id="race-plan-messages">
+            <h3 class="manual-section__title">Messages on the Watch</h3>
+            <p>The line under <strong>Sync from Phone</strong> answers every sync. What each one means:</p>
+            <ul>
+              <li><strong>None found - build one on your phone</strong> - this account has no saved plans yet.</li>
+              <li><strong>None for this workout</strong> - you have plans, but none for this workout type and run distance.</li>
+              <li><strong>Removed - Sync restores</strong> - you removed the plan on the watch. <strong>Sync from Phone</strong> brings it back.</li>
+              <li><strong>Phone not connected</strong> - the watch cannot reach the internet. Open Garmin Connect on your phone, check the watch is connected, and try again.</li>
+              <li><strong>This watch is not on your account</strong> - the watch was unlocked with a different email. Compare <strong>Race Plan</strong> &rarr; <strong>This Watch</strong> with the watches listed under <strong>Profile</strong> at roxzone.app.</li>
+              <li><strong>Could not sync - try again</strong> - a temporary error. Wait a moment and press <strong>Sync from Phone</strong> again.</li>
+            </ul>
+            <div class="manual-callout manual-callout--pro">
+              <strong>Race Plan is in beta</strong>
+              <p>If something looks wrong - a split that does not add up, a delta that does not match your laps - email <a href="mailto:hello@roxzone.app">hello@roxzone.app</a> with your watch model and what you expected to see. It goes straight to the developer.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="manual-chapter" id="after-workout">
+          <p class="manual-chapter__eyebrow">Chapter 9</p>
           <h2 class="manual-chapter__title">After the Workout</h2>
           <p class="manual-chapter__lede">Your ROXZONE session syncs to Garmin Connect as a fully structured activity - lap by lap, segment by segment - giving you a clean data record to review and share.</p>
 
@@ -683,7 +776,7 @@
         <!-- Chapter 9 - Troubleshooting                    -->
         <!-- ═══════════════════════════════════════════════ -->
         <section class="manual-chapter" id="troubleshooting">
-          <p class="manual-chapter__eyebrow">Chapter 9</p>
+          <p class="manual-chapter__eyebrow">Chapter 10</p>
           <h2 class="manual-chapter__title">Troubleshooting</h2>
           <p class="manual-chapter__lede">Most issues resolve quickly. Work through the relevant section below before reaching out.</p>
 
@@ -727,7 +820,7 @@
         <!-- Chapter 10 - Support & Feedback                -->
         <!-- ═══════════════════════════════════════════════ -->
         <section class="manual-chapter" id="contact">
-          <p class="manual-chapter__eyebrow">Chapter 10</p>
+          <p class="manual-chapter__eyebrow">Chapter 11</p>
           <h2 class="manual-chapter__title">Support &amp; Feedback</h2>
           <p class="manual-chapter__lede">ROXZONE is built and supported by a single independent developer. Every email reaches me directly, and every review keeps the project alive.</p>
 
