@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=49">
+  <link rel="stylesheet" href="./styles.css?v=50">
 
   <script>
     // Geo decision runs BEFORE the body paints. The payment groups live in the
@@ -397,6 +397,48 @@
         <p class="guarantee-note">Backed by a <a href="./refund/">24-hour money-back guarantee</a>.</p>
       </div>
     </section>
+
+    <!-- Race Plan. The 5.0.1 headline feature, placed right after the unlock
+         panel so a visitor who has just read the price meets the biggest
+         reason to buy. Same two-column bones as Social Share below: copy
+         left, artwork right. Three steps and the builder link close it. -->
+    <section class="plan-feature" aria-labelledby="plan-title">
+      <div class="plan-grid">
+        <header class="plan-feature__header">
+          <p class="plan-feature__eyebrow">New in 5.0.1 <span class="plan-feature__beta">Beta</span></p>
+          <h2 id="plan-title" class="plan-feature__title">Race Plan</h2>
+          <p class="plan-feature__lede">One goal time, split across every run, station and transition.
+            Build it on your phone, sync it to the watch, and race against it: the main screen shows
+            how far ahead or behind you are at every moment, and every lap gives its verdict.
+            <span class="plan-feature__punch">Stop doing the maths mid-race.</span></p>
+        </header>
+
+        <!-- Image slot. Drop the real artwork in as assets/race-plan.jpg
+             (and race-plan.webp if you have it); update width/height to the
+             file's real pixel size so the layout reserves the space before
+             the image loads. -->
+        <figure class="plan-media">
+          <picture>
+            <source srcset="./assets/race-plan.webp" type="image/webp">
+            <img src="./assets/race-plan.jpg" width="1024" height="1024"
+                 loading="lazy" decoding="async"
+                 alt="A race plan on the phone next to a Garmin watch showing the live ahead/behind against it">
+          </picture>
+        </figure>
+
+        <ol class="plan-steps">
+          <li><span class="plan-steps__n">1</span><strong>Build.</strong> Set a goal. The draft splits it like a real race - drag what you know, lock it.</li>
+          <li><span class="plan-steps__n">2</span><strong>Sync.</strong> Open the workout on the watch. The plan applies itself, target on every leg.</li>
+          <li><span class="plan-steps__n">3</span><strong>Race.</strong> Ahead or behind, live. Blue ring on budget, orange at 90%, red past it.</li>
+        </ol>
+
+        <div class="plan-cta-row">
+          <a class="share-cta" href="/me/plan">Build your race plan &#8599;</a>
+          <a class="plan-how" href="./userguide/#race-plan">How it works</a>
+        </div>
+      </div>
+    </section>
+
 
     <!-- Social share. Minimal two-column: heading, lede and button on the
          left, the scroll-scrubbed two-phone clip large on the right. The clip
