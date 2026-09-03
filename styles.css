@@ -2610,9 +2610,9 @@ font[style*="background-color"] {
     margin: 0;
     justify-self: center;
     width: 100%;
-    /* Sized so the phone in the artwork (46% of its width) renders at the
+    /* Sized so the phone in the artwork (39% of its width) renders at the
        same ~270px as each phone in the Social Share clip below. */
-    max-width: 580px;
+    max-width: 698px;
     line-height: 0;
 }
 
