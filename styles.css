@@ -2482,9 +2482,11 @@ font[style*="background-color"] {
 /* ── Race Plan feature ──────────────────────────────────────────────────── */
 /* Same bones as .share-feature: copy left, visual right, steps and link
    below, all stacking on phones. The artwork is a plain image slot. */
+/* 7rem above and below - the same air Social Share leaves before the
+   reviews, so the three feature blocks sit at one rhythm. */
 .plan-feature {
-    margin-top: 5rem;
-    margin-bottom: 5rem;
+    margin-top: 7rem;
+    margin-bottom: 7rem;
 }
 
 /* Mirror of .share-grid: artwork left, copy right, so consecutive feature
@@ -2627,8 +2629,8 @@ font[style*="background-color"] {
 
 @media (max-width: 900px) {
     .plan-feature {
-        margin-top: 4rem;
-        margin-bottom: 4rem;
+        margin-top: 5rem;
+        margin-bottom: 5rem;
     }
 
     .plan-grid {
