@@ -125,10 +125,14 @@
             <ul class="manual-sidebar__sub">
               <li><a href="#race-plan-before">Before you start</a></li>
               <li><a href="#race-plan-build">Building a plan</a></li>
+              <li><a href="#race-plan-draft">How the draft is built</a></li>
               <li><a href="#race-plan-sync">Getting it on the watch</a></li>
               <li><a href="#race-plan-race">During the race</a></li>
+              <li><a href="#race-plan-delta">How ahead/behind is calculated</a></li>
               <li><a href="#race-plan-manage">Changing or removing a plan</a></li>
+              <li><a href="#race-plan-tips">Making the plan realistic</a></li>
               <li><a href="#race-plan-messages">Messages on the watch</a></li>
+              <li><a href="#race-plan-faq">Questions</a></li>
             </ul>
           </li>
           <li>
@@ -634,7 +638,8 @@
               <li>Your watch needs ROXZONE <strong>5.0.1</strong> or newer. On the watch, <strong>About</strong> in the main menu shows the version.</li>
               <li>Plans are built at <a href="https://roxzone.app/me/plan">roxzone.app/me/plan</a> - sign in with the email you bought ROXZONE with (no password; a code is emailed to you). It is also reachable from <strong>Account</strong> at the top of this site, then <strong>Race Plan</strong> in the menu.</li>
               <li>Plans sync to the watch you unlocked with that email. If you own more than one, the page asks which watch when you save a plan. On the watch, <strong>Race Plan</strong> &rarr; <strong>This Watch</strong> shows its ID so you can match them up.</li>
-              <li>Syncing needs your phone nearby with Garmin Connect running - the watch reaches the internet through it.</li>
+              <li>Syncing needs your phone nearby with Garmin Connect running - the watch reaches the internet through it. Once a plan is on the watch it stays there; racing needs no phone at all.</li>
+              <li>In this beta, plans can be built for the <strong>official race</strong> and the <strong>25%, 50% and 75% simulations</strong>. Custom workouts are next.</li>
             </ul>
           </div>
 
@@ -642,43 +647,89 @@
             <h3 class="manual-section__title">Building a Plan</h3>
             <ol>
               <li>Press <strong>Create a Plan</strong>. Choose the workout the plan is for - <strong>Official HYROX - full race format</strong>, or a <strong>25%</strong>, <strong>50%</strong> or <strong>75% Simulation</strong>. A plan only ever applies to that exact workout.</li>
-              <li>Enter your goal finish time and press <strong>Generate plan</strong>. You get a draft: every run, station and transition receives a split, and the splits add up to your goal.</li>
-              <li>Make it yours. Drag any split and the others rebalance to keep the total. Tap the lock beside a split to hold it fixed while the rest move. <strong>Reset splits</strong> returns to the even draft; <strong>Unlock all</strong> frees every lock. Edit the goal at the top and everything rebalances again.</li>
-              <li>Name the plan and press <strong>Save plan</strong>. It appears under <strong>Saved Plans</strong>. Open a saved plan to review or edit it: <strong>Save changes</strong> updates it, <strong>Save as new</strong> keeps the original and adds a copy.</li>
+              <li>Enter your goal finish time (at least 10 minutes) and press <strong>Generate plan</strong>. You get a draft: every run, station and transition receives a split, and the splits add up to your goal exactly. How the draft decides those numbers is in the next section.</li>
+              <li>Make it yours. Every run and station has a slider; drag one and the others rebalance so the total never drifts. Tap the <strong>lock</strong> beside a split you are sure of - a locked split never moves when you adjust the others. <strong>Reset splits</strong> returns to the draft; <strong>Unlock all</strong> frees every lock.</li>
+              <li><strong>Roxzone (transitions)</strong> is the last slider: one number for all your transition time in the race. Adjust it like any other split - it comes out of the same goal.</li>
+              <li>Edit the goal at the top and everything rebalances again, in the same proportions - locked splits stay put.</li>
+              <li>Name the plan and press <strong>Save plan</strong>. It appears under <strong>Saved Plans</strong>. Open a saved plan to review or edit it: <strong>Save changes</strong> updates it, <strong>Save as new</strong> keeps the original and adds a copy - handy for an A-goal and a B-goal for the same race.</li>
             </ol>
+            <div class="manual-callout">
+              <strong>Locks and the 30-second floor</strong>
+              <p>When you drag a split, the unlocked splits absorb the difference in proportion to their size. No split can go below 30 seconds, and if every other split is locked or already at the floor, your edit is clamped at the largest value the goal allows - the page tells you when that happens. Lock what you know; leave the rest free.</p>
+            </div>
             <div class="manual-callout">
               <strong>One plan per workout</strong>
               <p>The watch uses one plan for each workout type. If two saved plans are for the same workout, the most recently edited one carries the <strong>Active</strong> pill and is the one that syncs. Edit the other one and it becomes active instead.</p>
             </div>
           </div>
 
+          <div class="manual-section" id="race-plan-draft">
+            <h3 class="manual-section__title">How the Draft Is Built</h3>
+            <p>The draft is a starting point shaped like a real race, not an even split. From your goal time:</p>
+            <ul>
+              <li><strong>6% is set aside for transitions</strong> - the Roxzone slider. For a 1:20:00 goal that is 4:48 across all the moves between run and station. Transitions are real time, and a plan that ignores them is a plan you miss by four minutes.</li>
+              <li><strong>The rest is split across runs and stations in typical open-division proportions.</strong> The eight runs take roughly half of it, and each run is budgeted a little slower than the last - run 1 is the fastest, run 8 the slowest, about 15-20% apart - because that is how the legs actually go.</li>
+              <li><strong>Stations are weighted by how long they typically take.</strong> Farmers Carry gets the least, Wall Balls the most (usually more than a run), with Burpee Broad Jumps and Rowing in between.</li>
+              <li>Nothing gets less than 30 seconds, and any rounding lands on the largest split, where a second is invisible.</li>
+            </ul>
+            <p>Those proportions are the same for everyone in this beta. The point of the sliders is that you know things the draft does not - your sled, your wall balls, your fade in the back half - so change what you know and lock it.</p>
+          </div>
+
           <div class="manual-section" id="race-plan-sync">
             <h3 class="manual-section__title">Getting It on the Watch</h3>
             <ol>
               <li>Open ROXZONE on the watch and set up the same workout - the official race, or the same simulation - until you reach the <a href="#review-start">Review &amp; Start</a> ladder.</li>
-              <li>The watch checks for plans by itself when it opens that screen. When one matches, it applies on its own: the ladder shows a target on every run and station, and the plan's goal time appears on the <strong>Race Plan</strong> row.</li>
+              <li>The watch checks for plans by itself when it opens that screen (at most once every ten minutes, so it never burns battery). When one matches, it applies on its own: the ladder shows a target on every run and station, and the plan's goal time appears on the <strong>Race Plan</strong> row.</li>
               <li>To sync right now, press <strong>MENU</strong> on the ladder (or press and hold the screen on two-button watches), then <strong>Race Plan</strong> &rarr; <strong>Sync from Phone</strong>. The line under <strong>Sync from Phone</strong> tells you what happened - see <a href="#race-plan-messages">Messages on the watch</a>.</li>
+              <li>Pressing <strong>Build on Phone</strong> in the same menu opens the builder on your phone, so you can create a plan from the watch's menu and then come back and sync.</li>
             </ol>
             <p>The plan applies only to the workout it was built for - the same format and the same run distance. Built a full-race plan but opened the 50% simulation? The watch says <strong>None for this workout</strong>.</p>
-            <p>Setting <a href="#station-targets">station targets</a> by hand on the watch for a session takes priority over the plan for that session. <strong>Sync from Phone</strong> puts the plan back.</p>
+            <p>Setting <a href="#station-targets">station targets</a> by hand on the watch for a session takes priority over the plan for that session - the watch assumes an edit made on the spot is what you mean today. <strong>Sync from Phone</strong> puts the plan back.</p>
           </div>
 
           <div class="manual-section" id="race-plan-race">
             <h3 class="manual-section__title">During the Race</h3>
             <ul>
-              <li><strong>Main screen</strong> - total time on the left, your live ahead/behind on the right: your overall position against the plan, counting every completed run, station and transition. Grey while within a few seconds of the plan, green when ahead, red when behind.</li>
-              <li><strong>Every lap</strong> - a strip on the lap screen reads <strong>0:23 BEHIND</strong>, <strong>0:15 AHEAD</strong> or <strong>ON PLAN</strong>.</li>
-              <li><strong>The ring</strong> - each run, station and transition fills toward its own target: blue while on budget, orange from 90%, red past it.</li>
+              <li><strong>Main screen</strong> - total time on the left, your live ahead/behind on the right: your overall position against the plan, counting every completed run, station and transition. Grey while within three seconds of the plan, <strong>green when ahead, red when behind</strong>.</li>
+              <li><strong>Every lap</strong> - the three-second lap screen carries a strip that reads <strong>0:23 BEHIND</strong>, <strong>0:15 AHEAD</strong> or <strong>ON PLAN</strong>, so you get the verdict without looking for it.</li>
+              <li><strong>The ring</strong> - each run, station and transition fills toward its own target: blue while on budget, <strong>orange from 90%</strong>, red past it. Transitions get a ring too, because the plan budgets them. With GPS Mode on, outdoor runs keep their pace ring - green on pace, red behind - since pace is the better guide outdoors.</li>
+              <li>Simulations repeat until you stop. Each round is judged against the same splits, so "on plan" means on plan for every round.</li>
             </ul>
-            <p>Simulations repeat until you stop. Each round is judged against the same splits, so "on plan" means on plan for every round.</p>
+          </div>
+
+          <div class="manual-section" id="race-plan-delta">
+            <h3 class="manual-section__title">How Ahead/Behind Is Calculated</h3>
+            <p>The number is plain lap arithmetic, so nothing about pace, distance or treadmill sensors can distort it. For every run, station and transition you have completed, the watch takes the time you actually took minus the time the plan gave it, and adds them up. Positive means behind, negative means ahead.</p>
+            <ul>
+              <li><strong>Transitions</strong> - your Roxzone allowance is divided equally across the transitions the watch tracks (see <a href="#roxzone-toggles">Roxzone toggles</a>). If you race with Roxzone tracking off, the allowance is folded into the runs and stations instead, so the total still adds up to your goal.</li>
+              <li><strong>The segment you are in</strong> can only make the number worse. While you are inside its budget the number holds still; the moment you pass the budget it climbs second by second. Time you are under budget is credited when you press LAP, not before - the plan will not tell you that you are ahead on a station you have not finished.</li>
+              <li><strong>Pauses do not count.</strong> Paused time is taken out of the segment it happened in, including transitions.</li>
+              <li><strong>Undo last lap</strong> rewinds the calculation along with the lap.</li>
+            </ul>
+            <div class="manual-callout manual-callout--pro">
+              <strong>Worked example</strong>
+              <p>Plan: Run 1 at 4:30, SkiErg at 4:00. You run 4:20 - press LAP and the strip says <strong>0:10 AHEAD</strong>. On the SkiErg you pass 4:00 still rowing; the main screen has been at -0:10 (green) and now starts climbing: -0:09, -0:08... You finish at 4:25, and the strip says <strong>0:15 BEHIND</strong>: ten seconds gained, twenty-five lost. The transition in between is measured against its own share of your Roxzone allowance in exactly the same way.</p>
+            </div>
           </div>
 
           <div class="manual-section" id="race-plan-manage">
             <h3 class="manual-section__title">Changing or Removing a Plan</h3>
             <ul>
               <li>Edit the plan on your phone and save. The watch picks up the new version on its next check, or immediately with <strong>Sync from Phone</strong>.</li>
-              <li><strong>Remove Plan</strong> in the watch's <strong>Race Plan</strong> menu takes the plan off that workout and keeps it off - the watch's own checks will not bring it back. It returns when you edit the plan on your phone, or when you press <strong>Sync from Phone</strong>.</li>
-              <li>To delete a plan for good, use the <strong>&#8942;</strong> menu on its card at roxzone.app and choose <strong>Delete</strong>.</li>
+              <li><strong>Remove Plan</strong> in the watch's <strong>Race Plan</strong> menu takes the plan off that workout and keeps it off - the watch's own checks will not bring it back, so a casual session is never nagged by a three-week-old race plan. It returns when you edit the plan on your phone, or when you press <strong>Sync from Phone</strong>.</li>
+              <li>Removing a plan also clears the targets it wrote onto the ladder; the runs go back to your Run Pace setting and stations go back to no target.</li>
+              <li>To delete a plan for good, use the <strong>&#8942;</strong> menu on its card at roxzone.app and choose <strong>Delete</strong>. <strong>Rename</strong> lives in the same menu.</li>
+            </ul>
+          </div>
+
+          <div class="manual-section" id="race-plan-tips">
+            <h3 class="manual-section__title">Making the Plan Realistic</h3>
+            <ul>
+              <li><strong>Start from a result, not a wish.</strong> Your <a href="#results-online">Activities</a> page shows the splits from every session you have saved online. Take your last full simulation, lock the stations you can already hold, and let the draft distribute the rest.</li>
+              <li><strong>Be honest about transitions.</strong> Four to five minutes is normal for a full race in a busy venue. Setting the Roxzone slider to one minute does not make you faster; it makes every transition show red.</li>
+              <li><strong>Let the runs fade.</strong> The draft already slows the later runs. Flattening them to one pace looks tidy and produces a plan you are behind from run 5 onward.</li>
+              <li><strong>Build the B plan too.</strong> <strong>Save as new</strong>, rename it, and set a safer goal. On race morning, open the one you want on your phone - editing it makes it the <strong>Active</strong> plan - and sync.</li>
+              <li><strong>Race it in a simulation first.</strong> A 50% simulation with a 50% plan tells you in forty minutes whether the splits are honest.</li>
             </ul>
           </div>
 
@@ -686,6 +737,7 @@
             <h3 class="manual-section__title">Messages on the Watch</h3>
             <p>The line under <strong>Sync from Phone</strong> answers every sync. What each one means:</p>
             <ul>
+              <li><strong>Applied 1:20:00</strong> - the plan for this workout is on the watch; the goal is shown, and the plan's name too when you have more than one for the workout.</li>
               <li><strong>None found - build one on your phone</strong> - this account has no saved plans yet.</li>
               <li><strong>None for this workout</strong> - you have plans, but none for this workout type and run distance.</li>
               <li><strong>Removed - Sync restores</strong> - you removed the plan on the watch. <strong>Sync from Phone</strong> brings it back.</li>
@@ -693,6 +745,17 @@
               <li><strong>This watch is not on your account</strong> - the watch was unlocked with a different email. Compare <strong>Race Plan</strong> &rarr; <strong>This Watch</strong> with the watches listed under <strong>Profile</strong> at roxzone.app.</li>
               <li><strong>Could not sync - try again</strong> - a temporary error. Wait a moment and press <strong>Sync from Phone</strong> again.</li>
             </ul>
+          </div>
+
+          <div class="manual-section" id="race-plan-faq">
+            <h3 class="manual-section__title">Questions</h3>
+            <p><strong>Do I need my phone during the race?</strong> No. The plan is stored on the watch once synced. The phone is only needed to build and to sync.</p>
+            <p><strong>Can I plan a custom workout?</strong> Not yet - the beta covers the official race and the three simulations. Custom workouts are next.</p>
+            <p><strong>I set station targets by hand and the plan disappeared.</strong> By design: a target set on the watch wins for that session. <strong>Sync from Phone</strong> restores the plan.</p>
+            <p><strong>I have two plans for the full race. Which one syncs?</strong> The one edited most recently - it carries the <strong>Active</strong> pill on the page. To switch, open the other one and save it.</p>
+            <p><strong>The ring turned orange but the number still says ahead.</strong> The ring is about this segment (you are at 90% of its budget); the number is about the whole race so far. Both are true.</p>
+            <p><strong>I changed my goal on the page. Does the watch know?</strong> On its next check, or straight away with <strong>Sync from Phone</strong>. The ladder shows the new targets when it does.</p>
+            <p><strong>Will a full-race plan work for a 75% simulation?</strong> No - the run distances differ, so the watch says <strong>None for this workout</strong>. Build a 75% plan; it takes a minute.</p>
             <div class="manual-callout manual-callout--pro">
               <strong>Race Plan is in beta</strong>
               <p>If something looks wrong - a split that does not add up, a delta that does not match your laps - email <a href="mailto:hello@roxzone.app">hello@roxzone.app</a> with your watch model and what you expected to see. It goes straight to the developer.</p>
