@@ -2487,13 +2487,15 @@ font[style*="background-color"] {
     margin-bottom: 5rem;
 }
 
+/* Mirror of .share-grid: artwork left, copy right, so consecutive feature
+   sections alternate sides. */
 .plan-grid {
     display: grid;
-    grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
     grid-template-areas:
-        "head  visual"
-        "steps visual"
-        "cta   visual";
+        "visual head"
+        "visual steps"
+        "visual cta";
     column-gap: 3rem;
     row-gap: 1.4rem;
     align-items: center;
@@ -2608,7 +2610,9 @@ font[style*="background-color"] {
     margin: 0;
     justify-self: center;
     width: 100%;
-    max-width: 560px;
+    /* Sized so the phone in the artwork (46% of its width) renders at the
+       same ~270px as each phone in the Social Share clip below. */
+    max-width: 580px;
     line-height: 0;
 }
 
