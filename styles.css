@@ -2600,16 +2600,15 @@ font[style*="background-color"] {
 
 .plan-how:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
 
-/* The artwork: one image, rounded like the share clip, capped so a tall
-   asset never dwarfs the copy beside it. */
+/* The artwork: a transparent cut-out of the phone and watches, so it floats
+   on the page like the hero does - no card, no corners. Capped so it never
+   dwarfs the copy beside it. */
 .plan-media {
     grid-area: visual;
     margin: 0;
     justify-self: center;
     width: 100%;
-    max-width: 520px;
-    border-radius: 1.2rem;
-    overflow: hidden;
+    max-width: 560px;
     line-height: 0;
 }
 
