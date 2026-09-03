@@ -2557,6 +2557,8 @@ font[style*="background-color"] {
     max-width: 30rem;
 }
 
+/* Exactly two children per item - the number and one span of text - so the
+   grid never sees an anonymous text run and drops it into the number column. */
 .plan-steps li {
     display: grid;
     grid-template-columns: 1.6rem 1fr;
