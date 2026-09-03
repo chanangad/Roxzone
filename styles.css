@@ -2491,7 +2491,10 @@ font[style*="background-color"] {
    sections alternate sides. */
 .plan-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+    /* The artwork column gets the larger share: the triptych's phone is 39%
+       of its width, and it needs ~690px to render that phone at the same
+       size as the Social Share phones. The copy column keeps 30rem-ish. */
+    grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
     grid-template-areas:
         "visual head"
         "visual steps"
