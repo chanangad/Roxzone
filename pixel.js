@@ -75,13 +75,13 @@
     el.setAttribute("role", "dialog");
     el.setAttribute("aria-label", "Cookie choice");
     var text = mode === "ask"
-      ? "We'd like to measure our ads with a Meta pixel - page views, checkouts and purchases only, on these store pages. Nothing from your account or your watch."
-      : "This site measures its ads with a Meta pixel on the store pages - page views, checkouts and purchases only. You can turn it off.";
+      ? "We'd like to know whether our Instagram ads bring people here. A Meta pixel would count page views, checkouts and purchases on these store pages - nothing from your account or your watch. OK with you?"
+      : "So we know whether our Instagram ads work, these store pages count page views, checkouts and purchases with a Meta pixel. Nothing from your account or your watch - and you can switch it off.";
     el.innerHTML =
       '<p class="consent__text">' + text + ' <a href="' + privacyHref + '">Details</a></p>' +
       '<div class="consent__acts">' +
-      '<button type="button" class="consent__btn" data-choice="denied">' + (mode === "ask" ? "No thanks" : "Turn off") + '</button>' +
-      '<button type="button" class="consent__btn consent__btn--yes" data-choice="granted">' + (mode === "ask" ? "Allow" : "Keep on") + '</button>' +
+      '<button type="button" class="consent__btn" data-choice="denied">' + (mode === "ask" ? "No thanks" : "Switch off") + '</button>' +
+      '<button type="button" class="consent__btn consent__btn--yes" data-choice="granted">' + (mode === "ask" ? "OK" : "Fine by me") + '</button>' +
       '</div>';
     el.addEventListener("click", function (e) {
       var b = e.target.closest("[data-choice]");
