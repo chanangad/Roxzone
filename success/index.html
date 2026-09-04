@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=50">
+  <link rel="stylesheet" href="../styles.css?v=51">
   <style>
     /* Activation steps, scoped to this page. The whole point of the page is the
        action on the WATCH, so the steps are the hero, not the receipt. */
@@ -49,6 +49,7 @@
     .follow__link:hover { background: var(--surface-low, #1b1c1c); border-color: rgba(65,71,82,.8); }
     .success-home:hover { color: var(--ink, #e4e2e1); }
   </style>
+  <script src="../pixel.js" defer></script>
 </head>
 <body>
   <header class="topbar">
@@ -172,6 +173,15 @@
     // payment completed, so a second confirmation line only adds noise. It
     // still carries the pending and failure messages.
     function showActivation(statusText) {
+      // The one moment the purchase is certain. Value by rail: Razorpay is the
+      // INR price, PayPal and Dodo the international one; the claim code is
+      // the event id so a refresh cannot count twice.
+      if (window.rzPixelTrack) {
+        var inr = !!razorpayPaymentId || !!razorpayClaimCode;
+        window.rzPixelTrack("Purchase",
+          { value: inr ? 499 : 8.99, currency: inr ? "INR" : "USD", content_name: "ROXZONE lifetime unlock" },
+          claimCode ? { eventID: "purchase-" + claimCode } : undefined);
+      }
       setMessage("Payment complete. One step left:", "", statusText, "ok");
       successCopy.hidden = true;
       activationSteps.hidden = false;
