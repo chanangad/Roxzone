@@ -2661,38 +2661,40 @@ font[style*="background-color"] {
 }
 
 /* ── Consent banner (pixel.js) ─────────────────────────────────────────── */
+/* A small, calm card in the corner, not a wall across the page: quiet
+   surface, soft text, one friendly filled button. Refusing is a button of
+   the same size - it must be as easy as accepting - just not the loud one. */
 .consent {
     position: fixed;
     left: 1rem;
-    right: 1rem;
     bottom: 1rem;
     z-index: 50;
-    margin: 0 auto;
-    max-width: 560px;
-    padding: 0.9rem 1rem;
-    border-radius: 0.9rem;
-    background: var(--surface);
+    width: min(400px, calc(100vw - 2rem));
+    padding: 0.85rem 0.95rem 0.8rem;
+    border-radius: 1rem;
+    background: var(--surface-low);
     border: 1px solid var(--outline);
-    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.8rem 1rem;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    animation: consent-in 260ms ease-out;
 }
-.consent__text { margin: 0; flex: 1 1 260px; color: var(--muted); font-size: 0.88rem; line-height: 1.5; }
-.consent__text a { color: var(--primary); text-decoration: none; }
+@keyframes consent-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.consent__text { margin: 0 0 0.7rem; color: var(--muted); font-size: 0.82rem; line-height: 1.5; }
+.consent__text a { color: var(--primary); text-decoration: none; font-weight: 600; }
 .consent__text a:hover { text-decoration: underline; }
-.consent__acts { display: flex; gap: 0.5rem; flex: 0 0 auto; }
+.consent__acts { display: flex; gap: 0.5rem; justify-content: flex-end; }
 .consent__btn {
     font: inherit;
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     font-weight: 700;
-    padding: 0.5rem 0.9rem;
+    padding: 0.45rem 0.9rem;
     border-radius: 999px;
-    border: 1px solid var(--outline);
+    border: 1px solid transparent;
     background: transparent;
-    color: var(--ink);
+    color: var(--muted);
     cursor: pointer;
+    transition: color 120ms ease, background 120ms ease;
 }
-.consent__btn--yes { background: var(--primary-strong); border-color: var(--primary-strong); color: #fff; }
-.consent__btn:hover { border-color: var(--primary); }
+.consent__btn:hover { color: var(--ink); background: var(--surface-high); }
+.consent__btn--yes { background: var(--primary); color: #0b1a33; }
+.consent__btn--yes:hover { background: var(--primary-ink); color: #0b1a33; }
+@media (prefers-reduced-motion: reduce) { .consent { animation: none; } }
