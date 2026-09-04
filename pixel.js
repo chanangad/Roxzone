@@ -74,14 +74,14 @@
     el.className = "consent";
     el.setAttribute("role", "dialog");
     el.setAttribute("aria-label", "Cookie choice");
-    var text = mode === "ask"
-      ? "We'd like to know whether our Instagram ads bring people here. A Meta pixel would count page views, checkouts and purchases on these store pages - nothing from your account or your watch. OK with you?"
-      : "So we know whether our Instagram ads work, these store pages count page views, checkouts and purchases with a Meta pixel. Nothing from your account or your watch - and you can switch it off.";
+    // Deliberately the sentence every site uses: accurate, and nothing to
+    // stop and read. The full explanation lives in the privacy policy.
+    var text = "We use cookies to measure our advertising and improve the site.";
     el.innerHTML =
-      '<p class="consent__text">' + text + ' <a href="' + privacyHref + '">Details</a></p>' +
+      '<p class="consent__text">' + text + ' <a href="' + privacyHref + '">Privacy Policy</a></p>' +
       '<div class="consent__acts">' +
-      '<button type="button" class="consent__btn" data-choice="denied">' + (mode === "ask" ? "No thanks" : "Switch off") + '</button>' +
-      '<button type="button" class="consent__btn consent__btn--yes" data-choice="granted">' + (mode === "ask" ? "OK" : "Fine by me") + '</button>' +
+      '<button type="button" class="consent__btn" data-choice="denied">Decline</button>' +
+      '<button type="button" class="consent__btn consent__btn--yes" data-choice="granted">Accept</button>' +
       '</div>';
     el.addEventListener("click", function (e) {
       var b = e.target.closest("[data-choice]");
