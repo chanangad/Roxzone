@@ -15,7 +15,7 @@
  * before the id exists. */
 (function () {
   "use strict";
-  var PIXEL_ID = "3504069226430847";
+  var PIXEL_ID = "1407671534633896";
   var EU_ONLY_GATE = true;
   var KEY = "rz_consent";
 
