@@ -108,6 +108,7 @@
               <li><a href="#custom-reorder">Edit Sequence &amp; repeating a station</a></li>
               <li><a href="#run-between">Auto Add Runs</a></li>
               <li><a href="#custom-save">Saving workouts</a></li>
+              <li><a href="#custom-web">Building on your phone</a></li>
             </ul>
           </li>
           <li>
@@ -553,6 +554,19 @@
             <p>Your entire Custom Hyrox setup - stations, order, weights, distances, and run distance - is saved automatically and restored exactly as you left it next time. Running a Full or Partial session in between never touches your custom configuration.</p>
             <p>To keep more than one custom workout, use <strong>Save Workout</strong> at the bottom of the builder. The workout is stored in <a href="#quick-start-row">My Workouts</a> under a descriptive name, and you're offered the keyboard straight away if you'd like to name it yourself. Build a lunges block, save it; build a sled day, save it; then start either from My Workouts without rebuilding anything.</p>
           </div>
+
+          <div class="manual-section" id="custom-web">
+            <h3 class="manual-section__title">Building on Your Phone <span class="manual-tag">Beta</span></h3>
+            <p>From ROXZONE 5.1.0, custom workouts can also be built on a proper screen. Sign in at <strong>roxzone.app</strong> with the email you bought the app with, open <strong>My Workouts</strong> from the menu, and build there: stations and their order, runs placed automatically or by hand, run distance, weight category, and each station's distance, reps or weight. The preview at the bottom shows the exact sequence the watch will run.</p>
+            <p>Two things the phone can do that the watch's builder cannot: a <strong>runs-only</strong> session (turn Auto Add Runs off and add runs, nothing else), and a different weight on each station without switching category - change any weight and the workout becomes Custom weights, keeping the others as they were.</p>
+            <ol>
+              <li>Save the workout on the site.</li>
+              <li>On the watch, with the phone connected, open <strong>My Workouts</strong> and choose <strong>Sync from Phone</strong>. Your site workouts appear in the list with a <em>roxzone.app</em> label.</li>
+              <li>Start one like any saved workout. It repeats until you stop it.</li>
+            </ol>
+            <p>Workouts built on the site sync to the watch; workouts built on the watch stay on the watch. A synced workout is edited, renamed or deleted on the site, and the next sync brings the change across - so on the watch it offers Start only. <strong>Build on Phone</strong> in My Workouts opens the builder on your phone.</p>
+            <p>If the watch shows a message: <strong>None found - build one at roxzone.app</strong> means the account has no saved workouts yet; <strong>Phone not connected</strong> means the watch cannot reach the internet, so open Garmin Connect on the phone and try again; <strong>This watch is not on your account</strong> means the watch was unlocked with a different email - compare <strong>About &rarr; Watch ID</strong> with the watches under Profile on the site; <strong>Could not sync - try again</strong> is a temporary error.</p>
+          </div>
         </section>
 
         <!-- ═══════════════════════════════════════════════ -->
@@ -630,7 +644,7 @@
 
         <section class="manual-chapter" id="race-plan">
           <p class="manual-chapter__eyebrow">Chapter 8</p>
-          <h2 class="manual-chapter__title">Race Plan <span class="manual-tag">Beta</span></h2>
+          <h2 class="manual-chapter__title">Race Plan</h2>
           <p class="manual-chapter__lede">Build a plan for your race on your phone - a goal time split across every run, station and transition - sync it to the watch, and race against it. The watch shows your overall ahead/behind at every moment and gives a verdict on every lap.</p>
 
           <div class="manual-section" id="race-plan-before">
@@ -640,7 +654,7 @@
               <li>Plans are built at <a href="https://roxzone.app/me/plan">roxzone.app/me/plan</a> - sign in with the email you bought ROXZONE with (no password; a code is emailed to you). It is also reachable from <strong>Account</strong> at the top of this site, then <strong>Race Plan</strong> in the menu.</li>
               <li>Plans sync to the watch you unlocked with that email. If you own more than one, the page asks which watch when you save a plan. On the watch, <strong>Race Plan</strong> &rarr; <strong>This Watch</strong> shows its ID so you can match them up.</li>
               <li>Syncing needs your phone nearby with Garmin Connect running - the watch reaches the internet through it. Once a plan is on the watch it stays there; racing needs no phone at all.</li>
-              <li>In this beta, plans can be built for the <strong>official race</strong> and the <strong>25%, 50% and 75% simulations</strong>. Custom workouts are next.</li>
+              <li>Plans can be built for the <strong>official race</strong>, the <strong>25%, 50% and 75% simulations</strong>, any custom workout you have <a href="#custom-web">built on your phone</a>, and any custom workout you have already run with Online Results on.</li>
             </ul>
           </div>
 
@@ -751,7 +765,7 @@
           <div class="manual-section" id="race-plan-faq">
             <h3 class="manual-section__title">Questions</h3>
             <p><strong>Do I need my phone during the race?</strong> No. The plan is stored on the watch once synced. The phone is only needed to build and to sync.</p>
-            <p><strong>Can I plan a custom workout?</strong> Not yet - the beta covers the official race and the three simulations. Custom workouts are next.</p>
+            <p><strong>Can I plan a custom workout?</strong> Yes. A workout <a href="#custom-web">built on your phone</a> appears in the New plan list by name, and its Plan targets link opens the builder with it selected. A custom workout built on the watch appears once you have run it with Online Results on, since that is how the site learns its shape.</p>
             <p><strong>I set station targets by hand and the plan disappeared.</strong> By design: a target set on the watch wins for that session. <strong>Sync from Phone</strong> restores the plan.</p>
             <p><strong>I have two plans for the full race. Which one syncs?</strong> The one edited most recently - it carries the <strong>Active</strong> pill on the page. To switch, open the other one and save it.</p>
             <p><strong>The ring turned orange but the number still says ahead.</strong> The ring is about this segment (you are at 90% of its budget); the number is about the whole race so far. Both are true.</p>
