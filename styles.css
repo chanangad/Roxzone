@@ -667,6 +667,32 @@ font[style*="background-color"] {
     color: var(--primary-ink);
 }
 
+/* Restore is retired: the tab stays as a signpost, dimmed, and opens a
+   notice instead of a form. Still a real tab so keyboard and screen-reader
+   users reach the notice the same way. */
+.panel__tab--retired {
+    opacity: 0.55;
+}
+
+.panel__tab--retired.panel__tab--active {
+    background: var(--surface-highest);
+    color: var(--muted);
+    opacity: 1;
+}
+
+.restore-retired {
+    display: grid;
+    gap: 1rem;
+    padding: 1.4rem 1.5rem;
+    border-radius: 1rem;
+    background: var(--surface-lowest);
+}
+
+.restore-retired a {
+    color: var(--primary);
+    font-weight: 700;
+}
+
 .panel__content {
     display: none;
 }
