@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=51">
+  <link rel="stylesheet" href="./styles.css?v=52">
 
   <script>
     // Geo decision runs BEFORE the body paints. The payment groups live in the
@@ -373,16 +373,19 @@
                  device since 4.7.0 and survive a reinstall, and one licence
                  unlocks one watch, so a self-serve move is no longer offered.
                  The watch's own "Restore Purchase" row opens this page and
-                 lands here. The two cases that still need a move (an older
-                 8-digit code after a reinstall, a new watch) go through email
-                 so each one is looked at. -->
+                 lands here. The one case that still needs a move (an older
+                 8-digit code after a reinstall) goes through email. A new
+                 watch is not advertised as a move; those emails are judged
+                 case by case. -->
             <div class="restore-retired">
-              <p class="page-copy">Restore is no longer needed. Watches now generate a 12-digit claim code
-                that stays the same after a reinstall, so your licence stays with your watch.
-                One licence unlocks one watch.</p>
-              <p class="page-copy">Reinstalled on an older 8-digit code, or moved to a new watch? Email
-                <a href="mailto:hello@roxzone.app?subject=Move%20my%20ROXZONE%20licence" class="notranslate" translate="no">hello@roxzone.app</a>
-                with your purchase email and the code on your watch, and we'll move it for you.</p>
+              <p class="restore-retired__title">Restore is no longer needed</p>
+              <p class="page-copy">Watches now generate a 12-digit claim code that stays the same after a reinstall,
+                so your licence stays with your watch. One licence unlocks one watch.</p>
+              <p class="restore-retired__sub">Need your licence moved?</p>
+              <p class="page-copy">Reinstalled on an older 8-digit code? Email us with your purchase email and the code
+                on your watch, and we'll move it for you.</p>
+              <a class="pay-button pay-button--restore restore-retired__button notranslate" translate="no"
+                 href="mailto:hello@roxzone.app?subject=Move%20my%20ROXZONE%20licence">Email hello@roxzone.app</a>
             </div>
           </section>
         </div>

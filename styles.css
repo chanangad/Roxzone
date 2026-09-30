@@ -682,15 +682,36 @@ font[style*="background-color"] {
 
 .restore-retired {
     display: grid;
-    gap: 1rem;
-    padding: 1.4rem 1.5rem;
+    gap: 0.9rem;
+    padding: 1.6rem 1.6rem 1.7rem;
     border-radius: 1rem;
     background: var(--surface-lowest);
 }
 
-.restore-retired a {
-    color: var(--primary);
-    font-weight: 700;
+.restore-retired__title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.restore-retired__sub {
+    margin: 0.5rem 0 0;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+/* Doubled selector: .pay-button sets width 100% later in the file. */
+.restore-retired .restore-retired__button {
+    justify-self: start;
+    width: auto;
+    margin-top: 0.4rem;
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+    text-decoration: none;
 }
 
 .panel__content {
