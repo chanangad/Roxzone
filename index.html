@@ -255,8 +255,16 @@
                   <div class="prefix-input">
                     <span class="prefix-input__prefix" aria-hidden="true">RZ-</span>
                     <input id="claim-code-input" name="claim-code" type="text" required placeholder="4839 2017 5264" autocomplete="off" spellcheck="false"
-                           inputmode="numeric" pattern="[0-9 -]*">
+                           inputmode="numeric" pattern="[0-9 \-]*">
+                    <span id="claim-code-spin" class="prefix-input__spin" role="img" aria-label="Checking the code" hidden></span>
+                    <span id="claim-code-check" class="prefix-input__check" role="img" aria-label="Watch found" hidden>
+                      <svg viewBox="0 0 20 20" width="22" height="22" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    <span id="claim-code-warn" class="prefix-input__check prefix-input__check--verify" role="img" aria-label="Please verify this code" hidden>
+                      <svg viewBox="0 0 20 20" width="22" height="22" aria-hidden="true"><circle cx="10" cy="10" r="8.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="6.4" r="1.2" fill="currentColor"/><path d="M10 9.2v5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+                    </span>
                   </div>
+                  <p id="claim-code-note" class="helper-note helper-note--code" role="status" aria-live="polite"></p>
                 </div>
                 <div class="field field--name">
                   <label for="unlock-name">Name</label>
@@ -799,6 +807,74 @@
 
     claimCodeInput.addEventListener("input", () => syncClaimCode(claimCodeInput.value));
     restoreClaimCodeInput.addEventListener("input", () => syncClaimCode(restoreClaimCodeInput.value));
+
+    // Does a watch actually show this code? The watch reports its code to
+    // the server whenever the lock screen is up with the phone connected, so
+    // a typed code that no watch has reported is almost always a wrong digit.
+    // Two buyers in one week paid for such a code and stayed locked until the
+    // licence was moved by hand. This only warns: a watch with no phone
+    // connection is unknown too, and the buyer can still pay.
+    const claimCodeNote = document.getElementById("claim-code-note");
+    const claimCodeCheck = document.getElementById("claim-code-check");
+    const claimCodeWarn = document.getElementById("claim-code-warn");
+    const claimCodeSpin = document.getElementById("claim-code-spin");
+    let claimCheckTimer = null;
+    let claimCheckSeq = 0;
+    // The slot at the right end of the field holds one thing at a time:
+    // "spin" while the server is being asked, "ok" (green tick) once a watch
+    // matched, "warn" (orange exclamation) when none did, or "none".
+    function showClaimState(state) {
+      claimCodeSpin.hidden = state !== "spin";
+      claimCodeCheck.hidden = state !== "ok";
+      claimCodeWarn.hidden = state !== "warn";
+      claimCodeInput.closest(".prefix-input").classList.toggle("prefix-input--verified", state !== "none");
+    }
+    function checkClaimCode(immediate) {
+      clearTimeout(claimCheckTimer);
+      showClaimState("none");
+      const suffix = claimCodeDigits(claimCodeInput.value);
+      if (suffix.replace("-", "").length < 8) {
+        setPanelStatus(claimCodeNote, "");
+        return;
+      }
+      // Typing resumed after a pause: the previous verdict is stale the
+      // moment a digit changes, so the note goes and the spinner shows at
+      // once, rather than after the debounce and the round trip.
+      setPanelStatus(claimCodeNote, "");
+      showClaimState("spin");
+      const seq = ++claimCheckSeq;
+      const run = async () => {
+        try {
+          const response = await fetch(`${API_BASE}/api/claim/check?code=${encodeURIComponent("RZ-" + suffix)}`);
+          if (seq !== claimCheckSeq) { return; }
+          if (!response.ok) { showClaimState("none"); return; }
+          const data = await response.json();
+          if (seq !== claimCheckSeq) { return; } // the code changed meanwhile
+          if (data.paid) {
+            showClaimState("ok");
+            setPanelStatus(claimCodeNote,
+              "This code is already unlocked. Open ROXZONE on the watch with your phone connected.", "ok");
+          } else if (data.known) {
+            // A green tick inside the field, no words: the code matches a watch.
+            showClaimState("ok");
+            setPanelStatus(claimCodeNote, "");
+          } else {
+            // The server cannot tell a typo from a watch that has not reached
+            // it yet, so this is a nudge, not an error: neutral colour, one
+            // line, and the pay buttons untouched.
+            showClaimState("warn");
+            setPanelStatus(claimCodeNote, "Please verify this code matches your watch.");
+          }
+        } catch (_) {
+          // A failed check must never stand between a buyer and the pay
+          // button: say nothing rather than something wrong.
+          if (seq === claimCheckSeq) { showClaimState("none"); setPanelStatus(claimCodeNote, ""); }
+        }
+      };
+      if (immediate) { run(); } else { claimCheckTimer = setTimeout(run, 600); }
+    }
+    claimCodeInput.addEventListener("input", () => checkClaimCode(false));
+    if (initialClaimCode) { checkClaimCode(true); }
 
     async function beginCheckout(provider, currency) {
       const rawSuffix = claimCodeInput.value.trim().toUpperCase();
