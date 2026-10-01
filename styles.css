@@ -2620,14 +2620,6 @@ font[style*="background-color"] {
     color: var(--primary);
 }
 
-.plan-feature__beta {
-    padding: 0.14rem 0.5rem;
-    border: 1px solid rgba(167, 200, 255, 0.4);
-    border-radius: 999px;
-    font-size: 0.66rem;
-    letter-spacing: 0.06em;
-}
-
 .plan-feature__title {
     margin: 0 0 0.8rem;
     font-size: 2.1rem;
