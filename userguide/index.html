@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=53">
+  <link rel="stylesheet" href="../styles.css?v=54">
   <script src="../pixel.js?v=2" defer></script>
 </head>
 
@@ -114,6 +114,7 @@
             <a href="#during-workout" class="manual-sidebar__chapter">7. During the Workout</a>
             <ul class="manual-sidebar__sub">
               <li><a href="#advancing">Advancing segments</a></li>
+              <li><a href="#when-to-press">When to press Lap</a></li>
               <li><a href="#main-screen">Main screen</a></li>
               <li><a href="#gps-screen">Run data screen</a></li>
               <li><a href="#power-screen">Power screen (Stryd)</a></li>
@@ -406,8 +407,8 @@
             </ul>
 
             <div class="manual-callout">
-              <strong>In Custom Hyrox</strong>
-              <p>Custom Hyrox uses a single Roxzone toggle that covers both directions simultaneously. You can't split them independently in Custom mode.</p>
+              <strong>In Partial and Custom Hyrox</strong>
+              <p>Partial Hyrox and Custom Hyrox use a single Roxzone toggle that covers both directions simultaneously. You can't split them independently in these modes.</p>
             </div>
 
             <div class="manual-callout manual-callout--pro">
@@ -573,7 +574,68 @@
           <div class="manual-section" id="advancing">
             <h3 class="manual-section__title">Advancing Between Segments</h3>
             <p>Press the <strong>Lap button</strong> to move from one segment to the next. Each press locks in a clean split - your run time, station time, and any Roxzone transition time are all recorded separately in Garmin Connect.</p>
-            <p>With Roxzone toggles on, you'll press Lap at each transition boundary - entering and exiting the Roxzone area. With toggles off, a single Lap press moves you directly from run to station and back, keeping the rhythm simpler.</p>
+            <p>With Roxzone toggles on, you'll press Lap at each transition boundary - entering and exiting the Roxzone area. With toggles off, a single Lap press moves you directly from run to station and back, keeping the rhythm simpler. Exactly where to press is in <a href="#when-to-press">When to Press Lap</a>.</p>
+          </div>
+
+          <div class="manual-section" id="when-to-press">
+            <h3 class="manual-section__title">When to Press Lap</h3>
+
+            <div class="lap-rule">
+              <p class="lap-rule__main">Press Lap at the arches.</p>
+              <p class="lap-rule__sub">Your timing chip is read at the arches, so that is where the official splits are cut. Press there and your watch splits line up with your race results.</p>
+            </div>
+
+            <h4 class="lap-heading">One station, four presses</h4>
+            <p>With both Roxzone switches on, the default in Full Hyrox:</p>
+            <ol class="lap-flow" aria-label="Where to press Lap around one station">
+              <li class="lap-flow__zone lap-flow__zone--run">Run</li>
+              <li class="lap-flow__press"><span class="lap-num">1</span><span><strong>Roxzone IN arch</strong><br>as you leave the run course</span></li>
+              <li class="lap-flow__zone lap-flow__zone--rox">Roxzone <span>walk in</span></li>
+              <li class="lap-flow__press"><span class="lap-num">2</span><span><strong>Station IN arch</strong><br>the walk to your lane counts as station time, as in the official split</span></li>
+              <li class="lap-flow__zone lap-flow__zone--station">Station</li>
+              <li class="lap-flow__press"><span class="lap-num">3</span><span><strong>Station OUT arch</strong><br>once your last rep is done</span></li>
+              <li class="lap-flow__zone lap-flow__zone--rox">Roxzone <span>walk out</span></li>
+              <li class="lap-flow__press"><span class="lap-num">4</span><span><strong>Roxzone OUT arch</strong><br>as you step back onto the run course</span></li>
+              <li class="lap-flow__zone lap-flow__zone--run">Next run</li>
+            </ol>
+
+            <h4 class="lap-heading">Fewer presses</h4>
+            <p>Each Roxzone switch you turn off removes one press per station. The walk you no longer time is added to the lap that is running.</p>
+            <div class="lap-table-wrap">
+              <table class="lap-table">
+                <thead>
+                  <tr><th>Your setting</th><th>Presses</th><th>Press at</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>Both on</strong></td><td>4</td><td><span class="lap-num lap-num--sm">1</span><span class="lap-num lap-num--sm">2</span><span class="lap-num lap-num--sm">3</span><span class="lap-num lap-num--sm">4</span></td></tr>
+                  <tr><td><strong>Rox before only</strong><br><span class="lap-note">walk out counts in your run</span></td><td>3</td><td><span class="lap-num lap-num--sm">1</span><span class="lap-num lap-num--sm">2</span><span class="lap-num lap-num--sm">3</span></td></tr>
+                  <tr><td><strong>Rox after only</strong><br><span class="lap-note">walk in counts in your run</span></td><td>3</td><td><span class="lap-num lap-num--sm">2</span><span class="lap-num lap-num--sm">3</span><span class="lap-num lap-num--sm">4</span></td></tr>
+                  <tr><td><strong>Both off</strong><br><span class="lap-note">Roxzone counts in your runs</span></td><td>2</td><td><span class="lap-num lap-num--sm">2</span><span class="lap-num lap-num--sm">3</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Partial Hyrox and Custom Hyrox have a single Roxzone switch: on is the four-press pattern, off is the two-press pattern.</p>
+
+            <div class="manual-toggle-grid">
+              <div class="manual-toggle-card">
+                <h4><span class="manual-tag">Start</span></h4>
+                <p>Press <strong>START</strong> as you cross the start line. Your first run begins. With Warm-Up on, press it on the warm-up screen.</p>
+              </div>
+              <div class="manual-toggle-card">
+                <h4><span class="manual-tag manual-tag--orange">Finish</span></h4>
+                <p>Press <strong>Lap</strong> after your last Wall Ball. In Full Hyrox with Rox after on, press once more as you cross the finish line. Otherwise that first press ends the workout.</p>
+              </div>
+            </div>
+
+            <div class="manual-callout manual-callout--pro">
+              <strong>Training without arches</strong>
+              <p>Use the same four points: where you leave your run, where you enter the station, where you leave it, and where you set off running again. Pick your spots and keep them the same every session, so your splits can be compared.</p>
+            </div>
+
+            <div class="manual-callout">
+              <strong>Pressed at the wrong moment?</strong>
+              <p>The lap screen that appears after every press offers <strong>Undo</strong> on the Down button. You can also choose <strong>Undo Last Lap</strong> from the pause menu. See <a href="#undo">Undo Last Lap</a>.</p>
+            </div>
           </div>
 
           <div class="manual-section" id="main-screen">
