@@ -837,14 +837,21 @@
       // Typing resumed after a pause: the previous verdict is stale the
       // moment a digit changes, so the note goes and the spinner shows at
       // once, rather than after the debounce and the round trip.
-      setPanelStatus(claimCodeNote, "");
-      showClaimState("spin");
+      // 9 to 11 digits: current watches show 12 and the earliest builds showed
+      // 8, so this length is almost always a dropped digit. Said plainly, and
+      // before the server answers; a code a watch has reported still clears it.
+      var digitCount = suffix.replace("-", "").length;
+      var shortNote = (digitCount >= 9 && digitCount <= 11)
+        ? "Your watch shows a 12-digit code and this one has " + digitCount + ", so a digit may be missing. Please check the code on your watch before paying."
+        : "";
+      setPanelStatus(claimCodeNote, shortNote, shortNote ? "warn" : undefined);
+      showClaimState(shortNote ? "warn" : "spin");
       const seq = ++claimCheckSeq;
       const run = async () => {
         try {
           const response = await fetch(`${API_BASE}/api/claim/check?code=${encodeURIComponent("RZ-" + suffix)}`);
           if (seq !== claimCheckSeq) { return; }
-          if (!response.ok) { showClaimState("none"); return; }
+          if (!response.ok) { showClaimState(shortNote ? "warn" : "none"); return; }
           const data = await response.json();
           if (seq !== claimCheckSeq) { return; } // the code changed meanwhile
           if (data.paid) {
@@ -860,12 +867,12 @@
             // it yet, so this is a nudge, not an error: neutral colour, one
             // line, and the pay buttons untouched.
             showClaimState("warn");
-            setPanelStatus(claimCodeNote, "Please verify this code matches your watch.");
+            setPanelStatus(claimCodeNote, shortNote || "Please verify this code matches your watch.", shortNote ? "warn" : undefined);
           }
         } catch (_) {
           // A failed check must never stand between a buyer and the pay
           // button: say nothing rather than something wrong.
-          if (seq === claimCheckSeq) { showClaimState("none"); setPanelStatus(claimCodeNote, ""); }
+          if (seq === claimCheckSeq) { showClaimState(shortNote ? "warn" : "none"); setPanelStatus(claimCodeNote, shortNote, shortNote ? "warn" : undefined); }
         }
       };
       if (immediate) { run(); } else { claimCheckTimer = setTimeout(run, 600); }
