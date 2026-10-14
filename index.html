@@ -368,6 +368,36 @@
           </div>
 
           <p id="unlock-status" class="helper-note"></p>
+          <!-- Every message the unlock panel can show, kept in the page as real
+               elements. The site translates with the Google Translate widget,
+               which only touches text present when it runs; a string written
+               from JS afterwards stays English. setPanelStatus moves one of
+               these nodes into the status slot instead of writing text, so it
+               is translated like the rest of the page and re-translated when
+               the language changes.
+               Not display:none: Google skips hidden subtrees (verified), so the
+               block is clipped to a 1px box instead. The 9/10/11-digit note is
+               three whole sentences rather than one with a number slot, because
+               the translator reflows inline elements and breaks the spacing. -->
+          <div id="panel-strings" aria-hidden="true"
+               style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">
+            <span data-msg="code-short-9">Your watch shows a 12-digit code and this one has 9, so a digit may be missing. Please check the code on your watch before paying.</span>
+            <span data-msg="code-short-10">Your watch shows a 12-digit code and this one has 10, so a digit may be missing. Please check the code on your watch before paying.</span>
+            <span data-msg="code-short-11">Your watch shows a 12-digit code and this one has 11, so a digit may be missing. Please check the code on your watch before paying.</span>
+            <span data-msg="code-paid">This code is already unlocked. Open ROXZONE on the watch with your phone connected.</span>
+            <span data-msg="code-verify">Please verify this code matches your watch.</span>
+            <span data-msg="need-code">Enter the claim code shown on your watch.</span>
+            <span data-msg="code-digits-only">Claim codes are numbers only. Check the code on your watch and re-enter it.</span>
+            <span data-msg="code-too-short">That code looks too short. Claim codes are at least 8 digits - check your watch screen.</span>
+            <span data-msg="need-name">Enter your name first.</span>
+            <span data-msg="need-email">Enter your email first.</span>
+            <span data-msg="promo-dodo-only">Promo codes work with the Card or Wallet checkout only, not Razorpay.</span>
+            <span data-msg="need-state">Select your state. It is required on your GST invoice.</span>
+            <span data-msg="creating-paypal">Creating PayPal checkout…</span>
+            <span data-msg="creating-checkout">Creating checkout…</span>
+            <span data-msg="creating-razorpay">Creating Razorpay checkout…</span>
+            <span data-msg="no-checkout-link">Checkout link was not returned by the server.</span>
+          </div>
           </section>
 
           <section id="panel-restore" class="panel__content" role="tabpanel" aria-labelledby="tab-restore" hidden>
@@ -751,8 +781,20 @@
     claimCodeInput.value = groupClaimDigits(initialClaimCode);
     activateTab(initialTab, false);
 
+    const panelStrings = document.getElementById("panel-strings");
+    // `message` is normally a key into #panel-strings (see the comment there).
+    // Anything that is not a key is shown as plain text: that is the path for
+    // error messages from the server, which arrive in English regardless.
     function setPanelStatus(node, message, kind) {
-      node.textContent = message;
+      // Hand back whatever message element this slot was holding, so it is
+      // not lost when the slot is cleared or replaced.
+      node.querySelectorAll("[data-msg]").forEach((el) => panelStrings.appendChild(el));
+      const msg = message ? panelStrings.querySelector(`[data-msg="${message}"]`) : null;
+      if (msg) {
+        node.replaceChildren(msg);
+      } else {
+        node.textContent = message;
+      }
       node.className = kind ? `helper-note helper-note--${kind}` : "helper-note";
     }
 
@@ -841,9 +883,7 @@
       // 8, so this length is almost always a dropped digit. Said plainly, and
       // before the server answers; a code a watch has reported still clears it.
       var digitCount = suffix.replace("-", "").length;
-      var shortNote = (digitCount >= 9 && digitCount <= 11)
-        ? "Your watch shows a 12-digit code and this one has " + digitCount + ", so a digit may be missing. Please check the code on your watch before paying."
-        : "";
+      var shortNote = (digitCount >= 9 && digitCount <= 11) ? "code-short-" + digitCount : "";
       setPanelStatus(claimCodeNote, shortNote, shortNote ? "warn" : undefined);
       showClaimState(shortNote ? "warn" : "spin");
       const seq = ++claimCheckSeq;
@@ -856,8 +896,7 @@
           if (seq !== claimCheckSeq) { return; } // the code changed meanwhile
           if (data.paid) {
             showClaimState("ok");
-            setPanelStatus(claimCodeNote,
-              "This code is already unlocked. Open ROXZONE on the watch with your phone connected.", "ok");
+            setPanelStatus(claimCodeNote, "code-paid", "ok");
           } else if (data.known) {
             // A green tick inside the field, no words: the code matches a watch.
             showClaimState("ok");
@@ -867,7 +906,7 @@
             // it yet, so this is a nudge, not an error: neutral colour, one
             // line, and the pay buttons untouched.
             showClaimState("warn");
-            setPanelStatus(claimCodeNote, shortNote || "Please verify this code matches your watch.", shortNote ? "warn" : undefined);
+            setPanelStatus(claimCodeNote, shortNote || "code-verify", shortNote ? "warn" : undefined);
           }
         } catch (_) {
           // A failed check must never stand between a buyer and the pay
@@ -887,7 +926,7 @@
       const name = document.getElementById("unlock-name").value.trim();
       const email = document.getElementById("unlock-email").value.trim();
       if (!claimCode) {
-        setPanelStatus(unlockStatus, "Enter the claim code shown on your watch.", "warn");
+        setPanelStatus(unlockStatus, "need-code", "warn");
         return;
       }
 
@@ -895,8 +934,7 @@
       // buys a licence no watch will ever ask about, so the buyer pays and
       // stays locked. Letters are impossible - the watch formats an integer.
       if (/\D/.test(rawSuffix.replace(/^RZ/, "").replace(/[\s-]/g, ""))) {
-        setPanelStatus(unlockStatus,
-          "Claim codes are numbers only. Check the code on your watch and re-enter it.", "warn");
+        setPanelStatus(unlockStatus, "code-digits-only", "warn");
         return;
       }
 
@@ -904,18 +942,17 @@
       // build - it means digits were dropped. There is deliberately no upper
       // bound: the earliest builds really did issue 9 and 10 digit codes.
       if (suffix.replace("-", "").length < 8) {
-        setPanelStatus(unlockStatus,
-          "That code looks too short. Claim codes are at least 8 digits - check your watch screen.", "warn");
+        setPanelStatus(unlockStatus, "code-too-short", "warn");
         return;
       }
 
       if (!name) {
-        setPanelStatus(unlockStatus, "Enter your name first.", "warn");
+        setPanelStatus(unlockStatus, "need-name", "warn");
         return;
       }
 
       if (!email) {
-        setPanelStatus(unlockStatus, "Enter your email first.", "warn");
+        setPanelStatus(unlockStatus, "need-email", "warn");
         return;
       }
 
@@ -923,8 +960,7 @@
       // (or worse, a scam). Codes ride the Dodo checkout only.
       const promoTyped = (document.getElementById("promo-code-input") || {value: ""}).value.trim();
       if (provider === "razorpay" && promoTyped) {
-        setPanelStatus(unlockStatus,
-          "Promo codes work with the Card or Wallet checkout only, not Razorpay.", "warn");
+        setPanelStatus(unlockStatus, "promo-dodo-only", "warn");
         return;
       }
 
@@ -932,13 +968,13 @@
       // is required for INR checkouts only.
       const stateCode = (document.getElementById("unlock-state") || {}).value || "";
       if (provider === "razorpay" && (currency || "INR") === "INR" && !stateCode) {
-        setPanelStatus(unlockStatus, "Select your state — it's required on your GST invoice.", "warn");
+        setPanelStatus(unlockStatus, "need-state", "warn");
         return;
       }
 
       try {
         if (provider === "paypal") {
-          setPanelStatus(unlockStatus, "Creating PayPal checkout…");
+          setPanelStatus(unlockStatus, "creating-paypal");
           const data = await postJson("/api/paypal/create-order", {
             claimCode,
             email,
@@ -949,7 +985,7 @@
             return;
           }
         } else if (provider === "dodo") {
-          setPanelStatus(unlockStatus, "Creating checkout…");
+          setPanelStatus(unlockStatus, "creating-checkout");
           const payload = {claimCode, email, name};
           const promo = (document.getElementById("promo-code-input") || {value: ""}).value.trim();
           if (promo) { payload.discountCode = promo.toUpperCase(); }
@@ -959,7 +995,7 @@
             return;
           }
         } else {
-          setPanelStatus(unlockStatus, "Creating Razorpay checkout…");
+          setPanelStatus(unlockStatus, "creating-razorpay");
           const data = await postJson("/api/razorpay/create-link", {
             claimCode,
             email,
@@ -972,7 +1008,7 @@
             return;
           }
         }
-        setPanelStatus(unlockStatus, "Checkout link was not returned by the server.", "warn");
+        setPanelStatus(unlockStatus, "no-checkout-link", "warn");
       } catch (error) {
         setPanelStatus(unlockStatus, error.message, "warn");
       }
