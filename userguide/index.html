@@ -558,14 +558,16 @@
 
           <div class="manual-section" id="custom-web">
             <h3 class="manual-section__title">Building on Your Phone <span class="manual-tag">Beta</span></h3>
-            <p>From ROXZONE 5.1.0, custom workouts can also be built on a proper screen. Sign in at <strong>roxzone.app</strong> with the email you bought the app with, open <strong>My Workouts</strong> from the menu, and build there: stations and their order, runs placed automatically or by hand, run distance, weight category, and each station's distance, reps or weight. The preview at the bottom shows the exact sequence the watch will run.</p>
+            <p>From ROXZONE 5.1.0, custom workouts can also be built on a proper screen. Sign in at <strong>roxzone.app</strong> with the email you bought the app with, open <strong>My Workouts</strong> from the menu, and build there: stations and their order, runs placed automatically or by hand, run distance, weight category, and each station's distance, reps or weight. The summary card shows the exact sequence the watch will run.</p>
+            <p>From ROXZONE 5.2.0 the builder goes beyond the race format. Alongside the eight HYROX stations you can add <strong>Air Bike</strong>, <strong>Battle Ropes</strong>, <strong>Burpees</strong>, <strong>KB Swings</strong>, <strong>Box Jumps</strong> and <strong>Bike Erg</strong>, or an <strong>Other</strong> station with a name of your own (up to 14 characters). Tap any row to give that segment its own value - metres, reps, calories or a time - and its own weight, so a sled pyramid or a drop set is five rows with five weights rather than one setting. A <strong>Rest</strong> row is a timed break anywhere in the sequence. Once a workout uses any of this, runs are placed by hand (Auto Add Runs switches off) so each run can carry its own distance or time too.</p>
+            <p>Timed segments end themselves: at the end of a 1:00 run, a 0:40 Battle Ropes or a 1:30 rest the watch buzzes three times and moves on, with no Lap press. Pressing Lap early still ends the segment. Values in metres, reps or calories are a prompt on screen, ended by Lap as always. Workouts with the new stations, rests or per-segment values need ROXZONE 5.2.0 on the watch; an older version simply does not see them.</p>
             <p>Two things the phone can do that the watch's builder cannot: a <strong>runs-only</strong> session (turn Auto Add Runs off and add runs, nothing else), and a different weight on each station without switching category - change any weight and the workout becomes Custom weights, keeping the others as they were.</p>
             <ol>
               <li>Save the workout on the site.</li>
               <li>On the watch, with the phone connected, open <strong>My Workouts</strong> and choose <strong>Sync from Phone</strong>. Your site workouts appear in the list with a <em>roxzone.app</em> label.</li>
               <li>Start one like any saved workout. It repeats until you stop it.</li>
             </ol>
-            <p>Workouts built on the site sync to the watch; workouts built on the watch stay on the watch. A synced workout is edited, renamed or deleted on the site, and the next sync brings the change across - so on the watch it offers Start only. <strong>Build on Phone</strong> in My Workouts opens the builder on your phone.</p>
+            <p>Workouts built on the site sync to the watch; workouts built on the watch stay on the watch. \1 A workout with new stations, rests or per-segment values cannot be opened in the watch\'s own builder either; choosing Custom from its setup menu starts a fresh workout and leaves the synced one untouched. <strong>Build on Phone</strong> in My Workouts opens the builder on your phone.</p>
             <p>If the watch shows a message: <strong>None found - build one at roxzone.app</strong> means the account has no saved workouts yet; <strong>Phone not connected</strong> means the watch cannot reach the internet, so open Garmin Connect on the phone and try again; <strong>This watch is not on your account</strong> means the watch was unlocked with a different email - compare <strong>About &rarr; Watch ID</strong> with the watches under Profile on the site; <strong>Could not sync - try again</strong> is a temporary error.</p>
           </div>
         </section>
@@ -580,7 +582,7 @@
 
           <div class="manual-section" id="advancing">
             <h3 class="manual-section__title">Advancing Between Segments</h3>
-            <p>Press the <strong>Lap button</strong> to move from one segment to the next. Each press locks in a clean split - your run time, station time, and any Roxzone transition time are all recorded separately in Garmin Connect.</p>
+            \1\n            <p>Segments set in time (a 1:00 run, a 0:40 station or a Rest row, built on the site) move on by themselves: the watch buzzes three times at the end and starts the next segment. Lap still works there, it just ends the segment early.</p>
             <p>With Roxzone toggles on, you'll press Lap at each transition boundary - entering and exiting the Roxzone area. With toggles off, a single Lap press moves you directly from run to station and back, keeping the rhythm simpler. Exactly where to press is in <a href="#when-to-press">When to Press Lap</a>.</p>
           </div>
 
@@ -589,8 +591,7 @@
 
             <div class="lap-rule">
               <p class="lap-rule__main">Press Lap at the arches.</p>
-              <p class="lap-rule__sub">That is where your chip is read, so your splits match your race results.</p>
-            </div>
+              \1\n            <p>Timed segments are the one exception: they end on their own, and a Rest row counts down and moves on without a press.</p>
 
             <figure class="lap-map">
               <svg viewBox="0 0 400 500" role="img" aria-labelledby="lap-map-title">
@@ -742,8 +743,7 @@
             </div>
             <div class="manual-callout">
               <strong>One plan per workout</strong>
-              <p>The watch uses one plan for each workout type. If two saved plans are for the same workout, the most recently edited one carries the <strong>Active</strong> pill and is the one that syncs. Edit the other one and it becomes active instead.</p>
-            </div>
+              <p>The watch uses one plan for each workout type. If two saved plans are for the same workout, the most recently edited one carries the <strong>Active</strong> pill and is the one that syncs. \1\n            <div class="manual-callout">\n              <strong>Site-built workouts with new stations</strong>\n              <p>Race plans target the race format and classic custom workouts. A workout with the new stations, rests or per-segment values (ROXZONE 5.2.0) cannot be given a plan yet; its own values are its targets, and the watch shows no Race Plan or Target Times row for it.</p>\n            </div>
           </div>
 
           <div class="manual-section" id="race-plan-draft">
@@ -856,7 +856,7 @@
             <p>Immediately after finishing a workout, ROXZONE shows a full-screen summary. Scroll up and down to navigate it - the content is laid out in two sections:</p>
             <ul>
               <li><strong>Top section</strong> - total time (large), with Run, Stations, ROXZONE, and average run pace broken out beneath it, followed by your weight category and simulation percentage.</li>
-              <li><strong>Splits section</strong> - every individual segment in order: each run and station labelled by name, with Roxzone transition rows interleaved. Scroll down past the category line to reach the splits.</li>
+              <li><strong>Splits section</strong> - every individual segment in order: each run and station labelled by name, with Roxzone transition rows interleaved. Rest rows from a site-built workout sit in grey, and a Rest total joins the top section when a workout had any. Scroll down past the category line to reach the splits.</li>
             </ul>
             <p>The scroll arrows fade after a few seconds of inactivity and reappear when you scroll again.</p>
             <p>Press <strong>BACK</strong> to save the activity to Garmin Connect and exit. Press <strong>SELECT</strong> to share the result to your phone (see below).</p>
@@ -866,7 +866,7 @@
             <h3 class="manual-section__title">Share to Mobile</h3>
             <p>Press <strong>SELECT</strong> on the summary screen to open your result on your phone, in your browser via Garmin Connect Mobile.</p>
             <p>How that link is built depends on one setting. By default ROXZONE encodes the entire workout into the link itself and nothing is uploaded to a server. With <a href="#online-results">Online Results</a> switched on, your finished workouts are already saved to roxzone.app, so you get a short link instead - quicker to open, easy to send, and it keeps working.</p>
-            <p>The result page shows your total time, Run / Stations / ROXZONE breakdown, average run pace, and the full labelled split list. Tap the <strong>Share</strong> button on the page to export as a Story or Post image for Instagram, WhatsApp, or any platform. The link works on any device.</p>
+            <p>The result page shows your total time, Run / Stations / ROXZONE breakdown, average run pace, and the full labelled split list. \1\n            <p>The Share sheet has three tabs. <strong>Story</strong> and <strong>Post</strong> are finished cards; <strong>Stickers</strong> are transparent cut-outs - just the time, a stat row, your rounds, the split list or a glyph grid - to lay over your own photo. Pick a white or black ink to suit the photo and, if you like, one accent colour; the Panel styles turn that colour into a card. Custom workouts get the same treatment as a race: rounds are counted, every station shows its own weight or value, and a rest row sits in grey.</p>
             <div class="manual-callout manual-callout--pro">
               <strong>Tip</strong>
               Your phone must be connected to the watch via Garmin Connect Mobile when you press SELECT. If it isn't, the watch will show a "Connect phone" message - reconnect and press SELECT again.
