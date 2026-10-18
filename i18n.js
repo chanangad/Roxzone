@@ -77,7 +77,16 @@ async function applyLanguage(code) {
   } catch (err) {
     return;
   }
-  if (select.value === targetCode) return;
+  if (select.value === targetCode) {
+    // Google's widget pre-selects the language from its googtrans cookie,
+    // but on some page loads it never starts the translation. A change
+    // event with the same value is ignored, so step through "" first.
+    // Nothing to do when the page already shows a translation.
+    if (document.documentElement.classList.contains("translated-ltr") && document.querySelector("font[style]")) return;
+    select.value = "";
+    select.dispatchEvent(new Event("change", { bubbles: true }));
+    await new Promise((resolve) => setTimeout(resolve, 1200));
+  }
   select.value = targetCode;
   select.dispatchEvent(new Event("change", { bubbles: true }));
 }
