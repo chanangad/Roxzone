@@ -73,8 +73,6 @@
 
       <!-- Shown only once the payment is confirmed. The buyer's next action is
            on the watch; nothing on this page should compete with that. -->
-      <!-- The watch now checks for the payment itself, so step 2 is only the
-           fallback for app versions released before auto-unlock shipped. -->
       <ol id="activation-steps" class="steps" hidden>
         <li>
           <span class="num">1</span>
@@ -83,17 +81,12 @@
         </li>
         <li>
           <span class="num">2</span>
-          <span class="step-body"><strong>Still locked? Select "Refresh License"</strong>
-            <span class="step-sub">Older app versions need this one tap. Update the app and it becomes automatic.</span></span>
-        </li>
-        <li>
-          <span class="num">3</span>
           <span class="step-body"><strong>Turn on <span class="notranslate" translate="no" data-t="onlineResults">Online Results</span></strong>
             <span class="step-sub">Open ROXZONE, scroll to the bottom of the main menu to <span class="notranslate" translate="no" data-t="onlineResults">Online Results</span> and set it to <span class="notranslate" translate="no" data-t="toggleOn">ON</span>. The watch asks once; confirm. Every session you finish then saves to your account at <a href="/me">roxzone.app</a>: splits, pace and heart rate.</span>
             <span class="step-sub step-alt">Not there? Choose <span class="notranslate" translate="no" data-t="fullHyrox">Full Hyrox</span> and look at the bottom of the settings list, or update ROXZONE in the Connect IQ app.</span></span>
         </li>
         <li>
-          <span class="num">4</span>
+          <span class="num">3</span>
           <span class="step-body"><strong>Done. Lifetime unlock.</strong></span>
         </li>
       </ol>
@@ -194,8 +187,8 @@
       successStatus.className = `helper-note helper-note--${kind}`;
     }
 
-    // Payment confirmed: the page's one job is to get the buyer to press
-    // Refresh License on the watch. Steps become the hero; the home link is
+    // Payment confirmed: the page's one job is to get the buyer onto the
+    // watch: open it, turn on Online Results. Steps become the hero; the home link is
     // demoted to a footnote so it cannot compete with the instruction.
     // statusText is deliberately empty on success: the heading already says the
     // payment completed, so a second confirmation line only adds noise. It
