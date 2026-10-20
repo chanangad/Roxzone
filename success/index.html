@@ -32,6 +32,7 @@
     .steps .step-body { line-height: 1.5; padding-top: 0.2rem; }
     .steps .step-body strong { color: var(--ink, #e4e2e1); }
     .steps .step-sub { display: block; color: var(--muted, #9aa0ae); font-size: 0.85rem; margin-top: 0.15rem; }
+    .steps .step-alt { margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.85; }
     .success-home { display: inline-block; margin-top: 1.4rem; color: var(--muted, #9aa0ae); font-size: 0.9rem; }
     /* An author `display` beats the UA sheet's `[hidden]`, the same trap the
        steps hit, so the hidden state is spelled out. */
@@ -88,7 +89,8 @@
         <li>
           <span class="num">3</span>
           <span class="step-body"><strong>Turn on <span class="notranslate" translate="no" data-t="onlineResults">Online Results</span></strong>
-            <span class="step-sub">Open ROXZONE, scroll to the bottom of the main menu to <span class="notranslate" translate="no" data-t="onlineResults">Online Results</span> and set it to <span class="notranslate" translate="no" data-t="toggleOn">ON</span>. The watch asks once; confirm. Every session you finish then saves to your account at <a href="/me">roxzone.app</a>: splits, pace and heart rate.</span></span>
+            <span class="step-sub">Open ROXZONE, scroll to the bottom of the main menu to <span class="notranslate" translate="no" data-t="onlineResults">Online Results</span> and set it to <span class="notranslate" translate="no" data-t="toggleOn">ON</span>. The watch asks once; confirm. Every session you finish then saves to your account at <a href="/me">roxzone.app</a>: splits, pace and heart rate.</span>
+            <span class="step-sub step-alt">Not there? Choose <span class="notranslate" translate="no" data-t="fullHyrox">Full Hyrox</span> and look at the bottom of the settings list, or update ROXZONE in the Connect IQ app.</span></span>
         </li>
         <li>
           <span class="num">4</span>
@@ -147,8 +149,8 @@
     // The watch's own menu labels, from the app's string files, so the step
     // names the row exactly as the watch shows it in the chosen language.
     (function () {
-      var D = {onlineResults: {"cs": "Online výsledky", "da": "Onlineresultater", "de": "Online-Ergebnisse", "es": "Resultados online", "fi": "Verkkotulokset", "fr": "Résultats en ligne", "hu": "Online eredmények", "id": "Hasil online", "it": "Risultati online", "ko": "온라인 결과", "nl": "Onlineresultaten", "no": "Onlineresultater", "ja": "オンライン結果", "pl": "Wyniki online", "pt": "Resultados online", "sv": "Onlineresultat", "th": "ผลลัพธ์ออนไลน์", "zh": "在线成绩"}, toggleOn: {"cs": "ZAP", "da": "TIL", "de": "AN", "es": "SÍ", "fi": "PÄÄLLÄ", "fr": "OUI", "hu": "BE", "id": "AKTIF", "it": "ON", "ko": "켜기", "nl": "AAN", "no": "PÅ", "ja": "ON", "pl": "WŁ.", "pt": "ATIVO", "sv": "PÅ", "th": "เปิด", "zh": "开"}};
-      var EN = {onlineResults: "Online Results", toggleOn: "ON"};
+      var D = {onlineResults: {"cs": "Online výsledky", "da": "Onlineresultater", "de": "Online-Ergebnisse", "es": "Resultados online", "fi": "Verkkotulokset", "fr": "Résultats en ligne", "hu": "Online eredmények", "id": "Hasil online", "it": "Risultati online", "ko": "온라인 결과", "nl": "Onlineresultaten", "no": "Onlineresultater", "ja": "オンライン結果", "pl": "Wyniki online", "pt": "Resultados online", "sv": "Onlineresultat", "th": "ผลลัพธ์ออนไลน์", "zh": "在线成绩"}, toggleOn: {"cs": "ZAP", "da": "TIL", "de": "AN", "es": "SÍ", "fi": "PÄÄLLÄ", "fr": "OUI", "hu": "BE", "id": "AKTIF", "it": "ON", "ko": "켜기", "nl": "AAN", "no": "PÅ", "ja": "ON", "pl": "WŁ.", "pt": "ATIVO", "sv": "PÅ", "th": "เปิด", "zh": "开"}, fullHyrox: {"cs": "Plný Hyrox", "da": "Fuld Hyrox", "de": "Volles Hyrox", "es": "Hyrox completo", "fi": "Täysi Hyrox", "fr": "Hyrox complet", "hu": "Teljes Hyrox", "id": "Hyrox Penuh", "it": "Hyrox completo", "ko": "풀 Hyrox", "nl": "Volledig Hyrox", "no": "Full Hyrox", "ja": "フル Hyrox", "pl": "Pełny Hyrox", "pt": "Hyrox Completo", "sv": "Full Hyrox", "th": "Hyrox เต็ม", "zh": "完整 Hyrox"}};
+      var EN = {onlineResults: "Online Results", toggleOn: "ON", fullHyrox: "Full Hyrox"};
       function apply() {
         var c = "en";
         try { c = (localStorage.getItem("roxzone-lang") || "en").split("-")[0]; } catch (e) {}
@@ -208,7 +210,7 @@
           { value: inr ? 499 : 8.99, currency: inr ? "INR" : "USD", content_name: "ROXZONE lifetime unlock" },
           claimCode ? { eventID: "purchase-" + claimCode } : undefined);
       }
-      setMessage("Payment complete. One step left:", "", statusText, "ok");
+      setMessage("Payment complete. Next, on your watch:", "", statusText, "ok");
       successCopy.hidden = true;
       activationSteps.hidden = false;
       document.getElementById("follow-block").hidden = false;
