@@ -63,6 +63,12 @@ async function loadPricing() {
   }
 }
 
+// The site language the reader chose (the picker's key, also read by
+// i18n.js), sent with a checkout so the welcome email arrives in it.
+function siteLang() {
+  try { return localStorage.getItem("roxzone-lang") || ""; } catch (e) { return ""; }
+}
+
 async function postJson(path, payload) {
   const response = await fetch(`${API_BASE}${path}`, {
     method: "POST",

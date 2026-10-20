@@ -87,8 +87,8 @@
         </li>
         <li>
           <span class="num">3</span>
-          <span class="step-body"><strong>Turn on Online Results</strong>
-            <span class="step-sub">Workout settings on the watch, bottom of the list. Every session you finish then saves to your account at <a href="/me">roxzone.app</a>: splits, pace and heart rate.</span></span>
+          <span class="step-body"><strong>Turn on <span class="notranslate" translate="no" data-t="onlineResults">Online Results</span></strong>
+            <span class="step-sub">Open ROXZONE, scroll to the bottom of the main menu to <span class="notranslate" translate="no" data-t="onlineResults">Online Results</span> and set it to <span class="notranslate" translate="no" data-t="toggleOn">ON</span>. The watch asks once; confirm. Every session you finish then saves to your account at <a href="/me">roxzone.app</a>: splits, pace and heart rate.</span></span>
         </li>
         <li>
           <span class="num">4</span>
@@ -143,6 +143,27 @@
   </footer>
 
   <script src="../i18n.js"></script>
+  <script>
+    // The watch's own menu labels, from the app's string files, so the step
+    // names the row exactly as the watch shows it in the chosen language.
+    (function () {
+      var D = {onlineResults: {"cs": "Online výsledky", "da": "Onlineresultater", "de": "Online-Ergebnisse", "es": "Resultados online", "fi": "Verkkotulokset", "fr": "Résultats en ligne", "hu": "Online eredmények", "id": "Hasil online", "it": "Risultati online", "ko": "온라인 결과", "nl": "Onlineresultaten", "no": "Onlineresultater", "ja": "オンライン結果", "pl": "Wyniki online", "pt": "Resultados online", "sv": "Onlineresultat", "th": "ผลลัพธ์ออนไลน์", "zh": "在线成绩"}, toggleOn: {"cs": "ZAP", "da": "TIL", "de": "AN", "es": "SÍ", "fi": "PÄÄLLÄ", "fr": "OUI", "hu": "BE", "id": "AKTIF", "it": "ON", "ko": "켜기", "nl": "AAN", "no": "PÅ", "ja": "ON", "pl": "WŁ.", "pt": "ATIVO", "sv": "PÅ", "th": "เปิด", "zh": "开"}};
+      var EN = {onlineResults: "Online Results", toggleOn: "ON"};
+      function apply() {
+        var c = "en";
+        try { c = (localStorage.getItem("roxzone-lang") || "en").split("-")[0]; } catch (e) {}
+        var els = document.querySelectorAll("[data-t]");
+        for (var i = 0; i < els.length; i++) {
+          var k = els[i].getAttribute("data-t"), w = (D[k] && D[k][c]) || EN[k];
+          if (w && els[i].textContent !== w) { els[i].textContent = w; }
+        }
+      }
+      apply();
+      document.addEventListener("click", function (e) {
+        if (e.target.closest && e.target.closest(".lang-pill")) { setTimeout(apply, 0); }
+      });
+    })();
+  </script>
   <script src="../app.js"></script>
   <script>
     const successTitle = document.getElementById("success-title");

@@ -978,7 +978,8 @@
           const data = await postJson("/api/paypal/create-order", {
             claimCode,
             email,
-            name
+            name,
+            lang: siteLang()
           });
           if (data && data.approveUrl) {
             window.location.href = data.approveUrl;
@@ -986,7 +987,7 @@
           }
         } else if (provider === "dodo") {
           setPanelStatus(unlockStatus, "creating-checkout");
-          const payload = {claimCode, email, name};
+          const payload = {claimCode, email, name, lang: siteLang()};
           const promo = (document.getElementById("promo-code-input") || {value: ""}).value.trim();
           if (promo) { payload.discountCode = promo.toUpperCase(); }
           const data = await postJson("/api/dodo/create-checkout", payload);
@@ -998,6 +999,7 @@
           setPanelStatus(unlockStatus, "creating-razorpay");
           const data = await postJson("/api/razorpay/create-link", {
             claimCode,
+            lang: siteLang(),
             email,
             name,
             currency: currency || "INR",
