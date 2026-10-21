@@ -76,13 +76,90 @@ img {
 .topbar__lang {
     margin-left: auto;
     position: relative;
+    display: flex;
+}
+
+/* Globe and chevron only. The page itself says which language it is in, the
+   open panel names every option in its own script, and the account area
+   already shows the picker this way. The button keeps its aria-label. */
+.topbar .lang-button__label {
+    display: none;
+}
+
+/* Store or account: a two-position switch between the two halves of the
+   site. The lit side is where you are. The right side always reads
+   "My ROXZONE" and leads to /me, which asks a stranger to sign in. Centred
+   between the tabs and the language picker by the auto margins on both. */
+.modeswitch {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    height: 36px; /* the same box as the language pill, not padding arithmetic */
+    box-sizing: border-box;
+    padding: 3px;
+    border: 1px solid var(--outline);
+    border-radius: 999px;
+    background: var(--surface-low);
+}
+
+.modeswitch__opt {
+    display: inline-block;
+    padding: 0.42rem 1.05rem;
+    border-radius: 999px;
+    color: var(--ink);
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    transition: color 160ms ease, background 160ms ease;
+}
+
+.modeswitch__opt:focus-visible,
+.lang-button:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* With room to spare the switch sits on the page's centre line, like the
+   segmented control in a native toolbar. The sticky header is its
+   containing block. Below 900px the auto margins take over, so it can never
+   be centred into the tabs. */
+@media (min-width: 900px) {
+    .modeswitch {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        margin-left: 0;
+    }
+}
+
+.modeswitch__opt:hover {
+    color: var(--primary);
+}
+
+.modeswitch__opt:active {
+    transform: scale(0.97);
+}
+
+.modeswitch__opt--on,
+.modeswitch__opt--on:hover {
+    background: var(--primary);
+    color: #06122a;
+}
+
+/* Deep links to the purchase box (#unlock) land below the sticky header. */
+.panel {
+    scroll-margin-top: calc(var(--topbar-h, 5.5rem) + 0.75rem);
 }
 
 .lang-button {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    padding: 0.5rem 0.85rem;
+    gap: 0.45rem;
+    height: 36px;
+    box-sizing: border-box;
+    padding: 0 0.8rem;
     border: 1px solid var(--outline);
     border-radius: 999px;
     background: var(--surface-low);
@@ -101,6 +178,8 @@ img {
 }
 
 .lang-button__icon {
+    width: 16px;
+    height: 16px;
     color: var(--muted);
     flex-shrink: 0;
 }
@@ -199,8 +278,8 @@ font[style*="background-color"] {
     padding-bottom: 0.35rem;
     border-bottom: 2px solid var(--primary);
     color: var(--primary);
-    font-weight: 700;
-    font-size: 1.05rem;
+    font-weight: 600;
+    font-size: 0.95rem;
     transition: color 160ms ease, opacity 160ms ease;
 }
 
@@ -1204,7 +1283,7 @@ font[style*="background-color"] {
     .topbar {
         display: grid;
         grid-template-columns: 1fr auto;
-        grid-template-areas: "brand lang" "nav nav";
+        grid-template-areas: "brand lang" "switch nav";
         row-gap: 0.4rem;
         padding: 0.65rem 1rem 0.6rem;
         align-items: center;
@@ -1218,6 +1297,12 @@ font[style*="background-color"] {
     .topbar__nav {
         grid-area: nav;
         gap: 1rem;
+        justify-self: end;
+        align-self: center;
+    }
+
+    .topbar__tab {
+        padding-bottom: 0.2rem;
     }
 
     .topbar__lang {
@@ -1225,10 +1310,28 @@ font[style*="background-color"] {
         margin-left: 0;
     }
 
+    .modeswitch {
+        grid-area: switch;
+        margin-left: 0;
+        justify-self: start;
+    }
+
+    .modeswitch {
+        height: 32px;
+    }
+
+    .modeswitch__opt {
+        padding: 0.33rem 0.85rem;
+        font-size: 0.88rem;
+    }
+
     .lang-button {
-        padding: 0.45rem 0.7rem;
+        height: 32px;
+        padding: 0 0.7rem;
         font-size: 0.85rem;
     }
+
+
 
     .lang-panel {
         right: 0;

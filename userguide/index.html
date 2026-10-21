@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=55">
+  <link rel="stylesheet" href="../styles.css?v=56">
   <script src="../pixel.js?v=2" defer></script>
 </head>
 
@@ -37,10 +37,12 @@
   <header class="topbar">
     <a href="../" class="topbar__brand notranslate" translate="no">ROXZONE</a>
     <nav class="topbar__nav">
-      <a href="../" class="topbar__tab topbar__tab--dim">Store</a>
       <a href="./" class="topbar__tab topbar__tab--active">Guide</a>
       <a href="../faq/" class="topbar__tab topbar__tab--dim">FAQ</a>
-      <a href="/me" class="topbar__tab topbar__tab--dim">Account</a>
+    </nav>
+    <nav class="modeswitch" aria-label="Store or account">
+      <a href="../" class="modeswitch__opt modeswitch__opt--on" aria-current="page">Store</a>
+      <a href="/me" class="modeswitch__opt">My <span class="notranslate" translate="no">ROXZONE</span></a>
     </nav>
     <div class="topbar__lang" data-lang-picker></div>
   </header>
@@ -283,7 +285,7 @@
 
           <div class="manual-section" id="phone-signin">
             <h3 class="manual-section__title">Signing In</h3>
-            <p>Open <a href="/me">roxzone.app/me</a> in your phone's browser, or tap <strong>Account</strong> at the top of this site. There is no signup and no password: enter the email address you bought ROXZONE with and we send you a six-digit code. Type it in and you are through. You stay signed in on that device, so this is a once-off.</p>
+            <p>Open <a href="/me">roxzone.app/me</a> in your phone's browser, or tap <strong>Sign in</strong> at the top of this site. There is no signup and no password: enter the email address you bought ROXZONE with and we send you a six-digit code. Type it in and you are through. You stay signed in on that device, so this is a once-off.</p>
             <p>Use the address the purchase was made with. A code is only ever sent to an email that owns a licence, so a different address gets nothing.</p>
             <div class="manual-callout manual-callout--pro">
               <strong>Keep it one tap away</strong>
