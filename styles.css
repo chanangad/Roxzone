@@ -1308,6 +1308,9 @@ font[style*="background-color"] {
     .topbar__lang {
         grid-area: lang;
         margin-left: 0;
+        /* The column is as wide as the tabs beneath; pin the globe to the
+           edge rather than the column's start, level with the FAQ tab. */
+        justify-self: end;
     }
 
     .modeswitch {
