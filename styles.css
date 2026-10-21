@@ -1289,8 +1289,20 @@ font[style*="background-color"] {
         align-items: center;
     }
 
+    /* Centred on the first row like an app's title bar. The bar is sticky,
+       so it is the containing block; the first row is 32px (the globe's
+       height) below the 0.65rem top padding, hence the top offset. The
+       account area's bar puts its brand on the same pixels, with the burger
+       at the left edge. */
     .topbar__brand {
-        grid-area: brand;
+        /* No grid placement: an absolutely positioned grid item takes its
+           grid area as its containing block, which would centre it in the
+           first column rather than the bar. */
+        grid-area: auto;
+        position: absolute;
+        left: 50%;
+        top: calc(0.65rem + 16px);
+        transform: translate(-50%, -50%);
         font-size: 1.45rem;
     }
 
