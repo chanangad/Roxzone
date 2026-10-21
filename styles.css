@@ -219,6 +219,11 @@ img {
     display: none;
 }
 
+/* Phone-only backdrop for the language sheet; see the 640px block. */
+.lang-scrim {
+    display: none;
+}
+
 .lang-pill {
     border: 1px solid transparent;
     border-radius: 0.65rem;
@@ -1315,6 +1320,102 @@ font[style*="background-color"] {
 
     .topbar__tab {
         padding-bottom: 0.2rem;
+    }
+
+    /* Language list on phones: a compact dropdown from the globe rather than
+       the desktop's cloud of pills, which is too wide for a 375px screen.
+       Plain rows with a tick on the current language; it scrolls past about
+       60% of the screen, and i18n.js opens it on the current language. The
+       transparent .lang-scrim from i18n.js catches the tap that closes it,
+       so that tap never reaches the page underneath. */
+    .topbar .lang-panel {
+        top: calc(100% + 8px);
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 2px;
+        width: 240px;
+        min-width: 0;
+        max-width: calc(100vw - 2rem);
+        max-height: min(62vh, 470px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 6px;
+        border-radius: 14px;
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+        z-index: 200;
+        transform-origin: top right;
+        transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .topbar .lang-panel[hidden] {
+        display: none;
+    }
+
+    /* A drop, never a fade: if the animation is paused or unsupported, the
+       list is still fully visible, only 6px higher. */
+    @starting-style {
+        .topbar .lang-panel:not([hidden]) {
+            transform: translateY(-6px) scale(0.98);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .topbar .lang-panel {
+            transition: none;
+        }
+    }
+
+    .topbar .lang-pill {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        flex: none;
+        min-height: 44px;
+        padding: 0 12px;
+        border: 0;
+        border-radius: 10px;
+        background: transparent;
+        color: var(--ink);
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-align: left;
+    }
+
+    .topbar .lang-pill:active {
+        background: var(--surface-high);
+    }
+
+    .topbar .lang-pill--active,
+    .topbar .lang-pill--active:active {
+        background: rgba(167, 200, 255, 0.12);
+        color: var(--primary);
+    }
+
+    .topbar .lang-pill--active::after {
+        content: "";
+        flex: none;
+        width: 16px;
+        height: 16px;
+        background: currentColor;
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .topbar .lang-panel:not([hidden]) + .lang-scrim {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 199;
+        background: transparent;
+    }
+
+    /* The sticky header is its own layer (z-index 10); the cookie banner sits
+       at 50. While the sheet is open the header rises above it. */
+    .topbar:has(.lang-panel:not([hidden])) {
+        z-index: 100;
     }
 
     .topbar__lang {

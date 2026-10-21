@@ -199,6 +199,13 @@ function buildLangPicker() {
     const willOpen = panel.hidden;
     panel.hidden = !willOpen;
     button.setAttribute("aria-expanded", willOpen ? "true" : "false");
+    // On a phone the list scrolls; open it with the current language in view.
+    if (willOpen) {
+      const active = panel.querySelector(".lang-pill--active");
+      if (active && panel.scrollHeight > panel.clientHeight) {
+        panel.scrollTop = active.offsetTop - panel.clientHeight / 2 + active.offsetHeight / 2;
+      }
+    }
   });
 
   document.addEventListener("click", (event) => {
@@ -216,8 +223,22 @@ function buildLangPicker() {
     }
   });
 
+  // On phones an invisible layer behind the open list (styles.css, and
+  // page_chrome.js in the worker), so a tap outside closes the list instead
+  // of also landing on whatever is underneath it. CSS shows it only while the
+  // panel is open, and only at phone widths; elsewhere it stays display:none.
+  const scrim = document.createElement("div");
+  scrim.className = "lang-scrim";
+  scrim.setAttribute("aria-hidden", "true");
+  scrim.addEventListener("click", (event) => {
+    event.stopPropagation();
+    panel.hidden = true;
+    button.setAttribute("aria-expanded", "false");
+  });
+
   root.appendChild(button);
   root.appendChild(panel);
+  root.appendChild(scrim);
 }
 
 function injectGoogleTranslate() {
