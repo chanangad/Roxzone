@@ -1285,6 +1285,22 @@ font[style*="background-color"] {
 @media (max-width: 640px) {
     /* 95% of traffic is mobile: the sticky header must cost as little of the
        viewport as possible. */
+    /* headroom.js toggles .is-tucked: the bar slides up out of view while
+       you scroll down and back as soon as you scroll up. */
+    .topbar {
+        transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .topbar.is-tucked {
+        transform: translateY(-100%);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .topbar {
+            transition: none;
+        }
+    }
+
     .topbar {
         display: grid;
         grid-template-columns: 1fr auto;

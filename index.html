@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=60">
+  <link rel="stylesheet" href="./styles.css?v=61">
 
   <script>
     // Geo decision runs BEFORE the body paints. The payment groups live in the
@@ -168,7 +168,7 @@
 </head>
 
 <body>
-  <header class="topbar">
+  <header class="topbar" data-headroom>
     <a href="./" class="topbar__brand notranslate" translate="no">ROXZONE</a>
     <nav class="topbar__nav">
       <a href="./userguide/" class="topbar__tab topbar__tab--dim">Guide</a>
@@ -731,6 +731,7 @@
 
   <script src="./app.js"></script>
   <script src="./i18n.js?v=4"></script>
+  <script src="./headroom.js?v=1"></script>
   <script>
     const tabButtons = Array.from(document.querySelectorAll(".panel__tab"));
     const tabPanels = {
