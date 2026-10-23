@@ -110,6 +110,7 @@
               <li><a href="#gps-mode">GPS Mode (Outdoor)</a></li>
               <li><a href="#indoor-run">Indoor Run Pace &amp; Distance</a></li>
               <li><a href="#warm-up">Warm-Up</a></li>
+              <li><a href="#run-screen">Run Screen</a></li>
               <li><a href="#touchscreen">Touchscreen Lock</a></li>
               <li><a href="#review-start">Review &amp; Start</a></li>
               <li><a href="#station-targets">Station Targets</a></li>
@@ -587,10 +588,10 @@
               </div>
             </li>
             <li class="rz-flow__step">
-              <span class="rz-flow__shot"><img src="../assets/guide/05-warmup.webp" width="520" height="670" loading="lazy" decoding="async" alt="Warm-up timer at 0:12 with heart rate"></span>
+              <span class="rz-flow__shot"><img src="../assets/guide/05-warmup.webp?v=525" width="520" height="670" loading="lazy" decoding="async" alt="Warm-up timer at 4:12 with heart rate, LAP to START at the bottom"></span>
               <div class="rz-flow__text">
                 <p class="rz-flow__name"><span class="rz-flow__num">02</span>Warm up</p>
-                <p>Not part of your race time. Press <strong>SELECT</strong> when you are ready and the race clock starts.</p>
+                <p>Not part of your race time. Press <strong>LAP</strong> when you are ready and the race clock starts.</p>
               </div>
             </li>
             <li class="rz-flow__step">
@@ -643,10 +644,10 @@
                 </div>
               </li>
               <li class="rz-flow__step">
-                <span class="rz-flow__shot"><img src="../assets/guide/04-preview-menu-b.webp" width="520" height="670" loading="lazy" decoding="async" alt="Workout menu scrolled down to GPS Mode and Save to My Workouts"></span>
+                <span class="rz-flow__shot"><img src="../assets/guide/04-preview-menu-b.webp?v=525" width="520" height="670" loading="lazy" decoding="async" alt="Workout menu scrolled down to GPS Mode, Run screen and Save to My Workouts"></span>
                 <div class="rz-flow__text">
                   <p class="rz-flow__name"><span class="rz-flow__num">04</span>Before you go</p>
-                  <p>Switch on GPS, or save it to My Workouts.</p>
+                  <p>Switch on GPS, choose what runs show, or save it to My Workouts.</p>
                 </div>
               </li>
             </ol>
@@ -713,13 +714,14 @@
 <div class="manual-section" id="run-pace">
             <h3 class="manual-section__title">Run Pace</h3>
             <p>Set your expected pace per kilometre for every run leg in the session. ROXZONE uses this as your personal benchmark on every run - it powers all of your live pacing cues, from the bezel arc to the run data readouts, so a single glance tells you whether you're on track to hit your split. During any run segment, press <strong>Down</strong> to bring up that screen.</p>
+            <p>Rather run without a target? Pick <strong>No target</strong> at the top of the list. Runs then show progress only, never green or red, and a Race Plan still sets its own targets.</p>
             <div class="rz-pair">
               <figure>
                 <span class="rz-flow__shot"><img src="../assets/guide/25-pace-row.webp" width="520" height="670" loading="lazy" decoding="async" alt="Setup menu: Set Target Pace 05:00/km, Roxzone on"></span>
                 <figcaption>Set Target Pace</figcaption>
               </figure>
               <figure>
-                <span class="rz-flow__shot"><img src="../assets/guide/26-pace-list.webp" width="520" height="670" loading="lazy" decoding="async" alt="Pace list with 5:00 selected between 4:55 and 5:05"></span>
+                <span class="rz-flow__shot"><img src="../assets/guide/26-pace-list.webp?v=525" width="520" height="670" loading="lazy" decoding="async" alt="Pace list with No target at the top, then 3:00"></span>
                 <figcaption>Pick a pace per km</figcaption>
               </figure>
             </div>
@@ -789,8 +791,40 @@
 <div class="manual-section" id="warm-up">
             <h3 class="manual-section__title">Warm-Up</h3>
             <p>When Warm-Up is enabled (the default), ROXZONE opens a dedicated warm-up timer screen before your race or session begins. Your warm-up time is saved as a separate lap in Garmin Connect so it never inflates your actual workout time or splits.</p>
-            <p>You can pause and resume the warm-up freely, or save it early when you're ready to begin. To start your session without a warm-up phase at all, turn the toggle off - the workout begins immediately.</p>
+            <p>Press <strong>LAP</strong> to end the warm-up and start the race, the same button that moves you on all session. <strong>START</strong> pauses the warm-up and opens a short menu: <strong>Start</strong> begins the race, <strong>Resume</strong> carries on warming up, and <strong>Discard</strong> leaves the warm-up and takes you back to Review &amp; Start. To start your session without a warm-up phase at all, turn the toggle off - the workout begins immediately.</p>
+            <div class="rz-pair">
+              <figure>
+                <span class="rz-flow__shot"><img src="../assets/guide/05-warmup.webp?v=525" width="520" height="670" loading="lazy" decoding="async" alt="Warm-up timer at 4:12 with heart rate, LAP to START at the bottom"></span>
+                <figcaption>LAP starts the race</figcaption>
+              </figure>
+              <figure>
+                <span class="rz-flow__shot"><img src="../assets/guide/05b-warmup-menu.webp" width="520" height="670" loading="lazy" decoding="async" alt="Warm-up menu: Start, Resume"></span>
+                <figcaption>START pauses it</figcaption>
+              </figure>
+            </div>
             <p>If you have GPS Mode on, keep Warm-Up enabled - it gives the GPS time to acquire a strong fix before your first run leg, which meaningfully improves early distance accuracy.</p>
+          </div>
+
+<div class="manual-section" id="run-screen">
+            <h3 class="manual-section__title">Run Screen</h3>
+            <p>Choose what the main screen shows while you run. <strong>Pace + time</strong> is the default: your live pace on the left, the run's time on the right.</p>
+            <ul>
+              <li><strong>Pace + time</strong> - live pace per km and the time on this run.</li>
+              <li><strong>Pace + distance</strong> - live pace and the distance covered on this run.</li>
+              <li><strong>Distance + time</strong> - distance covered and the time on this run.</li>
+              <li><strong>Time</strong> - the run's time as one big number.</li>
+            </ul>
+            <p>Set it with <strong>Run screen</strong> in the workout settings, or on Review &amp; Start: press <strong>MENU</strong> (press and hold the screen on two-button watches) and pick <strong>Run screen</strong>. It is one setting for every workout, indoors and out, and stations and Roxzones keep their usual screen.</p>
+            <div class="rz-pair">
+              <figure>
+                <span class="rz-flow__shot"><img src="../assets/guide/28-run-screen.webp" width="520" height="670" loading="lazy" decoding="async" alt="Run 2, pace 5:12 and timer 3:58 side by side, 0:08 ahead of plan"></span>
+                <figcaption>Pace + time</figcaption>
+              </figure>
+              <figure>
+                <span class="rz-flow__shot"><img src="../assets/guide/27-run-screen-picker.webp" width="520" height="670" loading="lazy" decoding="async" alt="Run screen choices: Time, Pace + time, Pace + distance"></span>
+                <figcaption>Pick what runs show</figcaption>
+              </figure>
+            </div>
           </div>
 
 <div class="manual-section" id="touchscreen">
@@ -967,7 +1001,7 @@
             </div>
 
             <ul class="lap-points">
-              <li><strong>Start:</strong> press START on the start line.</li>
+              <li><strong>Start:</strong> on the start line, press LAP on the warm-up screen, or SELECT on Review &amp; Start with Warm-Up off.</li>
               <li><strong>Finish:</strong> press Lap after your last Wall Ball. With Rox after on in Full Hyrox, press once more at the finish line.</li>
               <li><strong>Partial and Custom Hyrox</strong> have one Roxzone switch: on is 4 presses, off is 2.</li>
               <li><strong>Training?</strong> Use the same four spots every session.</li>
@@ -1002,9 +1036,9 @@
             </figure>
             <ul>
               <li><strong>Current segment name</strong> and station icon - always know exactly where you are in the workout.</li>
-              <li><strong>Segment elapsed time</strong> - how long you've been in the current run, station, or Roxzone transition.</li>
-<li><strong>Total workout time</strong> - full elapsed time from the moment the workout started.</li>
-              <li><strong>Heart rate</strong> with a colour-coded zone indicator - keep an eye on your aerobic load especially through stations.</li>
+              <li><strong>Segment time</strong> - how long you've been in the current station or Roxzone transition. On runs, live pace and the run's time sit side by side (see <a href="#run-screen">Run Screen</a>).</li>
+<li><strong>Total workout time</strong> - full elapsed time from the moment the workout started, with your ahead or behind beside it when a Race Plan is set.</li>
+              <li><strong>Heart rate</strong> with a colour-coded zone bar - the heart and the number take your current zone's colour, so you can read your aerobic load at a glance, especially through stations.</li>
               <li><strong>Bezel pacing arc</strong> - your at-a-glance run companion. Outdoors it follows your real distance and glows <strong>green</strong> when you're ahead of target pace, <strong>red</strong> when you've slipped behind. Indoors it advances steadily at your goal pace, warming to <strong>amber</strong> as you near your target split - your cue to start wrapping up and steer toward the station entrance rather than starting another loop - then turning <strong>red</strong> as you reach it. The arc is dedicated to your runs, keeping your station and transition screens clean and distraction-free.</li>
               <li><strong>Next segment indicator</strong> - a preview of what's coming up so you can mentally prepare for the transition.</li>
             </ul>
