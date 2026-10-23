@@ -280,6 +280,7 @@ font[style*="background-color"] {
 .topbar__tab {
     display: inline-flex;
     align-items: center;
+    white-space: nowrap;
     padding-bottom: 0.35rem;
     border-bottom: 2px solid var(--primary);
     color: var(--primary);
