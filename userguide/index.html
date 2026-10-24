@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=62">
+  <link rel="stylesheet" href="../styles.css?v=63">
   <script src="../pixel.js?v=2" defer></script>
 </head>
 
@@ -455,7 +455,7 @@
             </div>
             <div class="manual-callout">
               <strong>Site-built workouts with new stations</strong>
-              <p>Race plans target the race format and classic custom workouts. A workout with the new stations, rests or per-segment values (ROXZONE 5.2.0) cannot be given a plan yet; its own values are its targets, and the watch shows no Race Plan or Target Times row for it.</p>
+              <p>Race plans target the race format and classic custom workouts. A workout with the new stations, rests or stations set to their own values (ROXZONE 5.2.0) cannot be given a plan yet: <strong>Plan targets</strong> in its menu is greyed out with the reason, and the watch shows no Race Plan or Target Times row for it. A station left at its race distance, reps and weight counts as classic.</p>
             </div>
           </div>
 
@@ -785,7 +785,7 @@
 <div class="manual-section" id="indoor-run">
             <h3 class="manual-section__title">Indoor Run Pace &amp; Distance</h3>
             <p>Running indoors? ROXZONE gives you live pace and distance even without GPS - ideal for indoor tracks, treadmills, and gym-based HYROX simulations. The estimate gets sharper over time: each completed run leg refines the accuracy, and your watch remembers the improvement across future workouts.</p>
-            <p>Indoors, the bezel arc becomes a steady pacing companion: it advances at your goal pace so you always know whether you're keeping up with your target split. As you close in on the finish it warms to <strong>amber</strong> - your heads-up that it's time to start wrapping the leg up: begin steering toward the station entrance rather than committing to another full loop of the track. It then turns <strong>red</strong> the moment you reach your target, your cue to drive through the line and press Lap into the next station. You'll still feel a haptic buzz as you cover the leg, and your live distance and pace stay on the run data screen throughout.</p>
+            <p>Indoors, the bezel arc becomes a steady pacing companion: it advances at your goal pace so you always know whether you're keeping up with your target split. At 90% of the target it turns <strong>orange</strong> - your heads-up that it's time to start wrapping the leg up: begin steering toward the station entrance rather than committing to another full loop of the track. It then turns <strong>red</strong> the moment you reach your target, your cue to drive through the line and press Lap into the next station. You'll still feel a haptic buzz as you cover the leg, and your live distance and pace stay on the run data screen throughout.</p>
           </div>
 
 <div class="manual-section" id="warm-up">
@@ -1013,6 +1013,10 @@
             <h3 class="manual-section__title">Main Workout Screen</h3>
             <p>The primary screen shows everything you need to stay on target during the heat of a session:</p>
             <figure class="screen-map">
+              <a href="../assets/guide/main-screen-labelled-v2.webp"><img class="screen-map__labelled" src="../assets/guide/main-screen-labelled-v2.webp" width="1407" height="1047" loading="lazy" decoding="async" alt="ROXZONE run screen, labelled: current run or station, progress ring, live pace, run time, next station, total time, ahead or behind your Race Plan, live heart rate and zone"></a>
+            </figure>
+            <p>With <a href="#run-screen">Run screen</a> set to <strong>Time</strong>, the run's time is one big number:</p>
+            <figure class="screen-map">
               <img class="screen-map__full" src="../assets/guide/main-screen-labelled.webp" width="1400" height="979" loading="lazy" decoding="async" alt="ROXZONE run screen, labelled: current station 1000m, timer for the current station 03:12, next station Roxzone, overall timer 04:04, target progress ring, live heart rate 171 and zone">
               <div class="screen-map__compact">
                 <div class="screen-map__stage">
@@ -1039,9 +1043,23 @@
               <li><strong>Segment time</strong> - how long you've been in the current station or Roxzone transition. On runs, live pace and the run's time sit side by side (see <a href="#run-screen">Run Screen</a>).</li>
 <li><strong>Total workout time</strong> - full elapsed time from the moment the workout started, with your ahead or behind beside it when a Race Plan is set.</li>
               <li><strong>Heart rate</strong> with a colour-coded zone bar - the heart and the number take your current zone's colour, so you can read your aerobic load at a glance, especially through stations.</li>
-              <li><strong>Bezel pacing arc</strong> - your at-a-glance run companion. Outdoors it follows your real distance and glows <strong>green</strong> when you're ahead of target pace, <strong>red</strong> when you've slipped behind. Indoors it advances steadily at your goal pace, warming to <strong>amber</strong> as you near your target split - your cue to start wrapping up and steer toward the station entrance rather than starting another loop - then turning <strong>red</strong> as you reach it. The arc is dedicated to your runs, keeping your station and transition screens clean and distraction-free.</li>
+              <li><strong>Progress ring</strong> - fills toward the target for this run or station. <strong>Blue</strong> while on track, <strong>orange</strong> at 90% of the target - finish this lap rather than starting another loop - and <strong>red</strong> once you pass it. With GPS Mode on, outdoor runs follow your real distance instead: <strong>green</strong> on pace, <strong>red</strong> behind. With no pace target the ring stays blue and simply shows progress. The ring is about this segment only; the ahead/behind number next to total time is about your whole Race Plan.</li>
               <li><strong>Next segment indicator</strong> - a preview of what's coming up so you can mentally prepare for the transition.</li>
             </ul>
+            <div class="rz-pair rz-pair--trio">
+              <figure>
+                <span class="rz-flow__shot"><img src="../assets/guide/ring-on-track.webp" width="456" height="630" loading="lazy" decoding="async" alt="Blue progress ring partly filled, run timer 2:34"></span>
+                <figcaption>On track</figcaption>
+              </figure>
+              <figure>
+                <span class="rz-flow__shot"><img src="../assets/guide/ring-90.webp" width="456" height="630" loading="lazy" decoding="async" alt="Orange progress ring almost full, run timer 4:46"></span>
+                <figcaption>90% of target</figcaption>
+              </figure>
+              <figure>
+                <span class="rz-flow__shot"><img src="../assets/guide/ring-past.webp" width="456" height="630" loading="lazy" decoding="async" alt="Red progress ring full, run timer 5:22, 0:14 behind plan"></span>
+                <figcaption>Past target</figcaption>
+              </figure>
+            </div>
             <p>During Roxzone transitions, the display shifts to a distinct neutral tone - a clear visual signal that you're in transition time, separate from both your run and station clocks.</p>
           </div>
 

@@ -2605,6 +2605,14 @@ font[style*="background-color"] {
     display: none;
 }
 
+.screen-map__labelled {
+    display: block;
+    width: 100%;
+    max-width: 40rem;
+    height: auto;
+    margin: 0 auto;
+}
+
 .screen-map__stage {
     position: relative;
     width: min(100% - 2rem, 16rem);
@@ -3652,3 +3660,17 @@ font[style*="background-color"] {
 .consent__btn--yes { background: var(--primary); color: #0b1a33; }
 .consent__btn--yes:hover { background: var(--primary-ink); color: #0b1a33; }
 @media (prefers-reduced-motion: reduce) { .consent { animation: none; } }
+
+/* Guide: three watch shots side by side (ring states), one row at every width. */
+.rz-pair--trio {
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+}
+
+.rz-pair--trio figure {
+    flex: 0 1 9.75rem;
+}
+
+.rz-pair--trio .rz-flow__shot {
+    width: 100%;
+}
