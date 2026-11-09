@@ -206,8 +206,8 @@ def main():
     body = mark_plain(body, used)
 
     if "guide-glossary.js" not in body:
-        body = body.replace('<script src="../i18n.js?v=5"></script>',
-                            '<script src="../i18n.js?v=5"></script>\n  <script src="../guide-glossary.js?v=2"></script>', 1)
+        body = body.replace('<script src="../i18n.js?v=6"></script>',
+                            '<script src="../i18n.js?v=6"></script>\n  <script src="../guide-glossary.js?v=2"></script>', 1)
     open(GUIDE, "w", encoding="utf-8").write(head + body)
 
     # Every id in use, whether marked this run or an earlier one.
