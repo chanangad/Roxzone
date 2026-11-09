@@ -29,6 +29,16 @@ LANGS = {"cs": "ces", "da": "dan", "de": "deu", "es": "spa", "fi": "fin", "fr": 
          "ja": "jpn", "pl": "pol", "pt-BR": "pob", "pt-PT": "por", "sv": "swe",
          "th": "tha", "zh-CN": "zhs", "zh-TW": "zht"}
 
+# Languages the watch speaks from 5.2.9 on. Until 5.2.9 is in the store a
+# watch set to one of these still shows English, so the guide must too: they
+# join LANGS only when WATCH_529_LIVE is True (the guide then falls back to
+# the English word for them, as it does for any language missing here).
+WATCH_529_LIVE = True
+LANGS_529 = {"ms": "zsm", "hr": "hrv", "sk": "slo", "sl": "slv", "el": "gre",
+             "ru": "rus", "he": "heb"}
+if WATCH_529_LIVE:
+    LANGS.update(LANGS_529)
+
 # Guide text -> watch string id. Only the watch's own labels: anything the
 # guide shows from roxzone.app is translated by Google with the site.
 TERMS = {
@@ -196,8 +206,8 @@ def main():
     body = mark_plain(body, used)
 
     if "guide-glossary.js" not in body:
-        body = body.replace('<script src="../i18n.js?v=4"></script>',
-                            '<script src="../i18n.js?v=4"></script>\n  <script src="../guide-glossary.js?v=1"></script>', 1)
+        body = body.replace('<script src="../i18n.js?v=5"></script>',
+                            '<script src="../i18n.js?v=5"></script>\n  <script src="../guide-glossary.js?v=2"></script>', 1)
     open(GUIDE, "w", encoding="utf-8").write(head + body)
 
     # Every id in use, whether marked this run or an earlier one.
