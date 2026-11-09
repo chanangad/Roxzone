@@ -33,7 +33,7 @@ LANGS = {"cs": "ces", "da": "dan", "de": "deu", "es": "spa", "fi": "fin", "fr": 
 # watch set to one of these still shows English, so the guide must too: they
 # join LANGS only when WATCH_529_LIVE is True (the guide then falls back to
 # the English word for them, as it does for any language missing here).
-WATCH_529_LIVE = False
+WATCH_529_LIVE = True
 LANGS_529 = {"ms": "zsm", "hr": "hrv", "sk": "slo", "sl": "slv", "el": "gre",
              "ru": "rus", "he": "heb"}
 if WATCH_529_LIVE:
@@ -207,7 +207,7 @@ def main():
 
     if "guide-glossary.js" not in body:
         body = body.replace('<script src="../i18n.js?v=5"></script>',
-                            '<script src="../i18n.js?v=5"></script>\n  <script src="../guide-glossary.js?v=1"></script>', 1)
+                            '<script src="../i18n.js?v=5"></script>\n  <script src="../guide-glossary.js?v=2"></script>', 1)
     open(GUIDE, "w", encoding="utf-8").write(head + body)
 
     # Every id in use, whether marked this run or an earlier one.
