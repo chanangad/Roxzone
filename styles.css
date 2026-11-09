@@ -250,6 +250,70 @@ img {
     border-color: var(--primary-strong);
 }
 
+/* The language list is one column at every width: with 28 languages the
+   desktop cloud of pills grew taller than the hero. Same rows as the phone
+   dropdown (see the 640px block), with a hover state for the mouse. */
+.topbar .lang-panel {
+    top: calc(100% + 8px);
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 2px;
+    width: 260px;
+    min-width: 0;
+    max-width: calc(100vw - 2rem);
+    max-height: min(70vh, 520px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 6px;
+    border-radius: 14px;
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+    z-index: 200;
+}
+
+.topbar .lang-panel[hidden] {
+    display: none;
+}
+
+.topbar .lang-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex: none;
+    min-height: 40px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--ink);
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-align: left;
+}
+
+.topbar .lang-pill:hover {
+    background: var(--surface-high);
+    border-color: transparent;
+}
+
+.topbar .lang-pill--active,
+.topbar .lang-pill--active:hover {
+    background: rgba(167, 200, 255, 0.12);
+    color: var(--primary);
+}
+
+.topbar .lang-pill--active::after {
+    content: "";
+    flex: none;
+    width: 16px;
+    height: 16px;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
 /* Hide Google Translate's injected UI; we drive it from our own picker */
 #google_translate_element,
 .skiptranslate iframe,
