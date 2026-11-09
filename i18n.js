@@ -3,13 +3,16 @@ const LANGUAGES = [
   { code: "cs", label: "Čeština" },
   { code: "da", label: "Dansk" },
   { code: "de", label: "Deutsch" },
+  { code: "el", label: "Ελληνικά" },
   { code: "es", label: "Español" },
   { code: "fi", label: "Suomi" },
   { code: "fr", label: "Français" },
+  { code: "hr", label: "Hrvatski" },
   { code: "hu", label: "Magyar" },
   { code: "id", label: "Bahasa Indonesia" },
   { code: "it", label: "Italiano" },
   { code: "ko", label: "한국어" },
+  { code: "ms", label: "Bahasa Melayu" },
   { code: "nl", label: "Nederlands" },
   { code: "no", label: "Norsk" },
   { code: "ja", label: "日本語" },
@@ -17,8 +20,12 @@ const LANGUAGES = [
   // Google Translate exposes Portuguese as a single language code.
   { code: "pt-BR", label: "Português (Brasil)", translateCode: "pt" },
   { code: "pt-PT", label: "Português (Portugal)", translateCode: "pt" },
+  { code: "ru", label: "Русский" },
+  { code: "sk", label: "Slovenčina" },
+  { code: "sl", label: "Slovenščina" },
   { code: "sv", label: "Svenska" },
   { code: "th", label: "ไทย" },
+  { code: "he", label: "עברית", translateCode: "iw" },
   { code: "zh-CN", label: "简体中文" },
   { code: "zh-TW", label: "繁體中文" }
 ];
@@ -82,7 +89,8 @@ async function applyLanguage(code) {
     // but on some page loads it never starts the translation. A change
     // event with the same value is ignored, so step through "" first.
     // Nothing to do when the page already shows a translation.
-    if (document.documentElement.classList.contains("translated-ltr") && document.querySelector("font[style]")) return;
+    const cls = document.documentElement.classList;
+    if ((cls.contains("translated-ltr") || cls.contains("translated-rtl")) && document.querySelector("font[style]")) return;
     select.value = "";
     select.dispatchEvent(new Event("change", { bubbles: true }));
     await new Promise((resolve) => setTimeout(resolve, 1200));

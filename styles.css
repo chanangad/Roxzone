@@ -272,6 +272,27 @@ body[style*="top:"] {
     top: 0 !important;
 }
 
+/* Hebrew: Google translates the words but leaves the page left to right.
+   Running text reads right to left; the layout, images, tables, watch
+   screens and anything shielded from translation (times, names, watch
+   terms) keep their own direction. */
+html.translated-rtl .page-shell p,
+html.translated-rtl .page-shell li,
+html.translated-rtl .page-shell h1,
+html.translated-rtl .page-shell h2,
+html.translated-rtl .page-shell h3,
+html.translated-rtl .page-shell h4,
+html.translated-rtl .page-shell summary,
+html.translated-rtl .page-shell dd,
+html.translated-rtl .page-shell dt {
+    direction: rtl;
+    text-align: right;
+}
+
+html.translated-rtl .page-shell .notranslate {
+    unicode-bidi: isolate;
+}
+
 font[style*="background-color"] {
     background-color: transparent !important;
     box-shadow: none !important;
