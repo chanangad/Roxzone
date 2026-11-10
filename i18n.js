@@ -266,7 +266,34 @@ function injectGoogleTranslate() {
   document.body.appendChild(script);
 }
 
+// Google translates the tab title as one string and, in a short title,
+// transliterates the brand: "ROXZONE | Guide" became "רוקסון | מדריך" in
+// Hebrew. The title can't carry a notranslate node, so after each pass put
+// back the segment that is the brand alone ("Home | ROXZONE" and the like).
+// The text node itself is edited, never replaced, so Google can still
+// restore the English title on its own. Bounded so a re-translation of the
+// fixed title can never loop.
+const TITLE_BRAND = "ROXZONE";
+function guardTitleBrand() {
+  const el = document.querySelector("title");
+  if (!el || el.textContent.indexOf(TITLE_BRAND) < 0) return;
+  const origParts = el.textContent.split("|").map((s) => s.trim());
+  if (origParts.indexOf(TITLE_BRAND) < 0) return;
+  let fixes = 0;
+  new MutationObserver(() => {
+    const node = el.firstChild;
+    if (!node || node.nodeType !== 3) return;
+    const now = node.nodeValue;
+    if (now.indexOf(TITLE_BRAND) >= 0 || fixes >= 5) return;
+    const parts = now.split("|").map((s) => s.trim());
+    if (parts.length !== origParts.length) return;
+    fixes += 1;
+    node.nodeValue = parts.map((p, i) => (origParts[i] === TITLE_BRAND ? TITLE_BRAND : p)).join(" | ");
+  }).observe(el, { childList: true, characterData: true, subtree: true });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  guardTitleBrand();
   buildLangPicker();
   injectGoogleTranslate();
 });
