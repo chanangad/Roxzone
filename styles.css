@@ -3759,3 +3759,682 @@ font[style*="background-color"] {
 .rz-pair--trio .rz-flow__shot {
     width: 100%;
 }
+
+/* ── Get featured ─────────────────────────────────── */
+/* Deliberately quiet: a once-per-athlete ask, so it sits in the site's own
+   surfaces and blue, with only a faint warm tint to hint at Instagram. */
+
+.ig-glyph {
+    width: 1.05em;
+    height: 1.05em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    flex-shrink: 0;
+}
+
+.ig-glyph__dot {
+    fill: currentColor;
+    stroke: none;
+}
+
+.ig-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.38rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--outline);
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    transition: color 160ms ease, border-color 160ms ease;
+}
+
+a.ig-chip:hover {
+    color: var(--ink);
+    border-color: rgba(193, 198, 212, 0.35);
+}
+
+.ig-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    height: 3.5rem;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #c8139a 0%, #a422b8 45%, #7b3fd0 75%, #4f5bd5 100%);
+    color: #fff;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    cursor: pointer;
+    transition: transform 160ms ease, filter 160ms ease, opacity 160ms ease, background 160ms ease;
+}
+
+.ig-button:hover {
+    filter: brightness(1.08);
+}
+
+.ig-button:active {
+    transform: scale(0.99);
+}
+
+.ig-button:disabled {
+    cursor: progress;
+    opacity: 0.6;
+}
+
+/* Text areas and the @ prefix match the existing .field inputs. */
+.field textarea {
+    width: 100%;
+    border: 0;
+    border-radius: 1rem;
+    padding: 0.95rem 1.2rem;
+    background: var(--surface-highest);
+    color: var(--ink);
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1.45;
+    outline: none;
+    resize: vertical;
+    min-height: 6.5rem;
+}
+
+.field textarea::placeholder {
+    color: rgba(193, 198, 212, 0.35);
+}
+
+.field textarea:focus,
+.handle-input:focus-within {
+    box-shadow: 0 0 0 2px rgba(167, 200, 255, 0.35);
+}
+
+.handle-input {
+    display: flex;
+    align-items: center;
+    border-radius: 1rem;
+    background: var(--surface-highest);
+}
+
+.handle-input__at {
+    padding-left: 1.2rem;
+    color: var(--muted);
+    font-weight: 700;
+}
+
+.field .handle-input input {
+    background: transparent;
+    padding-left: 0.3rem;
+    box-shadow: none;
+}
+
+/* Homepage banner: copy on the left, one button on the right. Instagram's
+   gradient appears only as the 1.5px stroke and the "New" tag sitting on it;
+   the fill stays the site's dark surface. The stroke is a gradient painted
+   in the border-box under an opaque padding-box layer. */
+.feature-banner {
+    --ig-gradient: linear-gradient(90deg, #feda75 0%, #fa7e1e 22%, #d62976 48%, #962fbf 74%, #4f5bd5 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem 3rem;
+    margin: 3.5rem 0;
+    padding: 2.6rem 3.2rem;
+    border-radius: 2rem;
+    border: 1.5px solid transparent;
+    background:
+        radial-gradient(70% 120% at 0% 0%, rgba(214, 41, 118, 0.06), transparent 60%) padding-box,
+        radial-gradient(60% 120% at 100% 100%, rgba(79, 91, 213, 0.05), transparent 60%) padding-box,
+        linear-gradient(var(--surface-low), var(--surface-low)) padding-box,
+        var(--ig-gradient) border-box;
+}
+
+.feature-banner__new {
+    position: absolute;
+    top: 0;
+    left: 3.2rem;
+    transform: translateY(-50%);
+    padding: 0.32rem 0.85rem;
+    border-radius: 999px;
+    background: var(--secondary);
+    color: #1a0d03;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1;
+    box-shadow: 0 0 0 5px var(--bg);
+}
+
+.feature-banner__intro {
+    min-width: 0;
+}
+
+.feature-banner__title {
+    margin: 1rem 0 0.6rem;
+    font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.feature-banner__copy {
+    margin: 0;
+    max-width: 32rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.feature-banner__cta {
+    flex-shrink: 0;
+    width: auto;
+    min-width: 14rem;
+    padding: 0 2.2rem;
+}
+
+@media (max-width: 760px) {
+    .feature-banner {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 2.2rem 1.4rem 1.4rem;
+        border-radius: 1.6rem;
+        margin: 2.5rem 0;
+    }
+
+    .feature-banner__new {
+        left: 1.4rem;
+    }
+
+    .feature-banner__cta {
+        width: 100%;
+    }
+}
+
+/* /featured/ page. Desktop: intro and the polaroid wall on the left, form
+   on the right. Phones: intro, form, then the polaroids underneath. */
+.featured {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-areas:
+        "intro form"
+        "photos form";
+    grid-template-rows: auto 1fr;
+    gap: 2.2rem 3.5rem;
+    align-items: start;
+    margin: 1.5rem 0 3.5rem;
+}
+
+.featured__intro { grid-area: intro; }
+.polaroids { grid-area: photos; }
+.featured__form-wrap { grid-area: form; }
+
+/* Instagram gradient on one word: the page's single bit of colour. */
+.ig-text {
+    background: linear-gradient(90deg, #fa7e1e 0%, #d62976 45%, #962fbf 75%, #4f5bd5 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Photo wall. Each photo gets an even white border; the frame hugs the
+   photo exactly (align-self: start, no stretching) so the caption's
+   percentage box lines up with the white card inside the photo. */
+.polaroids {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    padding: 1.4rem 0.5rem 1rem;
+}
+
+.polaroid {
+    position: relative;
+    margin: 0;
+    align-self: start;
+    container-type: inline-size;
+    border: 8px solid #fbfaf7;
+    border-radius: 3px;
+    background: #fbfaf7;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 260ms ease;
+}
+
+.polaroid img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 716 / 900;
+    object-fit: cover;
+}
+
+.polaroid--a {
+    grid-column: 1 / 12;
+    grid-row: 1;
+    transform: rotate(-4deg);
+    z-index: 1;
+}
+
+.polaroid--b {
+    grid-column: 11 / 21;
+    grid-row: 1;
+    margin-top: 3.5rem;
+    transform: rotate(5deg);
+    z-index: 2;
+}
+
+.polaroid:hover {
+    z-index: 3;
+    transform: rotate(0deg) scale(1.03);
+    box-shadow: 0 26px 56px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* A strip of washi tape holding each print. */
+.polaroid__tape {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    width: 34%;
+    height: 24px;
+    transform: translateX(-50%) rotate(-3deg);
+    background: rgba(214, 41, 118, 0.55);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.polaroid--b .polaroid__tape {
+    background: rgba(250, 126, 30, 0.6);
+    transform: translateX(-50%) rotate(4deg);
+}
+
+/* Caption written on the white card that sits inside each photo. */
+.polaroid__note {
+    position: absolute;
+    left: var(--l);
+    top: var(--t);
+    width: var(--w);
+    height: var(--h);
+    display: grid;
+    align-content: center;
+    gap: 2cqi;
+    padding: 3cqi 4cqi;
+    overflow: hidden;
+    font-family: "Caveat", "Bradley Hand", "Segoe Print", cursive;
+    color: #1d1d1f;
+}
+
+.polaroid__quote {
+    font-size: 6cqi;
+    font-weight: 500;
+    line-height: 1.08;
+}
+
+.polaroid__who {
+    font-size: 5.6cqi;
+    font-weight: 700;
+    color: #b0245f;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .polaroid { transition: none; }
+}
+
+.featured__title {
+    margin: 1.1rem 0 1rem;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+    text-transform: uppercase;
+}
+
+
+
+.featured__form-wrap {
+    padding: 2.4rem;
+    border-radius: 2rem;
+    background: linear-gradient(180deg, rgba(42, 42, 42, 0.92), rgba(27, 28, 28, 0.98));
+}
+
+.featured__form {
+    display: grid;
+    gap: 1.3rem;
+}
+
+.featured__form[hidden] {
+    display: none;
+}
+
+.featured__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.3rem;
+}
+
+.field__opt {
+    margin-left: 0.4rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: none;
+    color: rgba(193, 198, 212, 0.5);
+}
+
+.field__count {
+    justify-self: end;
+    margin-top: -0.3rem;
+    font-size: 0.75rem;
+    color: rgba(193, 198, 212, 0.55);
+}
+
+.dropzone {
+    position: relative;
+    display: grid;
+    place-items: center;
+    gap: 0.35rem;
+    padding: 1.6rem 1rem;
+    border: 1.5px dashed rgba(193, 198, 212, 0.22);
+    border-radius: 1.2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 160ms ease, background 160ms ease;
+}
+
+.dropzone:hover,
+.dropzone.is-over {
+    border-color: rgba(167, 200, 255, 0.5);
+    background: rgba(167, 200, 255, 0.04);
+}
+
+.dropzone:focus-within {
+    box-shadow: 0 0 0 2px rgba(167, 200, 255, 0.35);
+}
+
+.dropzone input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.dropzone__icon {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    background: var(--surface-highest);
+    color: var(--primary);
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.dropzone__title {
+    font-weight: 700;
+}
+
+.dropzone__hint {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+.thumbs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.thumbs:empty {
+    display: none;
+}
+
+.thumbs li {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 0.8rem;
+    overflow: hidden;
+    background: var(--surface-highest);
+}
+
+.thumbs img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbs button {
+    position: absolute;
+    top: 0.3rem;
+    right: 0.3rem;
+    display: grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+/* Consent: spells out exactly where the story is posted. */
+.feature-consent {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    padding: 1rem 1.1rem;
+    border-radius: 1rem;
+    background: var(--surface-low);
+    border: 1px solid var(--outline);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--muted);
+    cursor: pointer;
+}
+
+.feature-consent input {
+    flex-shrink: 0;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin-top: 0.15rem;
+    accent-color: var(--primary);
+}
+
+.feature-consent strong {
+    color: var(--ink);
+}
+
+.featured__error {
+    margin: 0;
+    min-height: 1.2rem;
+    color: var(--warn);
+    font-size: 0.88rem;
+    text-align: center;
+}
+
+.featured__done {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: 1rem;
+    justify-items: center;
+    padding: 2.4rem 0.5rem 1.6rem;
+    text-align: center;
+}
+
+.featured__done[hidden] {
+    display: none;
+}
+
+.featured__done-badge {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 5.2rem;
+    height: 5.2rem;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #a8e6bd, #4cc38a 70%);
+    color: #0b2a18;
+    box-shadow: 0 0 0 8px rgba(138, 211, 163, 0.12), 0 16px 40px rgba(76, 195, 138, 0.3);
+    animation: done-pop 520ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+.featured__done-badge svg {
+    width: 2.4rem;
+    height: 2.4rem;
+    fill: currentColor;
+    transform: rotate(-8deg);
+}
+
+@keyframes done-pop {
+    from { transform: scale(0.4); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.featured__done h2 {
+    position: relative;
+    z-index: 1;
+    margin: 0.6rem 0 0;
+    max-width: 18ch;
+    font-size: clamp(1.7rem, 3.6vw, 2.2rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    text-wrap: balance;
+}
+
+.featured__done p {
+    margin: 0;
+    max-width: 26rem;
+    color: var(--muted);
+    line-height: 1.55;
+}
+
+.featured__done p strong {
+    color: var(--ink);
+}
+
+.featured__done .ig-button {
+    max-width: 20rem;
+    margin-top: 0.6rem;
+}
+
+.featured__return {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-bottom: 1rem;
+    color: var(--primary);
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.featured__return[hidden] {
+    display: none;
+}
+
+.featured__return:hover {
+    text-decoration: underline;
+}
+
+.featured__return + .ig-chip {
+    display: flex;
+    width: fit-content;
+}
+
+.featured__back {
+    color: var(--muted);
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.featured__back:hover {
+    color: var(--ink);
+}
+
+/* Confetti: spans burst out from behind the badge to --x/--y and settle
+   there, so the card keeps its celebration after the animation ends. */
+.confetti {
+    position: absolute;
+    left: 50%;
+    top: 4.9rem;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.confetti span {
+    position: absolute;
+    left: -4px;
+    top: -6px;
+    width: 8px;
+    height: 12px;
+    border-radius: 2px;
+    opacity: 0;
+    animation: confetti-burst 1100ms cubic-bezier(0.15, 0.8, 0.3, 1) var(--d, 0ms) forwards;
+}
+
+.confetti span.is-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+@keyframes confetti-burst {
+    0% { transform: translate(0, 0) rotate(0); opacity: 1; }
+    70% { opacity: 1; }
+    100% { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: var(--o, 0.9); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .featured__done-badge { animation: none; }
+    .confetti span { animation: none; opacity: var(--o, 0.9); transform: translate(var(--x), var(--y)) rotate(var(--r)); }
+}
+
+@media (max-width: 980px) {
+    .featured {
+        grid-template-columns: 1fr;
+        grid-template-areas: "intro" "form" "photos";
+        grid-template-rows: none;
+        margin-bottom: 1rem;
+    }
+
+    .polaroids {
+        width: 100%;
+        max-width: 26rem;
+        justify-self: center;
+        padding: 2rem 0.9rem 1rem;
+    }
+
+    .polaroid {
+        border-width: 6px;
+    }
+}
+
+@media (max-width: 640px) {
+    .featured__form-wrap {
+        padding: 1.4rem;
+        border-radius: 1.6rem;
+    }
+
+    .featured__row {
+        grid-template-columns: 1fr;
+    }
+
+    .thumbs {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
