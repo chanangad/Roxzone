@@ -94,6 +94,7 @@
               Instagram<strong class="notranslate" translate="no">&nbsp;@roxzone.app&nbsp;</strong>and on<strong class="notranslate" translate="no">&nbsp;roxzone.app</strong>,
               and tag me. I took these photos or have permission from everyone in them.</span>
           </label>
+          <p class="feature-privacy">How we keep and remove stories: <a href="../privacy/#featured">Privacy Policy</a>.</p>
 
           <p class="featured__error" id="ff-error" role="alert" aria-live="polite"></p>
           <button type="submit" class="ig-button" id="ff-submit">Submit my story <span aria-hidden="true">&rarr;</span></button>
@@ -121,6 +122,9 @@
           <span data-msg="too-many">You can add up to 5 photos.</span>
           <span data-msg="too-big">One photo was over 10 MB and was skipped.</span>
           <span data-msg="sending">Sending…</span>
+          <span data-msg="bad-type">Use JPEG, PNG, WebP or HEIC photos.</span>
+          <span data-msg="failed">Something went wrong. Please try again.</span>
+          <span data-msg="offline">We couldn't send it. Check your connection and try again.</span>
         </div>
       </section>
     </div>
@@ -152,7 +156,7 @@
         }
       }
 
-      const cleanHandle = (v) => v.trim().replace(/^@+/, "").replace(/\s+/g, "");
+      const cleanHandle = (v) => v.trim().replace(/^@+/, "").replace(/\s+/g, "").toLowerCase();
 
       function updateCount() {
         $("ff-count").textContent = `${form.story.value.length} / 600`;
@@ -183,7 +187,8 @@
       function addFiles(files) {
         let err = "";
         for (const file of files) {
-          if (!file.type.startsWith("image/") && !/\.hei[cf]$/i.test(file.name)) continue;
+          // The worker takes JPEG, PNG, WebP and HEIC (it checks the bytes).
+          if (!/^image\/(jpeg|png|webp|hei[cf])$/.test(file.type) && !/\.hei[cf]$/i.test(file.name)) { err = msg("bad-type"); continue; }
           if (file.size > MAX_BYTES) { err = msg("too-big"); continue; }
           if (photos.length >= MAX_PHOTOS) { err = msg("too-many"); break; }
           photos.push({ file, url: URL.createObjectURL(file) });
@@ -239,23 +244,36 @@
         }
         $("ff-error").textContent = "";
         const btn = $("ff-submit");
+        const label = btn.innerHTML;
         btn.disabled = true;
         btn.textContent = msg("sending");
 
-        // Payload the backend will receive (multipart/form-data). `source`
-        // and `activity_id` come from the entry point's link, e.g.
+        // Multipart to the worker (worker/src/feature.js). `source` and
+        // `activity_id` come from the entry point's link, e.g.
         // /featured/?from=result&a=<activityId>.
         const data = new FormData();
         data.append("handle", handle);
+        data.append("consent", "1");
         ["name", "story"].forEach((k) => data.append(k, form[k].value.trim()));
         data.append("source", params.get("from") || "direct");
         if (params.get("a")) data.append("activity_id", params.get("a"));
         photos.forEach((p) => data.append("photos", p.file, p.file.name));
 
-        // TODO(backend): POST `data` to `${API_BASE}/api/feature` on the
-        // worker (photos to R2, row in D1, notification email). UX-only for
-        // now, so this just simulates the round trip.
-        await new Promise((r) => setTimeout(r, 900));
+        // Same origin as the worker (roxzone.app/api/*), so a signed-in
+        // athlete's session goes with it and no CORS is involved.
+        let res = null, body = {};
+        try {
+          res = await fetch("/api/feature", { method: "POST", body: data, credentials: "same-origin" });
+          body = await res.json().catch(() => ({}));
+        } catch (_) { res = null; }
+        if (!res || !res.ok) {
+          btn.disabled = false;
+          btn.innerHTML = label;
+          $("ff-error").textContent = (body && body.error) || msg(res ? "failed" : "offline");
+          const field = body && ["story", "handle", "consent"].includes(body.field) ? form[body.field] : null;
+          if (field) field.focus(); else $("ff-error").scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
 
         try { localStorage.setItem("rz-feature-submitted", "1"); } catch (_) {}
         $("done-handle").textContent = "@" + handle;
