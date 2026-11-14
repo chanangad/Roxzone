@@ -4223,6 +4223,14 @@ a.ig-chip:hover {
     line-height: 1.55;
 }
 
+/* The athlete's handle on its own line, so translation never touches it. */
+.featured__done p.featured__done-handle {
+    margin: 0 0 0.6rem;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--ink);
+}
+
 .featured__done p strong {
     color: var(--ink);
 }

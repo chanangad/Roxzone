@@ -42,22 +42,22 @@
   <main class="page-shell">
     <div class="featured">
       <section class="featured__intro">
-        <a class="featured__return" id="ff-return" href="/me" hidden>&lsaquo; <span id="ff-return-label">Back to <span class="notranslate" translate="no">My ROXZONE</span></span></a>
-        <a class="ig-chip notranslate" translate="no" href="https://www.instagram.com/roxzone.app" target="_blank" rel="noopener">
+        <a class="featured__return" id="ff-return" href="/me" hidden>&lsaquo; <span id="ff-return-label">Back to My<span class="notranslate" translate="no">&nbsp;ROXZONE</span></span></a>
+        <a class="ig-chip" href="https://www.instagram.com/roxzone.app" target="_blank" rel="noopener">
           <svg class="ig-glyph" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" class="ig-glyph__dot"/></svg>
-          Featuring on Instagram &middot; @roxzone.app
+          Featuring on Instagram &middot;<span class="notranslate" translate="no">&nbsp;@roxzone.app</span>
         </a>
         <h1 class="featured__title">Share your <span class="ig-text">story</span></h1>
-        <p class="page-copy">Nailed a race or hit a new PB? Tell us how<span class="notranslate" translate="no">&nbsp;ROXZONE&nbsp;</span>helped, add a photo
+        <p class="page-copy">Nailed a race or hit a new PB? Tell us how ROXZONE helped, add a photo
           or two, and we'll feature the best stories on our Instagram,
-          <a href="https://www.instagram.com/roxzone.app" target="_blank" rel="noopener" style="color:var(--primary);" class="notranslate" translate="no">@roxzone.app</a>,
+          <a href="https://www.instagram.com/roxzone.app" target="_blank" rel="noopener" style="color:var(--primary);">@roxzone.app</a>,
           with a tag back to you.</p>
       </section>
 
       <section class="featured__form-wrap">
         <form class="featured__form" id="feature-form" novalidate>
           <div class="field">
-            <label for="ff-story">How has<span class="notranslate" translate="no">&nbsp;ROXZONE&nbsp;</span>helped you?</label>
+            <label for="ff-story">How has ROXZONE helped you?</label>
             <textarea id="ff-story" name="story" rows="5" required maxlength="600"
               placeholder="A race you nailed, what changed in your training, how your HYROX journey is going..."></textarea>
             <span class="field__count" id="ff-count">0 / 600</span>
@@ -90,8 +90,8 @@
 
           <label class="feature-consent">
             <input type="checkbox" name="consent" id="ff-consent" required>
-            <span>I'm happy for<span class="notranslate" translate="no">&nbsp;ROXZONE&nbsp;</span>to post my story and photos on
-              Instagram<strong class="notranslate" translate="no">&nbsp;@roxzone.app&nbsp;</strong>and on<strong class="notranslate" translate="no">&nbsp;roxzone.app</strong>,
+            <span>I'm happy for ROXZONE to post my story and photos on
+              Instagram @roxzone.app and on roxzone.app,
               and tag me. The photos are mine or I have the right to share them, and everyone in them is happy
               for them to be posted.</span>
           </label>
@@ -107,10 +107,10 @@
             <svg viewBox="0 0 24 24"><path d="M7 10v11H3V10h4Zm2 11V10l4.6-7.2a1.8 1.8 0 0 1 3.3 1.2L16 9h4.3a2 2 0 0 1 2 2.3l-1.3 7.9A2.2 2.2 0 0 1 18.8 21H9Z"/></svg>
           </div>
           <h2>Thanks for sharing your story</h2>
-          <p>We'll message <strong id="done-handle" class="notranslate" translate="no">@you</strong> on Instagram
-            if your story is picked. Follow us so you don't miss your feature.</p>
-          <a class="ig-button notranslate" translate="no" href="https://www.instagram.com/roxzone.app" target="_blank" rel="noopener">Follow @roxzone.app</a>
-          <a class="featured__back" id="ff-back" href="/me" hidden>&larr; Back to <span class="notranslate" translate="no">My ROXZONE</span></a>
+          <p class="featured__done-handle notranslate" translate="no" id="done-handle">@you</p>
+          <p>We'll message you on Instagram if your story is picked. Follow us so you don't miss your feature.</p>
+          <a class="ig-button" href="https://www.instagram.com/roxzone.app" target="_blank" rel="noopener">Follow<span class="notranslate" translate="no">&nbsp;@roxzone.app</span></a>
+          <a class="featured__back" id="ff-back" href="/me" hidden>&larr; Back to My<span class="notranslate" translate="no">&nbsp;ROXZONE</span></a>
         </div>
 
         <!-- Error messages kept in the page so Google Translate reaches them
@@ -125,6 +125,8 @@
           <span data-msg="sending">Sending…</span>
           <span data-msg="bad-type">Use JPEG, PNG, WebP or HEIC photos.</span>
           <span data-msg="failed">Something went wrong. Please try again.</span>
+          <span data-msg="limit">You've sent a few stories today. Try again tomorrow.</span>
+          <span data-msg="too-large">Those photos are too large together. Send up to five, 10 MB each.</span>
           <span data-msg="offline">We couldn't send it. Check your connection and try again.</span>
         </div>
       </section>
@@ -270,7 +272,16 @@
         if (!res || !res.ok) {
           btn.disabled = false;
           btn.innerHTML = label;
-          $("ff-error").textContent = (body && body.error) || msg(res ? "failed" : "offline");
+          // The worker answers in English; show the page's own sentence,
+          // which Google Translate has already put in the reader's language.
+          const key = !res ? "offline"
+            : res.status === 429 ? "limit"
+            : res.status === 413 ? "too-large"
+            : res.status === 415 ? "bad-type"
+            : body && ["story", "handle", "consent"].includes(body.field) ? body.field
+            : body && body.field === "photos" ? "too-many"
+            : "failed";
+          $("ff-error").textContent = msg(key);
           const field = body && ["story", "handle", "consent"].includes(body.field) ? form[body.field] : null;
           if (field) field.focus(); else $("ff-error").scrollIntoView({ behavior: "smooth", block: "center" });
           return;
