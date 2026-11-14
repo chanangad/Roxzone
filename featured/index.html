@@ -110,44 +110,6 @@
             <ul class="thumbs" id="ff-thumbs"></ul>
           </div>
 
-          <div class="featured__row">
-            <div class="field">
-              <label for="ff-event">HYROX event <span class="field__opt">optional</span></label>
-              <select id="ff-event" name="event">
-                <option value="" selected>Choose an event</option>
-                <option value="HYROX Paris">HYROX Paris</option>
-                <option value="HYROX Amsterdam">HYROX Amsterdam</option>
-                <option value="HYROX Barcelona">HYROX Barcelona</option>
-                <option value="HYROX Berlin">HYROX Berlin</option>
-                <option value="HYROX Birmingham">HYROX Birmingham</option>
-                <option value="HYROX Chicago">HYROX Chicago</option>
-                <option value="HYROX Dallas">HYROX Dallas</option>
-                <option value="HYROX Delhi">HYROX Delhi</option>
-                <option value="HYROX Dubai">HYROX Dubai</option>
-                <option value="HYROX Glasgow">HYROX Glasgow</option>
-                <option value="HYROX Hamburg">HYROX Hamburg</option>
-                <option value="HYROX Hong Kong">HYROX Hong Kong</option>
-                <option value="HYROX London">HYROX London</option>
-                <option value="HYROX Los Angeles">HYROX Los Angeles</option>
-                <option value="HYROX Manchester">HYROX Manchester</option>
-                <option value="HYROX Melbourne">HYROX Melbourne</option>
-                <option value="HYROX Mumbai">HYROX Mumbai</option>
-                <option value="HYROX New York">HYROX New York</option>
-                <option value="HYROX Singapore">HYROX Singapore</option>
-                <option value="HYROX Stockholm">HYROX Stockholm</option>
-                <option value="HYROX Sydney">HYROX Sydney</option>
-                <option value="HYROX Toronto">HYROX Toronto</option>
-                <option value="HYROX Vienna">HYROX Vienna</option>
-                <option value="other">Another HYROX event</option>
-                <option value="none">Training, not a race yet</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="ff-time">Finish time <span class="field__opt">optional</span></label>
-              <input id="ff-time" name="time" type="text" placeholder="1:18:42" inputmode="text" autocomplete="off">
-            </div>
-          </div>
-
           <label class="feature-consent">
             <input type="checkbox" name="consent" id="ff-consent" required>
             <span>I'm happy for ROXZONE to post my story and photos on Instagram
@@ -307,7 +269,7 @@
         // /featured/?from=result&a=<activityId>.
         const data = new FormData();
         data.append("handle", handle);
-        ["name", "story", "event", "time"].forEach((k) => data.append(k, form[k].value.trim()));
+        ["name", "story"].forEach((k) => data.append(k, form[k].value.trim()));
         data.append("source", params.get("from") || "direct");
         if (params.get("a")) data.append("activity_id", params.get("a"));
         photos.forEach((p) => data.append("photos", p.file, p.file.name));
