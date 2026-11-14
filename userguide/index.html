@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=76">
+  <link rel="stylesheet" href="../styles.css?v=77">
   <script src="../pixel.js?v=2" defer></script>
 </head>
 
@@ -1372,13 +1372,20 @@
   <script>
     // Keep the chip bar's sticky offset matched to the live topbar height,
     // so both stay locked at the top with no overlap when breakpoints change.
+    // Watched with a ResizeObserver: the bar only reaches its full height
+    // once fonts load and i18n.js adds the language picker, after this runs.
     (function () {
       var topbar = document.querySelector(".topbar");
       if (!topbar) return;
       function syncOffset() {
         document.documentElement.style.setProperty("--topbar-h", topbar.offsetHeight + "px");
       }
-      window.addEventListener("resize", syncOffset);
+      if (window.ResizeObserver) {
+        new ResizeObserver(syncOffset).observe(topbar);
+      } else {
+        window.addEventListener("resize", syncOffset);
+        window.addEventListener("load", syncOffset);
+      }
       syncOffset();
     })();
 

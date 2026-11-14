@@ -3056,6 +3056,20 @@ font[style*="background-color"] {
         background: rgba(15, 15, 15, 0.96);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
+        /* Same timing as the header's tuck, so the two move as one. */
+        transition: top 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    /* When headroom.js tucks the header away, the chip bar takes its place
+       at the top edge instead of hovering below an empty strip. */
+    body:has(.topbar.is-tucked) .manual-sidebar {
+        top: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .manual-sidebar {
+            transition: none;
+        }
     }
 
     .manual-sidebar__title {
