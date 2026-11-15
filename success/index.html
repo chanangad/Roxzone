@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=77">
+  <link rel="stylesheet" href="../styles.css?v=78">
   <style>
     /* Activation steps, scoped to this page. The whole point of the page is the
        action on the WATCH, so the steps are the hero, not the receipt. */
@@ -163,7 +163,7 @@
       });
     })();
   </script>
-  <script src="../app.js"></script>
+  <script src="../app.js?v=2"></script>
   <script>
     const successTitle = document.getElementById("success-title");
     const successCopy = document.getElementById("success-copy");
@@ -204,7 +204,7 @@
       if (window.rzPixelTrack) {
         var inr = !!razorpayPaymentId || !!razorpayClaimCode;
         window.rzPixelTrack("Purchase",
-          { value: inr ? 499 : 8.99, currency: inr ? "INR" : "USD", content_name: "ROXZONE lifetime unlock" },
+          { value: inr ? 470.82 : 8.99, currency: inr ? "INR" : "USD", content_name: "ROXZONE lifetime unlock" },
           claimCode ? { eventID: "purchase-" + claimCode } : undefined);
       }
       setMessage("Payment complete. Next, on your watch:", "", statusText, "ok");

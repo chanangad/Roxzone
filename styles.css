@@ -714,22 +714,45 @@ font[style*="background-color"] {
     flex-shrink: 0;
 }
 
+/* An offer's top row: the regular price struck through, then what the
+   offer is. Both sit in the card's ink so they read on the blue. */
+.price-card__offer {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 0.3rem;
+}
+
 .price-card__was--inr {
     font-size: 1rem;
     font-weight: 700;
-    color: var(--secondary);
-    opacity: 0.5;
+    color: var(--primary-ink);
+    opacity: 0.72;
     text-decoration: line-through;
     line-height: 1;
-    margin-bottom: 0.15rem;
 }
 
 .price-card__amount--inr {
     font-size: 2.6rem;
 }
 
+/* The offer's name, as the filled counterpart of the outlined tax pill. */
 .price-card__region--inr {
-    color: var(--secondary);
+    margin-top: 0;
+    padding: 0.24rem 0.55rem;
+    border-radius: 999px;
+    background: var(--primary-ink);
+    color: var(--primary-strong);
+    font-size: 0.58rem;
+    letter-spacing: 0.09em;
+    line-height: 1;
+    opacity: 1;
+}
+
+/* app.js shows and hides the offer parts with [hidden]; the display values
+   set on them here would otherwise win over it. */
+.price-block [hidden] {
+    display: none;
 }
 
 .price-card__copy {

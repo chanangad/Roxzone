@@ -34,7 +34,7 @@ async function loadPricing() {
     if (!res.ok) {
       return;
     }
-    const {usd, inr} = await res.json();
+    const {usd, inr, inrPretax, inrWas} = await res.json();
     // Write into the number span only. Setting textContent on the whole amount
     // wipes its children, which silently deleted the currency symbol and the
     // "incl. tax" pill the moment this fetch resolved. Falls back to the old
@@ -48,9 +48,42 @@ async function loadPricing() {
       }
     };
     if (inr) {
-      const inrInt = String(inr).replace(/\.00$/, "");
+      const trim = (v) => String(v).replace(/\.00$/, "");
+      // inr is what checkout charges, GST included. During an offer the worker
+      // also sends inrPretax (the card then reads "<pretax> + GST") and inrWas
+      // (the regular price, struck through). Outside one, both are empty and
+      // the card reads
+      // "<inr> incl. tax". The pills and offer lines are shown and hidden, not
+      // rewritten, so a translated page keeps its translated text.
+      const offer = Boolean(inrPretax);
       document.querySelectorAll(".price-card__amount--inr").forEach((el) => {
-        setAmount(el, "₹", inrInt);
+        setAmount(el, "₹", trim(offer ? inrPretax : inr));
+        const excl = el.querySelector(".price-card__tax--excl");
+        const incl = el.querySelector(".price-card__tax--incl");
+        if (excl && incl) {
+          excl.hidden = !offer;
+          incl.hidden = offer;
+        }
+        const block = el.closest(".price-block");
+        if (!block) {
+          return;
+        }
+        const was = block.querySelector(".price-card__was--inr");
+        if (was) {
+          was.hidden = !inrWas;
+          const num = was.querySelector(".price-card__was-num");
+          if (num && inrWas) {
+            num.textContent = trim(inrWas);
+          }
+        }
+        const region = block.querySelector(".price-card__region--inr");
+        if (region) {
+          region.hidden = !offer && !inrWas;
+        }
+        const row = block.querySelector(".price-card__offer");
+        if (row) {
+          row.hidden = !offer && !inrWas;
+        }
       });
     }
     if (usd) {

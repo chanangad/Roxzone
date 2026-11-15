@@ -36,7 +36,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=77">
+  <link rel="stylesheet" href="./styles.css?v=78">
 
   <script>
     // Geo decision runs BEFORE the body paints. The payment groups live in the
@@ -83,8 +83,14 @@
       },
       {
         "@type": "Offer",
-        "price": "499",
+        "price": "399",
         "priceCurrency": "INR",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "399",
+          "priceCurrency": "INR",
+          "valueAddedTaxIncluded": false
+        },
         "availability": "https://schema.org/InStock",
         "areaServed": "IN",
         "url": "https://roxzone.app/"
@@ -214,9 +220,19 @@
               </div>
               <div class="price-divider price-divider--intl"></div>
               <div class="price-block">
-                <!-- ss<div class="price-card__was--inr">&#x20B9;499</div> -->
-                <div class="price-card__amount price-card__amount--inr"><span class="price-card__cur">&#x20B9;</span><span class="price-card__num">499</span><span class="price-card__tax">incl. tax</span></div>
-                <!-- <div class="price-card__region price-card__region--inr">HYROX Delhi offer</div> -->
+                <!-- India offer (from 2026-11-15): 399 + GST, charged as 470.82.
+                     app.js keeps this block in step with the worker's
+                     /api/pricing, which is what checkout charges; the values
+                     here are what shows before that answer arrives. When the
+                     offer ends the worker stops sending the offer fields and
+                     this falls back to "499 incl. tax" by itself; then put the
+                     regular price back here too (hidden on the offer row,
+                     499 in the amount, and the incl. tax pill unhidden). -->
+                <div class="price-card__offer">
+                  <span class="price-card__was--inr">&#x20B9;<span class="price-card__was-num">499</span></span>
+                  <span class="price-card__region price-card__region--inr">Limited-time offer</span>
+                </div>
+                <div class="price-card__amount price-card__amount--inr"><span class="price-card__cur">&#x20B9;</span><span class="price-card__num">399</span><span class="price-card__tax price-card__tax--excl">+ GST</span><span class="price-card__tax price-card__tax--incl" hidden>incl. tax</span></div>
               </div>
             </div>
             <p class="price-card__copy">One time purchase. Unlocks one watch.</p>
@@ -755,7 +771,7 @@
     </section>
   </main>
 
-  <script src="./app.js"></script>
+  <script src="./app.js?v=2"></script>
   <script src="./i18n.js?v=7"></script>
   <script src="./headroom.js?v=1"></script>
   <script>
