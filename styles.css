@@ -1458,23 +1458,24 @@ font[style*="background-color"] {
         padding-bottom: 0.2rem;
     }
 
-    /* Guide, FAQ and Blog sit behind a menu button where the tabs used to
-       be, so the second row holds the switch and one button in any language.
-       Three bare bars, no pill: the switch beside it is the row's one filled
-       control. The box is a 44px tap target with the bars on its right edge,
-       in line with the globe's edge above. headroom.js opens and closes it.
-       Pages without the button (restore, unlock) keep their plain tab. */
+    /* Guide, FAQ and Blog sit behind a menu button at the top left, the same
+       place as the account area's menu, so the button never moves when a
+       visitor flips Store / My ROXZONE. The brand stays centred, the globe
+       stays on the right, and the second row holds only the switch. Three
+       bare bars, no pill, in a 44px tap target with the bars on the bar's
+       left edge. headroom.js opens and closes it. Pages without the button
+       (restore, unlock) keep their plain tab. */
     .topbar__burger {
-        grid-area: nav;
-        justify-self: end;
+        grid-area: brand;
+        justify-self: start;
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
+        align-items: flex-start;
         justify-content: center;
         gap: 5px;
         width: 44px;
         height: 32px;
-        padding: 0 2px 0 0;
+        padding: 0 0 0 2px;
         border: 0;
         background: transparent;
         cursor: pointer;
@@ -1511,14 +1512,16 @@ font[style*="background-color"] {
 
     /* The list is the language dropdown's twin: same card, same 44px rows,
        the current page in the accent colour with a tick. Positioned in the
-       button's own grid cell, so it hangs from the button's right edge, and
-       dropped past the bar's 0.6rem bottom padding so the card sits 6px
-       clear of the header line instead of straddling it. It is as wide as
-       its longest label needs, never narrower than 184px. */
+       button's own grid cell, so it hangs 8px below the button from the
+       bar's left edge, as the language list hangs from the globe on the
+       right. It is as wide as its longest label needs, never narrower than
+       184px. */
     .topbar__burger ~ .topbar__nav {
+        grid-area: brand;
+        justify-self: start;
         position: absolute;
-        top: calc(100% + 0.6rem + 6px);
-        right: 0;
+        top: calc(100% + 8px);
+        left: 0;
         display: none;
         flex-direction: column;
         gap: 2px;
@@ -1531,7 +1534,7 @@ font[style*="background-color"] {
         background: var(--surface);
         box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
         z-index: 200;
-        transform-origin: top right;
+        transform-origin: top left;
         transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 

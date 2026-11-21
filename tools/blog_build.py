@@ -40,7 +40,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "blog", "_src")
 SITE = "https://roxzone.app"
 STORE = "https://apps.garmin.com/apps/95ff2e3b-7417-4bcf-8ced-7e4b70113616"
-V = {"styles": "80", "blog": "1", "pixel": "3", "i18n": "7", "headroom": "2", "favicon": "2"}
+V = {"styles": "81", "blog": "1", "pixel": "3", "i18n": "7", "headroom": "2", "favicon": "2"}
 OG_IMAGE = SITE + "/og-v2.jpg"
 # The index filter shows these in this order, only the ones in use.
 CATEGORIES = ["Setup", "Race day", "Pacing", "Training", "Stations", "Updates"]
