@@ -40,7 +40,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "blog", "_src")
 SITE = "https://roxzone.app"
 STORE = "https://apps.garmin.com/apps/95ff2e3b-7417-4bcf-8ced-7e4b70113616"
-V = {"styles": "81", "blog": "1", "pixel": "3", "i18n": "7", "headroom": "2", "favicon": "2"}
+V = {"styles": "81", "blog": "2", "pixel": "3", "i18n": "7", "headroom": "2", "favicon": "2"}
 OG_IMAGE = SITE + "/og-v2.jpg"
 # The index filter shows these in this order, only the ones in use.
 CATEGORIES = ["Setup", "Race day", "Pacing", "Training", "Stations", "Updates"]
@@ -85,9 +85,19 @@ def read_posts():
         meta.setdefault("card", meta["description"])
         meta.setdefault("related", [])
         meta.setdefault("guide", [])
+        meta.setdefault("faq", [])
+        meta.setdefault("keywords", [])
+        # Search results cut a title at about 60 characters and a description
+        # at about 155; say so here instead of finding out in the results.
+        full_title = (meta.get("seo_title") or meta["title"]) + " | ROXZONE"
+        if len(full_title) > 60:
+            print("note: %s title is %d characters (60 is the cut)" % (name, len(full_title)))
+        if len(meta["description"]) > 158:
+            print("note: %s description is %d characters (155 is the cut)" % (name, len(meta["description"])))
         if meta.get("category") not in CATEGORIES:
             sys.exit("%s: category must be one of %s" % (name, ", ".join(CATEGORIES)))
         words = len(re.sub(r"<[^>]+>", " ", meta["body"]).split())
+        meta["words"] = words
         meta["minutes"] = max(1, int(math.ceil(words / 220.0)))
         meta["url"] = "%s/blog/%s/" % (SITE, meta["slug"])
         posts.append(meta)
@@ -253,6 +263,22 @@ def closing(p, r):
 """.format(store=STORE, links=links)
 
 
+def plain(text):
+    """Shorthand out, for places that take plain text (structured data)."""
+    return re.sub(r"\{\{\*?([^{}]+?)\}\}", r"\1", text)
+
+
+def faq_section(p):
+    # The questions people type into a search box, answered in two or three
+    # sentences from what the post already says. The same list feeds the
+    # FAQPage data, so the page and its data cannot drift apart.
+    if not p["faq"]:
+        return ""
+    rows = "".join('        <h3>%s</h3>\n        <p>%s</p>\n' % (esc(q), shorthand(a)) for q, a in p["faq"])
+    return ('\n        <section class="post-faq" aria-labelledby="post-faq-title">\n'
+            '        <h2 id="post-faq-title">Common questions</h2>\n%s        </section>\n') % rows
+
+
 def post_page(p, posts):
     r = "../../"
     title = (p.get("seo_title") or p["title"]) + " | ROXZONE"
@@ -276,19 +302,27 @@ def post_page(p, posts):
         </picture>
       </figure>
 """.format(r=r, b=base, alt=esc(alt), phone=phone)
-    data = ld({
-        "@context": "https://schema.org",
-        "@graph": [
-            {"@type": "BlogPosting", "@id": p["url"] + "#post", "headline": p["title"],
-             "description": p["description"], "image": [image, OG_IMAGE],
-             "datePublished": p["date"], "dateModified": p["updated"],
-             "inLanguage": "en", "mainEntityOfPage": p["url"],
-             "author": ORG, "publisher": ORG},
-            {"@type": "BreadcrumbList", "itemListElement": [
-                {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE + "/"},
-                {"@type": "ListItem", "position": 2, "name": "Blog", "item": SITE + "/blog/"},
-                {"@type": "ListItem", "position": 3, "name": p["title"], "item": p["url"]}]},
-        ]})
+    posting = {"@type": "BlogPosting", "@id": p["url"] + "#post", "headline": p["title"],
+               "description": p["description"], "image": [image, OG_IMAGE],
+               "datePublished": p["date"], "dateModified": p["updated"],
+               "inLanguage": "en", "mainEntityOfPage": p["url"],
+               "articleSection": p["category"], "wordCount": p["words"],
+               "isPartOf": {"@type": "Blog", "name": "ROXZONE blog", "url": SITE + "/blog/"},
+               "author": ORG, "publisher": ORG}
+    if p["keywords"]:
+        posting["keywords"] = ", ".join(p["keywords"])
+    graph = [
+        posting,
+        {"@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Blog", "item": SITE + "/blog/"},
+            {"@type": "ListItem", "position": 3, "name": p["title"], "item": p["url"]}]},
+    ]
+    if p["faq"]:
+        graph.append({"@type": "FAQPage", "@id": p["url"] + "#faq", "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": plain(a)}}
+            for q, a in p["faq"]]})
+    data = ld({"@context": "https://schema.org", "@graph": graph})
     rel = [q for s in p["related"] for q in posts if q["slug"] == s]
     read_next = ""
     if rel:
@@ -309,11 +343,11 @@ def post_page(p, posts):
 {hero}
       <div class="post__body">
 {body}
-      </div>
+{faq}      </div>
 {closing}{read_next}    </article>
   </main>
 """.format(title=esc(p["title"]), hero=hero, cat=esc(p["category"]), date=p["date"], nice=nice_date(p["date"]), updated=updated,
-           mins=p["minutes"], body=p["body"], closing=closing(p, r), read_next=read_next)
+           mins=p["minutes"], body=p["body"], faq=faq_section(p), closing=closing(p, r), read_next=read_next)
             + footer(r))
 
 
