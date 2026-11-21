@@ -1516,7 +1516,7 @@ font[style*="background-color"] {
        measure for measure (250px, same rows), so the same button opens the
        same kind of menu on both halves of the site. Guide, FAQ and Blog sit
        at the top, the current page in the accent colour with a bar on its
-       left edge, and the Connect IQ store badge is pinned to the bottom.
+       left edge, and the Connect IQ store badge sits under the last link.
        It is fixed to the screen, not the bar; headroom.js never tucks the
        bar while it is open, so the bar is never transformed under it. */
     .topbar__burger ~ .topbar__nav {
@@ -1585,11 +1585,11 @@ font[style*="background-color"] {
         box-shadow: inset 3px 0 0 var(--primary);
     }
 
-    /* The store badge, pinned to the bottom of the panel. Garmin's own
-       artwork, shown whole and never recoloured. */
+    /* The store badge sits straight under the last link, set off by a
+       rule. Garmin's own artwork, shown whole and never recoloured. */
     .topbar__burger ~ .topbar__nav .topbar__store {
         display: block;
-        margin: auto 20px 0;
+        margin: 12px 20px 0;
         padding-top: 18px;
         border-top: 1px solid var(--outline);
     }
