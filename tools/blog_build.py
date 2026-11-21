@@ -63,9 +63,14 @@ def shorthand(body):
         lead = m.group(1) or before.isalnum()
         tail = m.group(4) or after.isalnum()
         inner = ("&nbsp;" if lead else "") + word + ("&nbsp;" if tail else "")
+        # A shielded word that ends a sentence with another one after it:
+        # Google drops the full stop and glues the next sentence on
+        # ("LAPDas ist..."). Inside the shield, with the gap, it survives.
+        if m.group(4) == ". ":
+            inner = ("&nbsp;" if lead else "") + word + ".&nbsp;"
         tag = "strong" if star else "span"
         return '<%s class="notranslate" translate="no">%s</%s>' % (tag, inner, tag)
-    return re.sub(r"( ?)\{\{(\*?)([^{}]+?)\}\}( ?)", one, body)
+    return re.sub(r"( ?)\{\{(\*?)([^{}]+?)\}\}(\. (?=[^<\s])| ?)", one, body)
 
 
 def read_posts():
