@@ -79,9 +79,11 @@ img {
     display: flex;
 }
 
-/* Phone-only menu button and its backdrop; see the 640px block. */
+/* Phone-only menu button, its backdrop and the store badge in the menu;
+   see the 640px block. */
 .topbar__burger,
-.topbar__scrim {
+.topbar__scrim,
+.topbar__store {
     display: none;
 }
 
@@ -1510,71 +1512,67 @@ font[style*="background-color"] {
         transform: translateY(-7px) rotate(-45deg);
     }
 
-    /* The list is the language dropdown's twin: same card, same 44px rows,
-       the current page in the accent colour with a tick. Positioned in the
-       button's own grid cell, so it hangs 8px below the button from the
-       bar's left edge, as the language list hangs from the globe on the
-       right. It is as wide as its longest label needs, never narrower than
-       184px. */
+    /* The menu is a side panel from the left, the account area's drawer
+       measure for measure (250px, same rows), so the same button opens the
+       same kind of menu on both halves of the site. Guide, FAQ and Blog sit
+       at the top, the current page in the accent colour with a bar on its
+       left edge, and the Connect IQ store badge is pinned to the bottom.
+       It is fixed to the screen, not the bar; headroom.js never tucks the
+       bar while it is open, so the bar is never transformed under it. */
     .topbar__burger ~ .topbar__nav {
-        grid-area: brand;
-        justify-self: start;
-        position: absolute;
-        top: calc(100% + 8px);
+        position: fixed;
+        top: 0;
         left: 0;
-        display: none;
-        flex-direction: column;
-        gap: 2px;
-        width: max-content;
-        min-width: 184px;
-        max-width: calc(100vw - 2rem);
-        padding: 6px;
-        border: 1px solid var(--outline);
-        border-radius: 14px;
-        background: var(--surface);
-        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+        bottom: 0;
+        /* The bar is a grid, and a positioned grid item keeps its alignment:
+           without these it would shrink to its links and sit mid-screen. */
+        grid-area: auto;
+        align-self: stretch;
+        justify-self: start;
         z-index: 200;
-        transform-origin: top left;
-        transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        width: 250px;
+        max-width: 82vw;
+        box-sizing: border-box;
+        padding: 18px 0 calc(18px + env(safe-area-inset-bottom));
+        overflow-y: auto;
+        background: var(--surface);
+        border-right: 1px solid var(--outline);
+        transform: translateX(-100%);
+        visibility: hidden;
+        transition: transform 200ms ease, visibility 0s linear 200ms;
     }
 
     .topbar.is-menu-open .topbar__burger ~ .topbar__nav {
-        display: flex;
-    }
-
-    /* A drop, never a fade, like the language list: if the animation is
-       unsupported the list is simply there. */
-    @starting-style {
-        .topbar.is-menu-open .topbar__burger ~ .topbar__nav {
-            transform: translateY(-6px) scale(0.98);
-        }
+        transform: none;
+        visibility: visible;
+        transition: transform 200ms ease, visibility 0s;
     }
 
     @media (prefers-reduced-motion: reduce) {
         .topbar__burger ~ .topbar__nav,
+        .topbar.is-menu-open .topbar__burger ~ .topbar__nav,
         .topbar__burger i {
             transition: none;
         }
     }
 
     .topbar__burger ~ .topbar__nav .topbar__tab {
-        justify-content: space-between;
-        gap: 0.75rem;
-        min-height: 44px;
-        /* A label too long for the screen wraps inside its row instead of
-           running off the card. */
-        padding: 8px 12px;
-        white-space: normal;
-        line-height: 1.25;
+        display: block;
+        padding: 12px 20px;
         border: 0;
-        border-radius: 10px;
         color: var(--ink);
         font-size: 0.95rem;
-        font-weight: 600;
+        font-weight: 700;
+        line-height: 1.3;
+        white-space: normal;
     }
 
     .topbar__burger ~ .topbar__nav .topbar__tab:active {
-        background: var(--surface-high);
+        background: var(--surface-low);
     }
 
     .topbar__burger ~ .topbar__nav .topbar__tab:focus-visible {
@@ -1583,27 +1581,42 @@ font[style*="background-color"] {
     }
 
     .topbar__burger ~ .topbar__nav .topbar__tab:not(.topbar__tab--dim) {
-        background: rgba(167, 200, 255, 0.12);
         color: var(--primary);
+        box-shadow: inset 3px 0 0 var(--primary);
     }
 
-    .topbar__burger ~ .topbar__nav .topbar__tab:not(.topbar__tab--dim)::after {
-        content: "";
-        flex: none;
-        width: 16px;
-        height: 16px;
-        background: currentColor;
-        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
-        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+    /* The store badge, pinned to the bottom of the panel. Garmin's own
+       artwork, shown whole and never recoloured. */
+    .topbar__burger ~ .topbar__nav .topbar__store {
+        display: block;
+        margin: auto 20px 0;
+        padding-top: 18px;
+        border-top: 1px solid var(--outline);
     }
 
-    /* Catches the tap that closes the menu, so it never reaches the page. */
-    .topbar.is-menu-open .topbar__scrim {
+    .topbar__store img {
+        display: block;
+        width: 100%;
+        max-width: 190px;
+        height: auto;
+    }
+
+    /* Dims the page and catches the tap that closes the menu, so it never
+       reaches the page. */
+    .topbar__scrim {
         display: block;
         position: fixed;
         inset: 0;
         z-index: 199;
-        background: transparent;
+        background: rgba(0, 0, 0, 0.55);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 160ms;
+    }
+
+    .topbar.is-menu-open .topbar__scrim {
+        opacity: 1;
+        pointer-events: auto;
     }
 
     /* Above the cookie banner while open, as with the language list. */

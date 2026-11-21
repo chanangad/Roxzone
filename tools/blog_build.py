@@ -40,7 +40,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "blog", "_src")
 SITE = "https://roxzone.app"
 STORE = "https://apps.garmin.com/apps/95ff2e3b-7417-4bcf-8ced-7e4b70113616"
-V = {"styles": "81", "blog": "2", "pixel": "3", "i18n": "7", "headroom": "2", "favicon": "2"}
+V = {"styles": "82", "blog": "2", "pixel": "3", "i18n": "7", "headroom": "2", "favicon": "2"}
 OG_IMAGE = SITE + "/og-v2.jpg"
 # The index filter shows these in this order, only the ones in use.
 CATEGORIES = ["Setup", "Race day", "Pacing", "Training", "Stations", "Updates"]
@@ -163,6 +163,7 @@ def topbar(r):
       <a href="{r}userguide/" class="topbar__tab topbar__tab--dim">Guide</a>
       <a href="{r}faq/" class="topbar__tab topbar__tab--dim notranslate" translate="no">FAQ</a>
       <a href="{r}blog/" class="topbar__tab topbar__tab--active">Blog</a>
+      <a class="topbar__store" href="{store}" target="_blank" rel="noopener"><img src="{r}assets/connect-iq-badge-black.svg" width="278" height="95" alt="Available on the Connect IQ Store" loading="lazy" decoding="async"></a>
     </nav>
     <nav class="modeswitch" aria-label="Store or account">
       <a href="{r}" class="modeswitch__opt modeswitch__opt--on notranslate" translate="no">Store</a>
@@ -170,7 +171,7 @@ def topbar(r):
     </nav>
     <div class="topbar__lang" data-lang-picker></div>
   </header>
-""".format(r=r)
+""".format(r=r, store=STORE)
 
 
 def footer(r):
