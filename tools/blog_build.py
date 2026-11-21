@@ -360,8 +360,8 @@ def post_page(p, posts):
 def index_page(posts):
     r = "../"
     title = "Blog: HYROX on your Garmin | ROXZONE"
-    desc = ("Guides for HYROX athletes with a Garmin watch: setting up your watch, race day, pacing with a plan, "
-            "and pacing your first race.")
+    desc = ("Articles for HYROX athletes with a Garmin watch: setting up your watch, race day, "
+            "and pacing your first race with a plan.")
     data = ld({
         "@context": "https://schema.org", "@type": "Blog", "@id": SITE + "/blog/#blog",
         "name": "ROXZONE blog", "url": SITE + "/blog/", "description": desc, "publisher": ORG,
@@ -388,11 +388,11 @@ def index_page(posts):
       </picture>
       <div class="blog-mast__text">
         <h1 class="blog-mast__title">Blog</h1>
-        <p class="blog-mast__lede">Guides for setting up your Garmin, racing to a plan and pacing your first HYROX.</p>
+        <p class="blog-mast__lede">Setting up your Garmin, racing to a plan and pacing your first HYROX race.</p>
       </div>
     </header>
     <div class="blog-body">
-      <h2 class="blog-body__label">Latest guides</h2>
+      <h2 class="blog-body__label">Latest articles</h2>
 {tabs}      <div class="blog-list">
 {cards}      </div>
 {cta}    </div>
@@ -462,7 +462,7 @@ def home_strip(posts):
     <section class="home-blog" aria-labelledby="home-blog-title">
       <div class="home-blog__head">
         <h2 id="home-blog-title" class="home-blog__title">From the blog</h2>
-        <a class="home-blog__all" href="./blog/">All posts<span aria-hidden="true"> &rarr;</span></a>
+        <a class="home-blog__all" href="./blog/">All articles<span aria-hidden="true"> &rarr;</span></a>
       </div>
       <div class="blog-grid">
 %s      </div>
