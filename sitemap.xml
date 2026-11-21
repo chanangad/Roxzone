@@ -22,7 +22,7 @@
   </url>
   <url>
     <loc>https://roxzone.app/userguide/</loc>
-    <lastmod>2026-05-26</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -32,4 +32,26 @@
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>https://roxzone.app/privacy/</loc>
+    <lastmod>2026-11-15</lastmod>
+  </url>
+  <!-- blog:start (tools/blog_build.py writes this block) -->
+  <url>
+    <loc>https://roxzone.app/blog/</loc>
+    <lastmod>2026-11-21</lastmod>
+  </url>
+  <url>
+    <loc>https://roxzone.app/blog/garmin-setup-first-hyrox/</loc>
+    <lastmod>2026-11-21</lastmod>
+  </url>
+  <url>
+    <loc>https://roxzone.app/blog/hyrox-race-day-garmin/</loc>
+    <lastmod>2026-11-21</lastmod>
+  </url>
+  <url>
+    <loc>https://roxzone.app/blog/first-hyrox-pacing/</loc>
+    <lastmod>2026-11-21</lastmod>
+  </url>
+  <!-- blog:end -->
 </urlset>

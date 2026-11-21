@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ROXZONE blog</title>
+  <subtitle>HYROX on your Garmin</subtitle>
+  <link href="https://roxzone.app/blog/feed.xml" rel="self"/>
+  <link href="https://roxzone.app/blog/"/>
+  <id>https://roxzone.app/blog/</id>
+  <updated>2026-11-21T08:00:00Z</updated>
+  <author><name>ROXZONE</name></author>
+  <entry>
+    <title>How to set up your Garmin for your first HYROX</title>
+    <link href="https://roxzone.app/blog/garmin-setup-first-hyrox/"/>
+    <id>https://roxzone.app/blog/garmin-setup-first-hyrox/</id>
+    <published>2026-11-21T08:00:00Z</published>
+    <updated>2026-11-21T08:00:00Z</updated>
+    <summary>Garmin watches have no HYROX activity. Three ways to track your first HYROX on a Garmin, two free and one dedicated app, with what each gives you on race day and who it suits.</summary>
+  </entry>
+  <entry>
+    <title>How to use your Garmin on HYROX race day</title>
+    <link href="https://roxzone.app/blog/hyrox-race-day-garmin/"/>
+    <id>https://roxzone.app/blog/hyrox-race-day-garmin/</id>
+    <published>2026-11-21T08:00:00Z</published>
+    <updated>2026-11-21T08:00:00Z</updated>
+    <summary>Race day with ROXZONE on a Garmin, from the evening before to the saved result: where to press LAP, how the Roxzone is timed, how to race to your plan, and how to fix a late press afterwards.</summary>
+  </entry>
+  <entry>
+    <title>What pace to aim for in your first HYROX</title>
+    <link href="https://roxzone.app/blog/first-hyrox-pacing/"/>
+    <id>https://roxzone.app/blog/first-hyrox-pacing/</id>
+    <published>2026-11-21T08:00:00Z</published>
+    <updated>2026-11-21T08:00:00Z</updated>
+    <summary>How to choose a realistic goal time for your first HYROX, why an even pace beats a fast start, and how to split the goal across all eight runs, eight stations and the Roxzone with a race plan on your Garmin.</summary>
+  </entry>
+</feed>

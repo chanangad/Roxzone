@@ -36,7 +36,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=79">
+  <link rel="stylesheet" href="./styles.css?v=80">
+  <link rel="stylesheet" href="./blog.css?v=1">
 
   <script>
     // Geo decision runs BEFORE the body paints. The payment groups live in the
@@ -170,18 +171,20 @@
     "url": "https://roxzone.app/"
   }
   </script>
-  <script src="./pixel.js?v=2" defer></script>
+  <script src="./pixel.js?v=3" defer></script>
 </head>
 
 <body>
   <header class="topbar" data-headroom>
     <a href="./" class="topbar__brand notranslate" translate="no">ROXZONE</a>
-    <nav class="topbar__nav">
+    <button type="button" class="topbar__burger" aria-label="Menu" aria-expanded="false" aria-controls="topnav"><i></i><i></i><i></i></button>
+    <nav class="topbar__nav" id="topnav">
       <a href="./userguide/" class="topbar__tab topbar__tab--dim">Guide</a>
       <a href="./faq/" class="topbar__tab topbar__tab--dim notranslate" translate="no">FAQ</a>
+      <a href="./blog/" class="topbar__tab topbar__tab--dim">Blog</a>
     </nav>
     <nav class="modeswitch" aria-label="Store or account">
-      <a href="./" class="modeswitch__opt modeswitch__opt--on" aria-current="page">Store</a>
+      <a href="./" class="modeswitch__opt modeswitch__opt--on notranslate" translate="no" aria-current="page">Store</a>
       <a href="/me" class="modeswitch__opt">My<span class="notranslate" translate="no">&nbsp;ROXZONE</span></a>
     </nav>
     <div class="topbar__lang" data-lang-picker></div>
@@ -478,6 +481,7 @@
         <div class="plan-cta-row">
           <a class="share-cta" href="/me/plan">Build your race plan &#8599;</a>
           <a class="plan-how" href="./userguide/#race-plan">How it works</a>
+          <a class="plan-how" href="./blog/first-hyrox-pacing/">Pacing your first HYROX</a>
         </div>
       </div>
     </section>
@@ -617,6 +621,35 @@
         </a>
       </p>
     </section>
+
+    <!-- blog-strip:start (tools/blog_build.py writes this block) -->
+    <section class="home-blog" aria-labelledby="home-blog-title">
+      <div class="home-blog__head">
+        <h2 id="home-blog-title" class="home-blog__title">From the blog</h2>
+        <a class="home-blog__all" href="./blog/">All posts<span aria-hidden="true"> &rarr;</span></a>
+      </div>
+      <div class="blog-grid">
+      <a class="blog-card" href="./blog/garmin-setup-first-hyrox/" data-cat="setup">
+        <span class="blog-card__meta"><span class="blog-card__cat blog-card__cat--setup">Setup</span><span aria-hidden="true"> · </span>21 November 2026</span>
+        <h3 class="blog-card__title">How to set up your Garmin for your first HYROX</h3>
+        <span class="blog-card__text">Garmin has no HYROX activity. Three ways to set your watch up for the race, what each one gives you, and who it suits.</span>
+        <span class="blog-card__more">7 min read<span aria-hidden="true"> &rarr;</span></span>
+      </a>
+      <a class="blog-card" href="./blog/hyrox-race-day-garmin/" data-cat="race-day">
+        <span class="blog-card__meta"><span class="blog-card__cat blog-card__cat--race-day">Race day</span><span aria-hidden="true"> · </span>21 November 2026</span>
+        <h3 class="blog-card__title">How to use your Garmin on HYROX race day</h3>
+        <span class="blog-card__text">Where to press LAP, what the screen shows on runs and stations, and how to race to your plan.</span>
+        <span class="blog-card__more">6 min read<span aria-hidden="true"> &rarr;</span></span>
+      </a>
+      <a class="blog-card" href="./blog/first-hyrox-pacing/" data-cat="pacing">
+        <span class="blog-card__meta"><span class="blog-card__cat blog-card__cat--pacing">Pacing</span><span aria-hidden="true"> · </span>21 November 2026</span>
+        <h3 class="blog-card__title">What pace to aim for in your first HYROX</h3>
+        <span class="blog-card__text">How to choose a goal you can finish strong, how it splits across every run and station, and how to race it from your wrist.</span>
+        <span class="blog-card__more">5 min read<span aria-hidden="true"> &rarr;</span></span>
+      </a>
+      </div>
+    </section>
+    <!-- blog-strip:end -->
 
     <!-- Cross-promo strip for the rest of the Chan Digital fleet. Compact
          tiles, not sales pitches: this sits after the reviews, so anyone here
@@ -773,7 +806,7 @@
 
   <script src="./app.js?v=2"></script>
   <script src="./i18n.js?v=7"></script>
-  <script src="./headroom.js?v=1"></script>
+  <script src="./headroom.js?v=2"></script>
   <script>
     const tabButtons = Array.from(document.querySelectorAll(".panel__tab"));
     const tabPanels = {
@@ -1146,6 +1179,7 @@
     <nav class="site-footer__links">
       <a href="./userguide/">User Guide</a>
       <a href="./faq/">FAQ</a>
+      <a href="./blog/">Blog</a>
       <a href="https://www.instagram.com/roxzone.app" target="_blank" rel="noopener">Instagram</a>
       <a href="./featured/?from=footer">Get featured</a>
       <a href="https://www.reddit.com/r/roxzone_app/" target="_blank" rel="noopener">Reddit</a>

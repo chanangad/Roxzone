@@ -64,8 +64,8 @@
   };
 
   // ---- banner ----
-  var privacyHref = /\/(userguide|faq|privacy|refund|success|unlock|restore)\//.test(location.pathname)
-    ? "../privacy/#advertising" : "./privacy/#advertising";
+  // Absolute, so it works from any folder (blog posts sit two deep).
+  var privacyHref = "/privacy/#advertising";
 
   function showBanner(mode) {
     if (document.getElementById("rz-consent")) { return; }
