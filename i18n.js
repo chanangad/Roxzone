@@ -40,24 +40,133 @@ function getLangMeta(code) {
   return LANGUAGES.find((l) => l.code === code) || LANGUAGES[0];
 }
 
-function getStoredLang() {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored && LANGUAGES.some((l) => l.code === stored)) return stored;
-  } catch (e) {
-    // localStorage may be blocked; fall through
-  }
-  return "en";
+function isLang(code) {
+  return Boolean(code) && LANGUAGES.some((l) => l.code === code);
 }
 
-function storeLang(code) {
+// The choice is kept twice: in localStorage (read directly by app.js, the
+// guide glossary and the /me pages) and in a cookie for the whole roxzone.app
+// domain. Shared result pages live on a.roxzone.app, another origin with its
+// own empty localStorage; the cookie is what carries the choice there, and
+// back. Where the two disagree the cookie is newer, so it wins.
+function readLangCookie() {
   try {
-    if (code === "en") localStorage.removeItem(STORAGE_KEY);
-    else localStorage.setItem(STORAGE_KEY, code);
+    const m = document.cookie.match(/(?:^|;\s*)roxzone-lang=([^;]*)/);
+    return m ? decodeURIComponent(m[1]) : "";
+  } catch (e) {
+    return "";
+  }
+}
+
+function writeLangCookie(code) {
+  try {
+    const host = window.location.hostname;
+    let cookie = `${STORAGE_KEY}=${encodeURIComponent(code)}; path=/; max-age=31536000; SameSite=Lax`;
+    if (host === "roxzone.app" || host.endsWith(".roxzone.app")) cookie += "; domain=.roxzone.app";
+    if (window.location.protocol === "https:") cookie += "; Secure";
+    document.cookie = cookie;
   } catch (e) {
     // ignore
   }
 }
+
+function readLocalLang() {
+  try {
+    return localStorage.getItem(STORAGE_KEY) || "";
+  } catch (e) {
+    return "";
+  }
+}
+
+function getStoredLang() {
+  const cookie = readLangCookie();
+  if (isLang(cookie)) return cookie;
+  const local = readLocalLang();
+  if (isLang(local)) return local;
+  return "en";
+}
+
+function storeLang(code) {
+  // English is saved too, not just cleared: nothing saved means "never
+  // chose", and a first visit with nothing saved follows the phone.
+  try {
+    localStorage.setItem(STORAGE_KEY, code);
+  } catch (e) {
+    // ignore
+  }
+  writeLangCookie(code);
+  // Pages with their own word lists (the result page, the /me pages) redo
+  // them on this; the pill click alone comes before the save on some pages.
+  try {
+    document.dispatchEvent(new CustomEvent("roxzone-lang", { detail: code }));
+  } catch (e) {
+    // ignore
+  }
+}
+
+// One browser language tag ("pt-BR", "zh-Hant-HK", "nb") to a picker code,
+// or "" when the picker doesn't offer it. Same choices as the worker's
+// pickLoginLang, so the page and the emails land on the same variant.
+function matchLang(tag) {
+  const lower = String(tag || "").toLowerCase().replace(/_/g, "-");
+  const exact = LANGUAGES.find((l) => l.code.toLowerCase() === lower);
+  if (exact) return exact.code;
+  const base = lower.split("-")[0];
+  if (base === "pt") return "pt-BR";
+  if (base === "zh") return /hant|tw|hk|mo/.test(lower) ? "zh-TW" : "zh-CN";
+  if (base === "nb" || base === "nn") return "no";
+  if (base === "iw") return "he";
+  if (base === "in") return "id";
+  const meta = LANGUAGES.find((l) => l.code === base);
+  return meta ? meta.code : "";
+}
+
+// The first language in the visitor's own list that the picker offers. A
+// list that puts English first (or before any offered language) stays English.
+function detectLang() {
+  const prefs = navigator.languages && navigator.languages.length
+    ? navigator.languages
+    : [navigator.language];
+  for (const tag of prefs) {
+    const code = matchLang(tag);
+    if (code) return code;
+  }
+  return "en";
+}
+
+// First visit, no language chosen yet: start in the phone's language when
+// the picker offers it. In-app browsers (Instagram, TikTok) report the phone's
+// language and, unlike Chrome, offer no translate bar, so without this a
+// visitor from a reel reads English. Saved as if picked, so the checkout, the
+// guide's watch labels, the /me pages and shared results all follow it, and
+// choosing English afterwards sticks. Nothing is saved for English. When
+// nothing can be saved, getStoredLang() still says English: a choice that
+// can't be kept must not trap anyone in a translation they can't switch off.
+//
+// A choice made before the cookie existed lives in localStorage only; copying
+// it across here is what lets an existing reader's shared results follow it.
+(function startInVisitorLanguage() {
+  const cookie = readLangCookie();
+  const local = readLocalLang();
+  let code = isLang(cookie) ? cookie : isLang(local) ? local : "";
+  const chosen = Boolean(code);
+  if (!code) code = detectLang();
+  if (code === "en") {
+    // Google translates any page that finds its googtrans cookie, whatever
+    // the picker says. One left over from another roxzone.app page would
+    // translate an English reader's result; drop it before Google loads.
+    if (/(?:^|;\s*)googtrans=/.test(document.cookie)) clearGoogleTranslateCookie();
+    if (!chosen) return;
+  }
+  if (cookie !== code) writeLangCookie(code);
+  if (local !== code) {
+    try {
+      localStorage.setItem(STORAGE_KEY, code);
+    } catch (e) {
+      // ignore
+    }
+  }
+})();
 
 function findGoogleSelect() {
   return document.querySelector("select.goog-te-combo");
@@ -80,7 +189,15 @@ async function applyLanguage(code) {
   const targetCode = code === "en" ? "" : meta.translateCode || meta.code;
   let select;
   try {
-    select = await waitFor(findGoogleSelect, 8000);
+    // Google adds its <select> before filling in the languages; setting the
+    // value on the empty list does nothing, and the page stays English.
+    // Without a googtrans cookie (a first visit) nothing else starts it.
+    select = await waitFor(() => {
+      const s = findGoogleSelect();
+      if (!s) return null;
+      if (!targetCode) return s;
+      return Array.prototype.some.call(s.options, (o) => o.value === targetCode) ? s : null;
+    }, 8000);
   } catch (err) {
     return;
   }

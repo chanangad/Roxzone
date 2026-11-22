@@ -365,6 +365,17 @@ html.translated-rtl .page-shell .notranslate {
     unicode-bidi: isolate;
 }
 
+/* A translation can turn a heading into one word wider than a phone
+   ("USER GUIDE" is "BENUTZERHANDBUCH" in German) and push the whole page
+   sideways. Google sets <html lang> to the target language, so the browser
+   can hyphenate it; a word it can't hyphenate breaks rather than overflows.
+   English pages never get these classes and keep their own wrapping. */
+html.translated-ltr :is(h1, h2, h3, h4),
+html.translated-rtl :is(h1, h2, h3, h4) {
+    hyphens: auto;
+    overflow-wrap: break-word;
+}
+
 font[style*="background-color"] {
     background-color: transparent !important;
     box-shadow: none !important;
