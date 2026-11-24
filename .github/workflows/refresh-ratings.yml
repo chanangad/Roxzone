@@ -1,0 +1,48 @@
+# Keeps the store page's Garmin Connect IQ ratings current: ROXZONE's rating
+# and review count (hero, reviews section, search-engine data) and every app
+# in the fleet strip. Daily, and on demand from the Actions tab.
+#
+# Commits straight to main only when a number changed; Pages republishes from
+# that commit. It pushes with the "Refresh ratings (GitHub Actions)" deploy key
+# (secret RATINGS_DEPLOY_KEY): GitHub Actions itself can't bypass "Protect
+# main" on a personal repo, deploy keys can. Delete the key under Settings ->
+# Deploy keys to stop this pushing. The script refuses to write on anything unexpected (store
+# down, a rating outside 1-5, a sharp fall in reviews), and the run then fails
+# and GitHub emails the repo owner.
+name: Refresh ratings
+
+on:
+  schedule:
+    - cron: "17 3 * * *"   # 03:17 UTC, 08:47 IST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-ratings
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ssh-key: ${{ secrets.RATINGS_DEPLOY_KEY }}
+
+      - name: Fetch ratings and update index.html
+        run: python3 .github/scripts/refresh-ratings.py
+
+      - name: Commit if anything changed
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "Ratings unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Ratings: daily refresh from Garmin Connect IQ"
+          git push
