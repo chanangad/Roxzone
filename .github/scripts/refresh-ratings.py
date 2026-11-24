@@ -55,7 +55,9 @@ if dry:
 
 html = open(path, encoding="utf-8").read()
 original = html
-avg, n = ratings["ROXZONE"]
+avg_raw, n = ratings["ROXZONE"]
+# One decimal everywhere it is shown, whatever precision the store returns.
+avg = f"{avg_raw:.1f}"
 # Reviews can be removed, but never many at once: a sharp fall means the store
 # answered wrongly, not that the page should say so.
 m = re.search(r'<strong>[\d.]+ out of 5</strong> · (\d+) reviews', html)
@@ -65,6 +67,12 @@ if n < int(m.group(1)) - 5:
     sys.exit(f"ROXZONE reviews fell from {m.group(1)} to {n}; nothing written")
 html = re.sub(r'"ratingCount": "\d+"', f'"ratingCount": "{n}"', html)
 html = re.sub(r'"reviewCount": "\d+"', f'"reviewCount": "{n}"', html)
+# The star row above that line is filled to the rating's share of five
+# (4.7 -> 94%).
+html, k = re.subn(r'(<span class="reviews__stars-filled" style="width: )\d+(%">)',
+                  lambda m: m.group(1) + str(round(float(avg) * 20)) + m.group(2), html)
+if k != 1:
+    sys.exit(f"reviews star row found {k}x (expected 1); nothing written")
 html = re.sub(r'<strong>[\d.]+ out of 5</strong> · \d+ reviews',
               f'<strong>{avg} out of 5</strong> · {n} reviews', html)
 # The hero's proof row (added 2026-11-24): the big rating and the review count
