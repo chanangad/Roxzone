@@ -373,7 +373,10 @@ html.translated-rtl .page-shell .notranslate {
 html.translated-ltr :is(h1, h2, h3, h4),
 html.translated-rtl :is(h1, h2, h3, h4) {
     hyphens: auto;
-    overflow-wrap: break-word;
+    /* anywhere, not break-word: grid and flex columns size from a heading's
+       longest word, and only anywhere lets that word count as breakable
+       ("РАЗБЛОКИРОВАТЬ" widened the unlock panel past a phone's edge). */
+    overflow-wrap: anywhere;
 }
 
 font[style*="background-color"] {
@@ -603,22 +606,65 @@ font[style*="background-color"] {
     content: "";
     position: absolute;
     inset: 0;
-    z-index: 1;
+    z-index: 2;
     pointer-events: none;
-    background: radial-gradient(ellipse at center,
-        rgba(19, 19, 19, 0) 58%,
-        rgba(19, 19, 19, 0.55) 78%,
-        var(--bg) 94%);
+    /* Takes every edge and corner to --bg: the strap ends, the clip's square
+       frame (contain-fit leaves straight edges inside the card) and a lighter
+       patch in the clip's top-left corner. The darker-than-page part of the
+       clip is ::before's job; this one only has to cover what is lighter. */
+    background:
+        linear-gradient(to bottom, var(--bg) 0%, var(--bg) 3%, rgba(19, 19, 19, 0) 14%, rgba(19, 19, 19, 0) 86%, var(--bg) 97%, var(--bg) 100%),
+        linear-gradient(to right, var(--bg) 0%, var(--bg) 3%, rgba(19, 19, 19, 0) 12%, rgba(19, 19, 19, 0) 88%, var(--bg) 97%, var(--bg) 100%),
+        radial-gradient(ellipse at center,
+            rgba(19, 19, 19, 0) 50%,
+            rgba(19, 19, 19, 0.7) 70%,
+            var(--bg) 86%);
 }
 
+/* The page carries a faint blue glow pinned to the top-left of the window
+   (body, background-attachment: fixed). The vignette above ends in flat --bg,
+   so where the glow reaches the card its corner and edge showed as a darker
+   rectangle. The same glow, also fixed, laid over the vignette lines up with
+   the page's to the pixel. Desktop only: iOS ignores fixed backgrounds and
+   would size this one to the card instead of the window. */
+@media (hover: hover) and (pointer: fine) {
+    .hero__image-card::after {
+        background:
+            radial-gradient(circle at top left, rgba(167, 200, 255, 0.08), transparent 28%) fixed,
+            linear-gradient(to bottom, var(--bg) 0%, var(--bg) 3%, rgba(19, 19, 19, 0) 14%, rgba(19, 19, 19, 0) 86%, var(--bg) 97%, var(--bg) 100%),
+            linear-gradient(to right, var(--bg) 0%, var(--bg) 3%, rgba(19, 19, 19, 0) 12%, rgba(19, 19, 19, 0) 88%, var(--bg) 97%, var(--bg) 100%),
+            radial-gradient(ellipse at center,
+                rgba(19, 19, 19, 0) 50%,
+                rgba(19, 19, 19, 0.7) 70%,
+                var(--bg) 86%);
+    }
+}
+
+/* Phones and tablets: iOS ignores fixed backgrounds, so the glow can't be
+   matched over the card there and its edge showed against it. The glow is
+   barely visible on a phone anyway; touch screens go without it. */
+@media (hover: none) {
+    body {
+        background-image: none;
+    }
+}
+
+/* The clip's background is darker than the page (about rgb 5 8 13 against
+   19 19 19), so any fade from page colour into it passed through a darker
+   band, and straight fades read as a box. Lighten keeps the lighter of this
+   layer and the clip: wherever the clip is darker than the page it becomes
+   the page; the watch, the strap and the clip's own blue halo are lighter
+   and stay as they are. The centre is left clear so the watch screen keeps
+   its true black. (This layer used to be a blurred blue glow behind the clip;
+   the clip and the still are opaque, so it never showed.) */
 .hero__image-card::before {
     content: "";
     position: absolute;
-    inset: 8%;
-    background: radial-gradient(circle at center, rgba(70, 110, 180, 0.32), rgba(70, 110, 180, 0) 65%);
-    filter: blur(38px);
-    z-index: -1;
+    inset: 0;
+    z-index: 1;
     pointer-events: none;
+    mix-blend-mode: lighten;
+    background: radial-gradient(ellipse closest-side at center, rgba(19, 19, 19, 0) 45%, var(--bg) 85%);
 }
 
 .hero__image-card img {
@@ -660,6 +706,62 @@ font[style*="background-color"] {
     color: var(--muted);
     font-size: 1.15rem;
     line-height: 1.6;
+    /* No single word left alone on the last line ("activity."). */
+    text-wrap: pretty;
+}
+
+/* Side by side, the title's top and the price card's bottom line up with
+   the watch card's top and bottom edges; the column's 1rem padding held both
+   16px inside. Stacked (980px and below) the padding stays. */
+@media (min-width: 981px) {
+    .hero__content {
+        padding: 0;
+    }
+}
+
+/* Proof row under the intro: two figures in the title's heavy face, small
+   labels under them, a hairline between. Left-aligned with the copy. */
+.hero__proof {
+    display: flex;
+    align-items: stretch;
+    gap: 1.6rem;
+}
+
+.hero__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.hero__stat + .hero__stat {
+    padding-left: 1.6rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.hero__stat-num {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.12em;
+    color: var(--ink);
+    font-size: 2.3rem;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 1;
+}
+
+.hero__stat-star {
+    color: var(--secondary);
+    font-size: 0.62em;
+    letter-spacing: 0;
+    transform: translateY(-0.12em);
+}
+
+.hero__stat-label {
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
 }
 
 .price-card {
@@ -737,12 +839,16 @@ font[style*="background-color"] {
    offer is. Both sit in the card's ink so they read on the blue. */
 .price-card__offer {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 0.55rem;
+    gap: 0.4rem 0.55rem;
     margin-bottom: 0.3rem;
 }
 
+/* A long translated offer name ("ПРЕДЛОЖЕНИЕ ОГРАНИЧЕНО ПО ВРЕМЕНИ") moves
+   the pill under the old price instead of splitting "₹ 499" in two. */
 .price-card__was--inr {
+    white-space: nowrap;
     font-size: 1rem;
     font-weight: 700;
     color: var(--primary-ink);
@@ -764,7 +870,7 @@ font[style*="background-color"] {
     color: var(--primary-strong);
     font-size: 0.58rem;
     letter-spacing: 0.09em;
-    line-height: 1;
+    line-height: 1.25;
     opacity: 1;
 }
 
@@ -781,6 +887,8 @@ font[style*="background-color"] {
     letter-spacing: 0.02em;
     opacity: 0.7;
     text-transform: uppercase;
+    /* On a phone the note wrapped with "WATCH" alone on line two. */
+    text-wrap: balance;
 }
 
 /* A quiet badge beside the amount. It inherited the amount's colour before,
@@ -829,7 +937,11 @@ font[style*="background-color"] {
     font-weight: 800;
     letter-spacing: 0.02em;
     text-align: center;
-    min-width: max-content;
+    /* One line while it fits; in a longer language ("Megtekintés a Garmin
+       Connect IQ-n") it wraps instead of widening the whole column past a
+       phone's edge. */
+    min-width: min(max-content, 100%);
+    text-wrap: balance;
 }
 
 .panel {
@@ -1063,6 +1175,7 @@ font[style*="background-color"] {
     display: grid;
     gap: 0.6rem;
     align-content: start;
+    min-width: 0;
 }
 
 /* An author display beats the UA sheet's [hidden]; without this the restore
@@ -1085,6 +1198,10 @@ font[style*="background-color"] {
 .field input,
 .field select {
     width: 100%;
+    /* A select is as wide as its longest option, and a grid column grows to
+       fit it: translated state names ("Дадра и Нагар-Хавели и Даман и Диу")
+       pushed the form past a phone's edge. */
+    min-width: 0;
     border: 0;
     border-radius: 1rem;
     min-height: 3.75rem;
@@ -1149,14 +1266,18 @@ font[style*="background-color"] {
     place-items: center;
     border: 0;
     border-radius: 999px;
-    height: 3.75rem;
+    /* One line in English. A longer translation ("Оплата через UPI или
+       банковской картой.") wraps onto two inside the pill instead of
+       pushing the form past a phone's edge. */
+    min-height: 3.75rem;
     width: 100%;
-    padding: 0 1.4rem;
+    padding: 0.55rem 1.4rem;
     font-size: 1rem;
     font-weight: 900;
-    line-height: 1;
+    line-height: 1.15;
     letter-spacing: -0.02em;
-    white-space: nowrap;
+    text-align: center;
+    text-wrap: balance;
     cursor: pointer;
     transition: transform 160ms ease, filter 160ms ease;
 }
@@ -1863,6 +1984,8 @@ font[style*="background-color"] {
     margin: 0;
     color: var(--muted);
     font-size: 0.95rem;
+    /* Just under 375px the review line wrapped with "IQ" alone on line two. */
+    text-wrap: balance;
 }
 
 .reviews__summary-text strong {
